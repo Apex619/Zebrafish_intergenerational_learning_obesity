@@ -1,0 +1,73 @@
+---
+title: "visualisation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_knit$set(root.dir = '/Users/dominicmason/OneDrive\ -\ UNSW/hons') #sets WD as project for all chunks - doesn't change directory for setup chunk
+#install.packages("pacman")
+#install.packages("ggThemeAssist")
+#install.packages("ggbeeswarm")
+#install.packages("rptR")
+#install.packages("lme4")
+#install.packages("lmerTest")
+#install.packages("wesanderson")
+library(lmerTest)
+library(ggThemeAssist)
+library(rptR)
+library(lme4)
+
+pacman::p_load(readxl, tidyr, dplyr, magrittr, lubridate, stringr, purrr)
+
+library(ggplot2)
+library(lubridate)
+library(wesanderson)
+library(ggbeeswarm)
+#install.packages("patchwork")
+library(patchwork)
+```
+
+#Half and second half
+
+```{r}
+First_Half <- ggplot(p2cs_half, aes(sex, difference, color=sex)) + 
+  geom_quasirandom(dodge.width=0.01, alpha=0.77)+
+facet_grid(~Tank)+
+  labs(title = "First Week")
+
+First_Half_box <- ggplot(p2cs_half, aes(sex, difference, color=sex)) + 
+  geom_boxplot()+
+facet_grid(~Tank)+
+    labs(title = "First Week")
+
+
+Second_Half <- ggplot(p2cs_second_half, aes(sex, difference, color=sex)) + 
+  geom_quasirandom(dodge.width=0.01, alpha=0.77)+
+facet_grid(~Tank)+
+   labs(title = "Second Week")
+
+Second_Half_box <- ggplot(p2cs_second_half, aes(sex, difference, color=sex)) + 
+  geom_boxplot()+
+facet_grid(~Tank)+
+     labs(title = "Second Week")
+
+First_Half + Second_Half + plot_layout(ncol=,nrow = 2, heights = 100)
+
+First_Half_box + Second_Half_box + plot_layout(ncol=,nrow = 2, heights = 100)
+
+
+
+
+```
+
+
+
+
+#Overall plot
+```{r}
+ggplot(p2cs, aes(sex, difference, color=sex)) + 
+  geom_quasirandom(dodge.width=0.01, alpha=0.77)+
+facet_grid(~Tank)
+```
+

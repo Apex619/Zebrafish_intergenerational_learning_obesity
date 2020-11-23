@@ -1,0 +1,215 @@
+---
+title: "Anxiety_F1"
+author: "Hamza"
+date: "14/04/2020"
+output: html_document
+---
+
+### Load packages
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+#install.packages("pacman")
+#install.packages("ggThemeAssist")
+#install.packages("ggbeeswarm")
+#install.packages("rptR")
+#install.packages("lme4")
+#install.packages("lmerTest")
+#install.packages("wesanderson")
+library(lmerTest)
+library(ggThemeAssist)
+library(rptR)
+library(lme4)
+library(readxl)
+library(dplyr)
+pacman::p_load(readxl, tidyr, dplyr, magrittr, lubridate, stringr, purrr)
+library(sjPlot)
+library(ggplot2)
+library(lubridate)
+library(wesanderson)
+library(ggbeeswarm)
+library(emmeans)
+
+```
+
+
+### Import Data
+```{r}
+Anxiety <- read.csv("Anxiety_Data.csv")
+
+#Inspect
+
+str(Anxiety)
+```
+
+#Total Distance
+
+```{r}
+hist(Anxiety$Tot_Dist_cm)
+
+Anxiety %>% 
+  ggplot(aes(x = Group, y = Tot_Dist_cm, colour = Group)) +
+  geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
+  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+  theme_minimal()+
+  facet_grid(~Sex)+
+  labs(title = "Total Distance")
+
+ggplot(data = Anxiety, mapping = aes(x = Tot_Dist_cm, fill = Group )) + 
+  geom_density(alpha=.3)+
+ facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Group, y = Tot_Dist_cm, fill = Group )) + 
+    geom_boxplot()+
+  facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Tot_Dist_cm, fill = Group )) + 
+  geom_histogram()+
+  facet_grid(~Sex)
+
+```
+
+# Low Zone Duration
+
+```{r}
+hist(Anxiety$Low_Zone_Dur)
+
+Anxiety %>% 
+  ggplot(aes(x = Group, y = Low_Zone_Dur, colour = Group)) +
+  geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
+  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+  theme_minimal()+
+  facet_grid(~Sex)+
+  labs(title = "Low Zone Duration")
+
+ggplot(data = Anxiety, mapping = aes(x = Low_Zone_Dur, fill = Group )) + 
+  geom_density(alpha=.3)+
+ facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Group, y = Low_Zone_Dur, fill = Group )) + 
+    geom_boxplot()+
+  facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Low_Zone_Dur, fill = Group )) + 
+  geom_histogram()+
+  facet_grid(~Sex)
+
+```
+
+# High Zone Duration
+
+```{r}
+
+hist(Anxiety$High_Zone_Dur) #Skewed !!! Transformation
+
+#sqrt transforming data and mutating into data frame
+
+Anxiety %<>% mutate(sqrt_High_Dur = sqrt(High_Zone_Dur))
+
+hist(Anxiety$sqrt_High_Dur)
+
+Anxiety %>% 
+  ggplot(aes(x = Group, y = sqrt_High_Dur, colour = Group)) +
+  geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
+  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+  theme_minimal()+
+  facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = sqrt_High_Dur, fill = Group )) + 
+  geom_density(alpha=.3)+
+ facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Group, y = sqrt_High_Dur, fill = Group )) + 
+    geom_boxplot()+
+  facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = sqrt_High_Dur, fill = Group )) + 
+  geom_histogram()+
+  facet_grid(~Sex)
+```
+
+# Freezing Duration
+Problematic (needs transformation)
+
+```{r}
+hist(Anxiety$Freezing_Dur) #skewed
+
+#Anxiety %<>% mutate(sqrt_Freeze_Dur = sqrt(Freezing_Dur))
+
+#hist(Anxiety$sqrt_Freeze_Dur)
+
+Anxiety %>% 
+  ggplot(aes(x = Group, y = Freezing_Dur, colour = Group)) +
+  geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
+  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+  theme_minimal()+
+  facet_grid(~Sex)+
+  labs(title = "Freezing Duration")
+
+ggplot(data = Anxiety, mapping = aes(x = Freezing_Dur, fill = Group )) + 
+  geom_density(alpha=.3)+
+ facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Group, y = Freezing_Dur, fill = Group )) + 
+    geom_boxplot()+
+  facet_grid(~Sex)
+
+ggplot(data = Anxiety, mapping = aes(x = Freezing_Dur, fill = Group )) + 
+  geom_histogram()+
+  facet_grid(~Sex)
+
+```
+
+### Mixed Models
+
+#Total Distance
+```{r}
+model1 <- lmer(Tot_Dist_cm ~ Group + Sex  + (1 | Fish_ID), data = Anxiety)
+plot(model1)
+qqnorm(resid(model1))
+summary(model1)
+tab_model(model1)
+
+#Contrasts 
+em_group <- emmeans(model1, ~ Group) 
+pairs(em_group)
+
+```
+
+## Durations
+
+# High Zone
+```{r}
+
+model4 <- lmer(High_Zone_Dur ~ Group + Sex + (1 | Fish_ID), data = Anxiety)
+plot(model4)
+qqnorm(resid(model4))
+summary(model4)
+tab_model(model4)
+```
+
+# Low Zone
+
+```{r}
+model5 <- lmer(Low_Zone_Dur ~ Group + Sex + (1 | Fish_ID), data = Anxiety)
+plot(model5)
+qqnorm(resid(model5))
+summary(model5)
+tab_model(model5)
+```
+
+# Freezing
+Problematic as data needs transformation
+```{r}
+model6 <- lmer(Freezing_Dur ~ Group + Sex + (1 | Fish_ID), data = Anxiety)
+plot(model6)
+qqnorm(resid(model6))
+summary(model6)
+tab_model(model6)
+```
+
+
+
+
+

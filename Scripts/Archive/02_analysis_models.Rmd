@@ -1,0 +1,101 @@
+---
+title: "analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_knit$set(root.dir = '/Users/dominicmason/OneDrive\ -\ UNSW/hons') #sets WD as project for all chunks - doesn't change directory for setup chunk
+#install.packages("pacman")
+#install.packages("ggThemeAssist")
+#install.packages("ggbeeswarm")
+#install.packages("rptR")
+#install.packages("lme4")
+#install.packages("lmerTest")
+#install.packages("wesanderson")
+#install.packages("contrast")
+#install.packages("emmeans")
+library(emmeans)
+#library(contrast)
+library(lmerTest)
+library(ggThemeAssist)
+library(rptR)
+library(lme4)
+#install.packages("sjPlot")
+library(sjPlot)
+
+pacman::p_load(readxl, tidyr, dplyr, magrittr, lubridate, stringr, purrr)
+
+library(ggplot2)
+library(lubridate)
+library(wesanderson)
+library(ggbeeswarm)
+```
+
+```{r}
+source("./scripts/functions.R")
+```
+
+```{r}
+hist(p2cs$difference)
+
+rpt_p2cs <- rpt(difference ~ sex + Tank + (1 | fishID), grname = "fishID", data = p2cs, datatype = "Gaussian")
+
+rpt_p2cs
+
+hist(b2cs$difference)
+
+rpt_b2cs <- rpt(difference ~ sex + Tank + (1 | fishID), grname = "fishID", data = b2cs, datatype = "Gaussian")
+
+rpt_b2cs
+```
+
+
+#First and secod half of the experiments (trial 1 and 2)
+```{r}
+model_half <- lm(difference ~ Tank + sex, data = p2cs_half)
+summary(model_half)
+
+
+model_second_half <- lm(difference ~ Tank + sex, data = p2cs_second_half)
+summary(model_second_half)
+
+
+```
+
+#
+```{r}
+
+model <- lmer(difference ~ Tank + sex + (1 | fishID), data = p2cs)
+summary(model)
+tab_model(model)
+
+#Contrasts 
+em <- emmeans(model, ~ Tank) #add sex also into the contrasting
+pairs(em)
+
+
+
+
+model2 <- lmer(difference ~ Tank -1 + sex + (1 | fishID), data = b2cs)
+summary(model2)
+tab_model(model2)
+
+model3 <- lmer(difference ~ Tank-1 + sex + (1 | fishID), data = p5cs)
+tab_model(model3)
+```
+
+
+```{r}
+blue_preference <- rpt(BASELINE ~  sex + Tank + (1 | fishID), grname = "fishID", data = p2cs, datatype = "Gaussian")
+
+blue_preference
+```
+
+
+
+
+
+
+
+

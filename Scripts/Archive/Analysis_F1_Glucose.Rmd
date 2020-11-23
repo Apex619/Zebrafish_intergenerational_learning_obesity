@@ -1,0 +1,76 @@
+---
+title: "Preliminary F1 Glucose Analysis"
+author: "Hamza"
+date: "11/04/2020"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(sjPlot)
+library(tidyverse)
+library(effects)
+library(Rmisc)
+library(easyGgplot2)
+library(rptR)
+```
+
+#Import Data
+```{r, include=FALSE}
+Glucose_F1 <- read.csv("Analysis.csv")
+str(Glucose_F1)
+
+Glucose_F1$Sex <- as.factor(Glucose_F1$Sex)
+Glucose_F1$Group <- as.factor(Glucose_F1$Group)
+Glucose_F1$Meter <- as.factor(Glucose_F1$Meter)
+```
+
+#Repeatability Glucose Meters
+```{r}
+Repeatability_Glucose <- rpt(Glucose ~ Meter + (1 | Fish_ID), grname = "Fish_ID", data = Glucose_F1, datatype = "Gaussian", 
+                           nboot = 0, npermut = 0)
+
+Repeatability_Glucose
+```
+
+
+#Exploratory Analysis
+```{r}
+#Histogram 
+hist(Glucose_F1$Glucose)
+
+#Glucose against weight scatterplot
+Scatterplot <- ggplot(Glucose_F1, aes(x=Weight, y=Glucose)) + 
+  geom_point()+
+  geom_smooth(method=lm)+
+  facet_grid(~Sex)+
+  facet_wrap(~Group)
+
+Scatterplot
+
+#Glucose and group boxplot
+
+Boxplot <- ggplot(data = Glucose_F1) +
+  geom_boxplot(mapping = aes(x = Sex, y = Glucose, fill = Group)) +
+  facet_grid(~Group)
+
+Boxplot
+
+```
+
+#Mixed model
+```{r}
+Mixed_Model_Glucose <- lmer(Glucose ~ Sex + Group + (1|Fish_ID), data=Glucose_F1)
+hist(resid(Mixed_Model_Glucose))
+summary(Mixed_Model_Glucose)
+
+tab_model(Mixed_Model_Glucose)
+
+```
+
+
+
+
+

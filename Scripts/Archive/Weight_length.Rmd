@@ -1,0 +1,80 @@
+---
+title: "Analysis"
+author: "Hamza"
+date: "31/01/2020"
+output: html_document
+---
+
+```{r,include=FALSE}
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(sjPlot)
+library(tidyverse)
+library(effects)
+library(Rmisc)
+library(readr)
+
+```
+
+Should we filter out spare tanks ?
+
+#Import Data
+```{r}
+Data <- read_csv("./Data/Data.csv")
+str(Data)
+
+Data$Sex <- as.factor(Data$Sex)
+Data$Set <- as.factor(Data$Set)
+```
+
+
+# Boxplot 
+Comparing between sexes and treatment groups over time. The treatment groups continue to gain more weight, and as expected, females are always heavier (in both groups)
+```{r, echo = FALSE}
+boxplot <- ggplot(data = Data) +
+  geom_boxplot(mapping = aes(x = Sex, y = Weight_g, fill = Set)) +
+  facet_grid(~Age_Weeks)
+  
+boxplot
+```  
+
+
+
+#Summary
+
+```{r, echo = FALSE}
+
+Summary_Sex <- summarySE(Data, measurevar="Weight_g", groupvars=c("Age_Weeks","Set", "Sex")
+)
+```
+
+# Line plot (body weight) (May not be accurate as I may need to remove spare groups ?)
+
+```{r, echo = FALSE}
+
+# So error bars aren't overlapping, we can use this:
+pd <- position_dodge(0.1) # move them .05 to the left and right
+
+plot <- ggplot(Summary_Sex, aes(x=Age_Weeks, y=Weight_g, colour=Set)) + 
+  geom_errorbar(aes(ymin=Weight_g-se, ymax=Weight_g+se), width=.1, position=pd) +
+  geom_line(position=pd) +
+  geom_point(position=pd) +
+  facet_grid(~Sex)
+  
+  
+  
+          
+
+plot
+
+
+```
+
+
+
+
+
+
+
+
