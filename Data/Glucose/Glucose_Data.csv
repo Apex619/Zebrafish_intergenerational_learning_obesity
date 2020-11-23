@@ -1,0 +1,525 @@
+Origin,Mark,Sex,Fish_ID,Glucose,Meter,Photo_ID,Weight,Group
+MB,Bla.Gre,female,a9787,3.8,1,,0.657,Maternal
+MB,Bla.Gre,female,a9787,3.6,2,,0.657,Maternal
+MB,Bla.Gre,female,a9787,3.4,3,,0.657,Maternal
+MB,Blu.Gre,male,a9846,2.4,1,,0.265,Maternal
+MB,Blu.Gre,male,a9846,2.2,2,,0.265,Maternal
+MB,Blu.Gre,male,a9846,3,3,,0.265,Maternal
+MB,Yel.Bla,female,a9777,3.8,1,,0.631,Maternal
+MB,Yel.Bla,female,a9777,3.5,2,,0.631,Maternal
+MB,Yel.Bla,female,a9777,3.8,3,,0.631,Maternal
+MB,Red.Bla,male,a9756,2.2,1,,0.316,Maternal
+MB,Red.Bla,male,a9756,2.2,2,,0.316,Maternal
+MB,Red.Bla,male,a9756,2.2,3,,0.316,Maternal
+MB,_.Red,male,a9849,2.4,1,,0.276,Maternal
+MB,_.Red,male,a9849,2.2,2,,0.276,Maternal
+MB,_.Red,male,a9849,2.1,3,,0.276,Maternal
+MB,Pur.Pin,male,a9824,1.6,2,,0.365,Maternal
+MB,Pur.Pin,male,a9824,1.9,3,,0.365,Maternal
+MB,Gre.Pur,female,a9867,2.9,1,,0.564,Maternal
+MB,Gre.Pur,female,a9867,2.8,3,,0.564,Maternal
+MB,Ora.Pur,male,a9821,1.9,1,,0.456,Maternal
+MB,Ora.Pur,male,a9821,2.2,2,,0.456,Maternal
+MB,Ora.Pur,male,a9821,2.2,3,,0.456,Maternal
+MB,Yel.Ora,female,a9778,4.7,1,,0.525,Maternal
+MB,Yel.Ora,female,a9778,4.6,2,,0.525,Maternal
+MB,Yel.Ora,female,a9778,4.5,3,,0.525,Maternal
+MB,Pin.Yel,female,a9854,4.6,1,,0.61,Maternal
+MB,Pin.Yel,female,a9854,4.7,2,,0.61,Maternal
+MB,Pin.Yel,female,a9854,4.4,3,,0.61,Maternal
+MB,Yel.Yel,male,a9765,3.2,1,,0.365,Maternal
+MB,Yel.Yel,male,a9765,3.5,2,,0.365,Maternal
+MB,Yel.Yel,male,a9765,2.9,3,,0.365,Maternal
+MB,Ora.Yel,male,a9813,0.2,1,,0.418,Maternal
+MB,Ora.Yel,male,a9813,3.1,2,,0.418,Maternal
+MB,Ora.Yel,male,a9813,2.9,3,,0.418,Maternal
+MB,Gre.Ora,female,a9868,0.3,1,,0.609,Maternal
+MB,Gre.Ora,female,a9868,3.4,2,,0.609,Maternal
+MB,Gre.Ora,female,a9868,3.4,3,,0.609,Maternal
+MB,_._,female,a9774,4.2,1,,0.668,Maternal
+MB,_._,female,a9774,4.2,2,,0.668,Maternal
+MB,_._,female,a9774,4.2,3,,0.668,Maternal
+MB,Red._,male,a9752,5,1,,0.477,Maternal
+MB,Red._,male,a9752,4.9,2,,0.477,Maternal
+MB,Red._,male,a9752,4.7,3,,0.477,Maternal
+MB,Red.Pin,male,a9755,2.7,1,,0.374,Maternal
+MB,Red.Pin,male,a9755,2.6,2,,0.374,Maternal
+MB,Red.Pin,male,a9755,2.5,3,,0.374,Maternal
+MB,_.Ora,female,a10198,2.2,1,,0.478,Maternal
+MB,_.Ora,female,a10198,2.9,2,,0.478,Maternal
+MB,_.Ora,female,a10198,2.8,3,,0.478,Maternal
+MB,Blu.Blu,male,a9843,2.3,1,,0.227,Maternal
+MB,Blu.Blu,male,a9843,2,2,,0.227,Maternal
+MB,Blu.Blu,male,a9843,2.3,3,,0.227,Maternal
+MB,_.Blu,male,a9844,3.2,1,,0.239,Maternal
+MB,_.Blu,male,a9844,3.2,2,,0.239,Maternal
+MB,_.Blu,male,a9844,3.4,3,,0.239,Maternal
+MB,Pin.Whi,female,a9862,3.2,1,,0.575,Maternal
+MB,Pin.Whi,female,a9862,3.2,2,,0.575,Maternal
+MB,Pin.Whi,female,a9862,3.2,3,,0.575,Maternal
+WTB,Pur.Gre,male,a10074,2.1,1,,0.462,Within Treatment
+WTB,Pur.Gre,male,a10074,1.9,2,,0.462,Within Treatment
+WTB,Pur.Gre,male,a10074,1.9,3,,0.462,Within Treatment
+WTB,_.Blu,female,a10040,2.3,1,,0.565,Within Treatment
+WTB,_.Blu,female,a10040,2.1,2,,0.565,Within Treatment
+WTB,_.Blu,female,a10040,1.9,3,,0.565,Within Treatment
+WTB,Pin.Bro,male,a10088,1.3,1,,0.258,Within Treatment
+WTB,Pin.Bro,male,a10088,1.7,2,,0.258,Within Treatment
+WTB,Pin.Bro,male,a10088,1.6,3,,0.258,Within Treatment
+WTB,Ora.Ora,female,a10060,2.6,1,,0.751,Within Treatment
+WTB,Ora.Ora,female,a10060,2.4,2,,0.751,Within Treatment
+WTB,Ora.Ora,female,a10060,2.5,3,,0.751,Within Treatment
+WTB,Gre.Bro,male,a10044,1.8,1,,0.395,Within Treatment
+WTB,Gre.Bro,male,a10044,1.3,2,,0.395,Within Treatment
+WTB,Gre.Bro,male,a10044,1.6,3,,0.395,Within Treatment
+WTB,Pur.Red,female,a10076,2.7,1,,0.767,Within Treatment
+WTB,Pur.Red,female,a10076,2.6,2,,0.767,Within Treatment
+WTB,Pur.Red,female,a10076,2.6,3,,0.767,Within Treatment
+WTB,Gre.Pur,male,a10043,3.8,1,,0.337,Within Treatment
+WTB,Gre.Pur,male,a10043,3.3,2,,0.337,Within Treatment
+WTB,Gre.Pur,male,a10043,3.2,3,,0.337,Within Treatment
+WTB,Red.Bro,male,a10169,1.6,2,,0.412,Within Treatment
+WTB,Red.Bro,male,a10169,2.1,3,,0.412,Within Treatment
+WTB,Blu.Ora,female,a10059,2.3,1,,0.668,Within Treatment
+WTB,Blu.Ora,female,a10059,2.4,2,,0.668,Within Treatment
+WTB,Blu.Ora,female,a10059,2.2,3,,0.668,Within Treatment
+WTB,Ora.Pin,female,a10063,4.7,1,,0.643,Within Treatment
+WTB,Ora.Pin,female,a10063,4.7,2,,0.643,Within Treatment
+WTB,Ora.Pin,female,a10063,4.9,3,,0.643,Within Treatment
+WTB,_.Yel,male,a10096,2.4,1,,0.416,Within Treatment
+WTB,_.Yel,male,a10096,2.4,2,,0.416,Within Treatment
+WTB,_.Yel,male,a10096,2,3,,0.416,Within Treatment
+WTB,Pur.Pur,female,a10081,2.9,1,,0.755,Within Treatment
+WTB,Pur.Pur,female,a10081,2.8,2,,0.755,Within Treatment
+WTB,Pur.Pur,female,a10081,2.6,3,,0.755,Within Treatment
+WTB,Pin.Red,male,a10089,2.2,1,,0.405,Within Treatment
+WTB,Pin.Red,male,a10089,2.2,2,,0.405,Within Treatment
+WTB,Pin.Red,male,a10089,2.2,3,,0.405,Within Treatment
+WTB,Gre._,male,a10037,1.4,1,,0.356,Within Treatment
+WTB,Gre._,male,a10037,2.3,2,,0.356,Within Treatment
+WTB,Gre._,male,a10037,2.3,3,,0.356,Within Treatment
+WTB,Red._,male,a10155,2.4,1,,0.28,Within Treatment
+WTB,Red._,male,a10155,2.4,2,,0.28,Within Treatment
+WTB,Red._,male,a10155,2.3,3,,0.28,Within Treatment
+WTB,Whi.Bro,female,a10159,4.6,1,,0.472,Within Treatment
+WTB,Whi.Bro,female,a10159,4.9,2,,0.472,Within Treatment
+WTB,Whi.Bro,female,a10159,4.6,3,,0.472,Within Treatment
+WTB,Whi.Pin,female,a10154,4.1,1,,0.459,Within Treatment
+WTB,Whi.Pin,female,a10154,4.1,2,,0.459,Within Treatment
+WTB,Whi.Pin,female,a10154,3.9,3,,0.459,Within Treatment
+WTB,Yel.Yel,female,a10097,4.2,1,,0.475,Within Treatment
+WTB,Yel.Yel,female,a10097,4.3,2,,0.475,Within Treatment
+WTB,Yel.Yel,female,a10097,4.4,3,,0.475,Within Treatment
+WTB,Whi.Bla,male,a10152,2.6,1,,0.419,Within Treatment
+WTB,Whi.Bla,male,a10152,2.7,2,,0.419,Within Treatment
+WTB,Whi.Bla,male,a10152,2.4,3,,0.419,Within Treatment
+WTB,Whi.Ora,female,a10160,2.7,1,,0.517,Within Treatment
+WTB,Whi.Ora,female,a10160,2.7,2,,0.517,Within Treatment
+WTB,Whi.Ora,female,a10160,2.7,3,,0.517,Within Treatment
+PB,Red.Yel,male,a9947,2.3,1,,0.319,Paternal
+PB,Red.Yel,male,a9947,2,2,,0.319,Paternal
+PB,Red.Yel,male,a9947,2.1,3,,0.319,Paternal
+PB,_.Red,female,a9903,1.6,1,,0.704,Paternal
+PB,_.Red,female,a9903,1.4,2,,0.704,Paternal
+PB,_.Red,female,a9903,1.5,3,,0.704,Paternal
+PB,Yel.Pur,female,a9899,2.4,1,,0.722,Paternal
+PB,Yel.Pur,female,a9899,2.5,2,,0.722,Paternal
+PB,Yel.Pur,female,a9899,2.5,3,,0.722,Paternal
+PB,Blu.Gre,male,a9983,2.8,1,,0.418,Paternal
+PB,Blu.Gre,male,a9983,3.1,2,,0.418,Paternal
+PB,Blu.Gre,male,a9983,2.8,3,,0.418,Paternal
+PB,Blu.Pur,male,a9975,1.8,1,,0.382,Paternal
+PB,Blu.Pur,male,a9975,1.8,2,,0.382,Paternal
+PB,Blu.Pur,male,a9975,1.9,3,,0.382,Paternal
+PB,Blu.Blu,male,a9973,2.7,1,,0.427,Paternal
+PB,Blu.Blu,male,a9973,2.7,2,,0.427,Paternal
+PB,Blu.Blu,male,a9973,2.7,3,,0.427,Paternal
+PB,Pin.Ora,female,a9953,1.5,1,,0.575,Paternal
+PB,Pin.Ora,female,a9953,1.9,2,,0.575,Paternal
+PB,Pin.Ora,female,a9953,2.9,3,,0.575,Paternal
+PB,Whi._,female,a9924,3.9,1,,0.552,Paternal
+PB,Whi._,female,a9924,3.6,2,,0.552,Paternal
+PB,Whi._,female,a9924,4.1,3,,0.552,Paternal
+PB,_.Pur,male,a9981,2.5,1,,0.335,Paternal
+PB,_.Pur,male,a9981,2.4,2,,0.335,Paternal
+PB,_.Pur,male,a9981,1.9,3,,0.335,Paternal
+PB,Red._,male,a9941,2.8,1,,0.445,Paternal
+PB,Red._,male,a9941,2.8,2,,0.445,Paternal
+PB,Red._,male,a9941,2.8,3,,0.445,Paternal
+PB,Pin.Gre,female,a9952,3.8,1,,0.445,Paternal
+PB,Pin.Gre,female,a9952,3.7,2,,0.445,Paternal
+PB,Pin.Gre,female,a9952,3.6,3,,0.445,Paternal
+PB,Bro.Bro,female,a9910,4,1,,0.481,Paternal
+PB,Bro.Bro,female,a9910,3.9,2,,0.481,Paternal
+PB,Bro.Bro,female,a9910,4.1,3,,0.481,Paternal
+PB,Pur.Pur,female,a9982,3.1,1,,0.372,Paternal
+PB,Pur.Pur,female,a9982,3.7,2,,0.372,Paternal
+PB,Pur.Pur,female,a9982,3.9,3,,0.372,Paternal
+PB,Yel.Gre,male,a9901,3.1,1,,0.344,Paternal
+PB,Yel.Gre,male,a9901,3.1,2,,0.344,Paternal
+PB,Yel.Gre,male,a9901,3.2,3,,0.344,Paternal
+PB,_.Ora,female,a9964,4.1,1,,0.588,Paternal
+PB,_.Ora,female,a9964,4.2,2,,0.588,Paternal
+PB,_.Ora,female,a9964,3.7,3,,0.588,Paternal
+PB,Whi.Ora,female,a9927,4.6,1,,0.422,Paternal
+PB,Whi.Ora,female,a9927,4.3,2,,0.422,Paternal
+PB,Whi.Ora,female,a9927,4.4,3,,0.422,Paternal
+PB,Bro._,male,a9908,3.6,1,,0.344,Paternal
+PB,Bro._,male,a9908,3.7,2,,0.344,Paternal
+PB,Bro._,male,a9908,3.9,3,,0.344,Paternal
+PB,Red.Bla,male,a9949,4.4,1,,0.433,Paternal
+PB,Red.Bla,male,a9949,4.4,2,,0.433,Paternal
+PB,Red.Bla,male,a9949,4,3,,0.433,Paternal
+PB,Bla.Whi,female,a9923,2.9,1,,0.603,Paternal
+PB,Bla.Whi,female,a9923,2.9,2,,0.603,Paternal
+PB,Bla.Whi,female,a9923,2.9,3,,0.603,Paternal
+PB,Bro.Blu,male,a9937,2.4,1,,0.354,Paternal
+PB,Bro.Blu,male,a9937,2.3,2,,0.354,Paternal
+PB,Bro.Blu,male,a9937,2.1,3,,0.354,Paternal
+WCA,Pin.Gre,male,a9588,2.9,1,,0.413,Within Control
+WCA,Pin.Gre,male,a9588,2.9,2,,0.413,Within Control
+WCA,Pin.Gre,male,a9588,2.9,3,,0.413,Within Control
+WCA,Red.Yel,female,a9678,1.9,1,,0.533,Within Control
+WCA,Red.Yel,female,a9678,3.4,2,,0.533,Within Control
+WCA,Red.Yel,female,a9678,3.2,3,,0.533,Within Control
+WCA,Red.Bla,male,a9676,3.1,1,,0.436,Within Control
+WCA,Red.Bla,male,a9676,3.3,2,,0.436,Within Control
+WCA,Red.Bla,male,a9676,3.2,3,,0.436,Within Control
+WCA,Pur._,male,a9562,2.4,1,,0.31,Within Control
+WCA,Pur._,male,a9562,2.4,2,,0.31,Within Control
+WCA,Pur._,male,a9562,1.9,3,,0.31,Within Control
+WCA,Red.Pin,female,a9673,4.3,1,,0.411,Within Control
+WCA,Red.Pin,female,a9673,3.2,2,,0.411,Within Control
+WCA,Red.Pin,female,a9673,4.3,3,,0.411,Within Control
+WCA,Whi.Yel,female,a9599,2.8,1,,0.526,Within Control
+WCA,Whi.Yel,female,a9599,2.8,2,,0.526,Within Control
+WCA,Whi.Yel,female,a9599,2.8,3,,0.526,Within Control
+WCA,Blu.Yel,female,a9577,3.2,1,,0.596,Within Control
+WCA,Blu.Yel,female,a9577,3.4,2,,0.596,Within Control
+WCA,Blu.Yel,female,a9577,3.7,3,,0.596,Within Control
+WCA,Gre.Bla,male,a9554,2.5,1,,0.306,Within Control
+WCA,Gre.Bla,male,a9554,2.4,2,,0.306,Within Control
+WCA,Gre.Bla,male,a9554,3.1,3,,0.306,Within Control
+WCA,Gre.Pur,female,a9556,5.6,1,,0.452,Within Control
+WCA,Gre.Pur,female,a9556,5.7,2,,0.452,Within Control
+WCA,Gre.Pur,female,a9556,5.7,3,,0.452,Within Control
+WCA,Ora.Ora,male,a9706,3.5,1,,0.443,Within Control
+WCA,Ora.Ora,male,a9706,3.4,2,,0.443,Within Control
+WCA,Ora.Ora,male,a9706,3.7,3,,0.443,Within Control
+WCA,Ora.Gre,female,a9603,3.2,1,,0.536,Within Control
+WCA,Ora.Gre,female,a9603,3.4,2,,0.536,Within Control
+WCA,Ora.Gre,female,a9603,3.7,3,,0.536,Within Control
+WCA,Ora.Red,male,a9606,2.7,1,,0.367,Within Control
+WCA,Ora.Red,male,a9606,2.6,2,,0.367,Within Control
+WCA,Ora.Red,male,a9606,2.5,3,,0.367,Within Control
+WCA,Gre.Blu,female,a9553,3,1,,0.468,Within Control
+WCA,Gre.Blu,female,a9553,3.4,2,,0.468,Within Control
+WCA,Gre.Blu,female,a9553,3.4,3,,0.468,Within Control
+WCA,Gre.Bro,male,a9558,5.9,1,,0.375,Within Control
+WCA,Gre.Bro,male,a9558,5.5,2,,0.375,Within Control
+WCA,Gre.Bro,male,a9558,5.6,3,,0.375,Within Control
+WCA,Red.Whi,female,a9679,8.1,1,,0.564,Within Control
+WCA,Red.Whi,female,a9679,8,2,,0.564,Within Control
+WCA,Red.Whi,female,a9679,8.3,3,,0.564,Within Control
+WCA,Ora.Blu,female,a9607,2.6,1,,0.637,Within Control
+WCA,Ora.Blu,female,a9607,2.6,2,,0.637,Within Control
+WCA,Ora.Blu,female,a9607,2.6,3,,0.637,Within Control
+WCA,Red.Ora,male,a9681,2.9,1,,0.371,Within Control
+WCA,Red.Ora,male,a9681,2.6,2,,0.371,Within Control
+WCA,Red.Ora,male,a9681,2.8,3,,0.371,Within Control
+WCA,Pur.Red,female,a9566,5.9,1,,0.469,Within Control
+WCA,Pur.Red,female,a9566,5.5,2,,0.469,Within Control
+WCA,Pur.Red,female,a9566,5.4,3,,0.469,Within Control
+WCA,Ora.Whi,male,a9611,2.6,1,,0.308,Within Control
+WCA,Ora.Whi,male,a9611,2.6,2,,0.308,Within Control
+WCA,Ora.Whi,male,a9611,2.4,3,,0.308,Within Control
+MA,Red.Yel,female,a9761,2.5,1,,0.544,Maternal
+MA,Red.Yel,female,a9761,2.7,2,,0.544,Maternal
+MA,Red.Yel,female,a9761,2.6,3,,0.544,Maternal
+MA,Whi.Ora,female,a9839,2.8,1,,0.708,Maternal
+MA,Whi.Ora,female,a9839,3.2,2,,0.708,Maternal
+MA,Whi.Ora,female,a9839,3.1,3,,0.708,Maternal
+MA,Yel._,male,a9763,3.4,1,,0.434,Maternal
+MA,Yel._,male,a9763,3.5,2,,0.434,Maternal
+MA,Yel._,male,a9763,3.6,3,,0.434,Maternal
+MA,_.Gre,male,a9803,2.9,1,,0.406,Maternal
+MA,_.Gre,male,a9803,2.9,2,,0.406,Maternal
+MA,_.Gre,male,a9803,2.8,3,,0.406,Maternal
+MA,Red.Red,male,a9754,2.2,1,,0.441,Maternal
+MA,Red.Red,male,a9754,2.7,2,,0.441,Maternal
+MA,Red.Red,male,a9754,2.6,3,,0.441,Maternal
+MA,Gre.Gre,female,a9804,3.4,1,,0.586,Maternal
+MA,Gre.Gre,female,a9804,3.4,2,,0.586,Maternal
+MA,Gre.Gre,female,a9804,3.3,3,,0.586,Maternal
+MA,Bro.Yel,female,a9794,3.2,1,,0.446,Maternal
+MA,Bro.Yel,female,a9794,3.1,2,,0.446,Maternal
+MA,Bro.Yel,female,a9794,3.1,3,,0.446,Maternal
+MA,Red.Gre,female,a9758,2.6,1,,0.802,Maternal
+MA,Red.Gre,female,a9758,2.6,2,,0.802,Maternal
+MA,Red.Gre,female,a9758,2.5,3,,0.802,Maternal
+MA,Gre.Whi,female,a9809,8.3,1,,0.539,Maternal
+MA,Gre.Whi,female,a9809,8.1,2,,0.539,Maternal
+MA,Gre.Whi,female,a9809,8.3,3,,0.539,Maternal
+MA,_.Bla,male,a9800,3.5,1,,0.307,Maternal
+MA,_.Bla,male,a9800,3.6,2,,0.307,Maternal
+MA,_.Bla,male,a9800,3,3,,0.307,Maternal
+MA,Red.Pur,female,a9762,2.7,1,,0.578,Maternal
+MA,Red.Pur,female,a9762,2.6,2,,0.578,Maternal
+MA,Red.Pur,female,a9762,2.5,3,,0.578,Maternal
+MA,Blu.Yel,female,a9845,6.4,1,,0.553,Maternal
+MA,Blu.Yel,female,a9845,5.4,2,,0.553,Maternal
+MA,Blu.Yel,female,a9845,6.3,3,,0.553,Maternal
+MA,Pin.Ora,male,a9858,2.8,1,,0.337,Maternal
+MA,Pin.Ora,male,a9858,2.7,2,,0.337,Maternal
+MA,Pin.Ora,male,a9858,2.8,3,,0.337,Maternal
+MA,_.Yel,male,a9764,3.6,1,,0.645,Maternal
+MA,_.Yel,male,a9764,4,2,,0.645,Maternal
+MA,_.Yel,male,a9764,3.9,3,,0.645,Maternal
+MA,Bro.Gre,female,a9796,,1,,0.545,Maternal
+MA,Bro.Gre,female,a9796,,2,,0.545,Maternal
+MA,Bro.Gre,female,a9796,,3,,0.545,Maternal
+MA,Red.Blu,female,a9759,3.9,1,,0.536,Maternal
+MA,Red.Blu,female,a9759,3.9,2,,0.536,Maternal
+MA,Red.Blu,female,a9759,4.1,3,,0.536,Maternal
+MA,Bro.Pin,male,a9793,2.9,1,,0.319,Maternal
+MA,Bro.Pin,male,a9793,2.8,2,,0.319,Maternal
+MA,Bro.Pin,male,a9793,2.7,3,,0.319,Maternal
+MA,Red._,female,a9848,2.6,1,,0.591,Maternal
+MA,Red._,female,a9848,2.4,2,,0.591,Maternal
+MA,Red._,female,a9848,2.4,3,,0.591,Maternal
+MA,Gre.Blu,male,a9808,2.2,1,,0.392,Maternal
+MA,Gre.Blu,male,a9808,2.3,2,,0.392,Maternal
+MA,Gre.Blu,male,a9808,2,3,,0.392,Maternal
+MA,Red.Bro,male,a9760,5.2,1,,0.455,Maternal
+MA,Red.Bro,male,a9760,4.9,2,,0.455,Maternal
+MA,Red.Bro,male,a9760,5.3,3,,0.455,Maternal
+WCC,Pur.Red,female,a9684,2.8,1,,0.731,Within Control
+WCC,Pur.Red,female,a9684,2.3,2,,0.731,Within Control
+WCC,Pur.Red,female,a9684,2.7,3,,0.731,Within Control
+WCC,Yel.Pin,female,a9614,2.6,1,,0.674,Within Control
+WCC,Yel.Pin,female,a9614,2.8,2,,0.674,Within Control
+WCC,Yel.Pin,female,a9614,2.9,3,,0.674,Within Control
+WCC,Whi.Bro,female,a9600,3.3,1,,0.522,Within Control
+WCC,Whi.Bro,female,a9600,3.4,2,,0.522,Within Control
+WCC,Whi.Bro,female,a9600,3,3,,0.522,Within Control
+WCC,Pin.Bla,male,a9586,1.9,1,,0.461,Within Control
+WCC,Pin.Bla,male,a9586,1.8,2,,0.461,Within Control
+WCC,Pin.Bla,male,a9586,1.8,3,,0.461,Within Control
+WCC,Whi.Pur,male,a9594,3.3,1,,0.456,Within Control
+WCC,Whi.Pur,male,a9594,3.2,2,,0.456,Within Control
+WCC,Whi.Pur,male,a9594,3.2,3,,0.456,Within Control
+WCC,Ora.Ora,male,a9602,2.4,1,,0.512,Within Control
+WCC,Ora.Ora,male,a9602,2.4,2,,0.512,Within Control
+WCC,Ora.Ora,male,a9602,2.6,3,,0.512,Within Control
+WCC,Bro.Yel,male,a9698,4.7,1,,0.426,Within Control
+WCC,Bro.Yel,male,a9698,4.6,2,,0.426,Within Control
+WCC,Bro.Yel,male,a9698,4.7,3,,0.426,Within Control
+WCC,Bro.Pin,male,a9705,4.5,1,,0.538,Within Control
+WCC,Bro.Pin,male,a9705,4.4,2,,0.538,Within Control
+WCC,Bro.Pin,male,a9705,4.6,3,,0.538,Within Control
+WCC,Bro.Bro,male,a9696,5.6,1,,0.448,Within Control
+WCC,Bro.Bro,male,a9696,5.4,2,,0.448,Within Control
+WCC,Bro.Bro,male,a9696,5.2,3,,0.448,Within Control
+WCC,Gre.Yel,female,a9552,3.1,1,,0.632,Within Control
+WCC,Gre.Yel,female,a9552,3.1,2,,0.632,Within Control
+WCC,Gre.Yel,female,a9552,3,3,,0.632,Within Control
+WCC,Bro.Ora,male,a9697,0.9,1,,0.425,Within Control
+WCC,Bro.Ora,male,a9697,1.8,2,,0.425,Within Control
+WCC,Bro.Ora,male,a9697,1.8,3,,0.425,Within Control
+WCC,Red.Blu,female,a9675,3.9,1,,0.607,Within Control
+WCC,Red.Blu,female,a9675,4.1,2,,0.607,Within Control
+WCC,Red.Blu,female,a9675,4.2,3,,0.607,Within Control
+WCC,Ora.Pin,female,a9604,2.4,1,,0.585,Within Control
+WCC,Ora.Pin,female,a9604,3.8,2,,0.585,Within Control
+WCC,Ora.Pin,female,a9604,3.2,3,,0.585,Within Control
+WCC,Bro.Pur,male,a9699,2.4,1,,0.421,Within Control
+WCC,Bro.Pur,male,a9699,2.2,2,,0.421,Within Control
+WCC,Bro.Pur,male,a9699,2.4,3,,0.421,Within Control
+WCC,Gre.Pin,female,a9555,4.1,1,,0.675,Within Control
+WCC,Gre.Pin,female,a9555,4.1,2,,0.675,Within Control
+WCC,Gre.Pin,female,a9555,4.3,3,,0.675,Within Control
+WCC,Pur.Gre,male,a9561,0.6,1,,0.415,Within Control
+WCC,Pur.Gre,male,a9561,2.6,2,,0.415,Within Control
+WCC,Pur.Gre,male,a9561,2.6,3,,0.415,Within Control
+WCC,Red.Pur,female,a9674,2.9,1,,0.507,Within Control
+WCC,Red.Pur,female,a9674,3,2,,0.507,Within Control
+WCC,Red.Pur,female,a9674,3.1,3,,0.507,Within Control
+WCC,Pin.Bro,female,a9589,1.8,1,,0.433,Within Control
+WCC,Pin.Bro,female,a9589,2.1,2,,0.433,Within Control
+WCC,Pin.Bro,female,a9589,2.4,3,,0.433,Within Control
+WCC,Ora.Bla,male,a9709,0.4,1,,0.56,Within Control
+WCC,Ora.Bla,male,a9709,2.4,2,,0.56,Within Control
+WCC,Ora.Bla,male,a9709,2.4,3,,0.56,Within Control
+WCC,Pur.Ora,male,a9568,2.3,1,,0.408,Within Control
+WCC,Pur.Ora,male,a9568,2.1,2,,0.408,Within Control
+WCC,Pur.Ora,male,a9568,2.2,3,,0.408,Within Control
+PC,Bro.Yel,female,a9936,3.9,1,,0.488,Paternal
+PC,Bro.Yel,female,a9936,3.2,2,,0.488,Paternal
+PC,Bro.Yel,female,a9936,2.2,3,,0.488,Paternal
+PC,Gre.Whi,female,a9883,1.5,1,,0.844,Paternal
+PC,Gre.Whi,female,a9883,1.5,2,,0.844,Paternal
+PC,Gre.Whi,female,a9883,1.3,3,,0.844,Paternal
+PC,_.Bla,female,a9885,2,1,,0.482,Paternal
+PC,_.Bla,female,a9885,1.6,2,,0.482,Paternal
+PC,_.Bla,female,a9885,2.2,3,,0.482,Paternal
+PC,Red.Pin,female,a9946,3.3,1,,0.544,Paternal
+PC,Red.Pin,female,a9946,2.9,2,,0.544,Paternal
+PC,Red.Pin,female,a9946,3.1,3,,0.544,Paternal
+PC,Blu.Ora,female,a9974,2.8,1,,0.56,Paternal
+PC,Blu.Ora,female,a9974,2.8,2,,0.56,Paternal
+PC,Blu.Ora,female,a9974,2.9,3,,0.56,Paternal
+PC,Bla.Blu,female,a9920,1.9,1,,0.48,Paternal
+PC,Bla.Blu,female,a9920,2.1,2,,0.48,Paternal
+PC,Bla.Blu,female,a9920,2.1,3,,0.48,Paternal
+PC,Bla._,female,a9884,3.1,1,,0.709,Paternal
+PC,Bla._,female,a9884,3.1,2,,0.709,Paternal
+PC,Bla._,female,a9884,2.9,3,,0.709,Paternal
+PC,_.Blu,female,a10205,2.4,1,,0.527,Paternal
+PC,_.Blu,female,a10205,2.5,2,,0.527,Paternal
+PC,_.Blu,female,a10205,2.6,3,,0.527,Paternal
+PC,_.Whi,male,a9925,2.1,1,,0.501,Paternal
+PC,_.Whi,male,a9925,1.4,2,,0.501,Paternal
+PC,_.Whi,male,a9925,2.2,3,,0.501,Paternal
+PC,Bla.Pur,male,a9916,1.7,1,,0.459,Paternal
+PC,Bla.Pur,male,a9916,1.4,2,,0.459,Paternal
+PC,Bla.Pur,male,a9916,1.7,3,,0.459,Paternal
+PC,Yel.Bla,male,a9900,2.7,1,,0.412,Paternal
+PC,Yel.Bla,male,a9900,2.7,2,,0.412,Paternal
+PC,Yel.Bla,male,a9900,2.7,3,,0.412,Paternal
+PC,Blu.Pur,female,a9985,2.2,1,,0.672,Paternal
+PC,Blu.Pur,female,a9985,2.8,2,,0.672,Paternal
+PC,Blu.Pur,female,a9985,2.1,3,,0.672,Paternal
+PC,Blu.Red,female,a9976,3.2,1,,0.682,Paternal
+PC,Gre.Red,male,a9882,4.1,1,,0.424,Paternal
+PC,Gre.Red,male,a9882,4.4,2,,0.424,Paternal
+PC,Gre.Red,male,a9882,4.5,3,,0.424,Paternal
+PC,Gre.Yel,female,a9879,2.1,1,,0.648,Paternal
+PC,Gre.Yel,female,a9879,2.8,2,,0.648,Paternal
+PC,Gre.Yel,female,a9879,3,3,,0.648,Paternal
+PC,Pur._,male,a9980,2.4,1,,0.396,Paternal
+PC,Pur._,male,a9980,2.4,2,,0.396,Paternal
+PC,Pur._,male,a9980,2.4,3,,0.396,Paternal
+PC,Yel.Blu,male,a9902,1.6,1,,0.293,Paternal
+PC,Yel.Blu,male,a9902,1.7,2,,0.293,Paternal
+PC,Yel.Blu,male,a9902,1.8,3,,0.293,Paternal
+PC,Bro.Whi,female,a10193,3,1,,0.822,Paternal
+PC,Bro.Whi,female,a10193,3.5,2,,0.822,Paternal
+PC,Bro.Whi,female,a10193,3.6,3,,0.822,Paternal
+PC,Red.Gre,female,a9943,2.8,1,,0.513,Paternal
+PC,Red.Gre,female,a9943,2.6,2,,0.513,Paternal
+PC,Red.Gre,female,a9943,2.9,3,,0.513,Paternal
+PC,Blu._,female,a10204,2.8,1,,0.737,Paternal
+PC,Blu._,female,a10204,2.7,2,,0.737,Paternal
+PC,Blu._,female,a10204,2.5,3,,0.737,Paternal
+MC,Yel.Bro,male,a9781,1.6,1,,0.38,Maternal
+MC,Yel.Bro,male,a9781,1.8,2,,0.38,Maternal
+MC,Yel.Bro,male,a9781,1.8,3,,0.38,Maternal
+MC,_.Bro,female,a10196,1.6,1,,0.548,Maternal
+MC,_.Bro,female,a10196,1.9,2,,0.548,Maternal
+MC,_.Bro,female,a10196,1.9,3,,0.548,Maternal
+MC,Gre.Ora,female,a9807,3.7,1,,0.449,Maternal
+MC,Gre.Ora,female,a9807,3.3,2,,0.449,Maternal
+MC,Gre.Ora,female,a9807,3.6,3,,0.449,Maternal
+MC,Bla.Yel,female,a9786,3,1,,0.716,Maternal
+MC,Bla.Yel,female,a9786,3,2,,0.716,Maternal
+MC,Bla.Yel,female,a9786,2.7,3,,0.716,Maternal
+MC,Gre.Red,female,a9810,1.8,1,,0.525,Maternal
+MC,Gre.Red,female,a9810,1.9,2,,0.525,Maternal
+MC,Gre.Red,female,a9810,1.6,3,,0.525,Maternal
+MC,Yel.Pin,male,a9776,1.5,1,,0.36,Maternal
+MC,Yel.Pin,male,a9776,1.6,2,,0.36,Maternal
+MC,Yel.Pin,male,a9776,1.6,3,,0.36,Maternal
+MC,Whi.Whi,male,a9831,3.4,1,,0.386,Maternal
+MC,Whi.Whi,male,a9831,3.1,2,,0.386,Maternal
+MC,Whi.Whi,male,a9831,3.3,3,,0.386,Maternal
+MC,Yel.Red,male,a9784,1.5,1,,0.329,Maternal
+MC,Yel.Red,male,a9784,1.7,2,,0.329,Maternal
+MC,Yel.Red,male,a9784,1.6,3,,0.329,Maternal
+MC,Pur.Red,female,a9828,3.3,1,,0.567,Maternal
+MC,Pur.Red,female,a9828,3.4,2,,0.567,Maternal
+MC,Pur.Red,female,a9828,3.3,3,,0.567,Maternal
+MC,Red.Red,male,a10203,2.2,1,,0.362,Maternal
+MC,Red.Red,male,a10203,2.2,2,,0.362,Maternal
+MC,Red.Red,male,a10203,2.2,3,,0.362,Maternal
+MC,_.Pur,male,a9819,3.6,1,,0.508,Maternal
+MC,_.Pur,male,a9819,3.7,2,,0.508,Maternal
+MC,_.Pur,male,a9819,3.7,3,,0.508,Maternal
+MC,Red.Ora,female,a9757,2.4,1,,0.499,Maternal
+MC,Red.Ora,female,a9757,2.3,2,,0.499,Maternal
+MC,Red.Ora,female,a9757,2.3,3,,0.499,Maternal
+MC,_.Red,female,a9753,1.4,3,,0.549,Maternal
+MC,Pin.Pur,female,a9857,2.4,1,,0.388,Maternal
+MC,Pin.Pur,female,a9857,2.3,2,,0.388,Maternal
+MC,Pin.Pur,female,a9857,2.4,3,,0.388,Maternal
+MC,Blu.Red,female,a9847,3.7,1,,0.556,Maternal
+MC,Blu.Red,female,a9847,3.4,2,,0.556,Maternal
+MC,Blu.Red,female,a9847,3.7,3,,0.556,Maternal
+MC,Gre.Pin,female,a9805,2.1,1,,0.5,Maternal
+MC,Gre.Pin,female,a9805,2.1,2,,0.5,Maternal
+MC,Gre.Pin,female,a9805,2,3,,0.5,Maternal
+MC,Whi.Pur,female,a9838,3.1,1,,0.404,Maternal
+MC,Whi.Pur,female,a9838,4.1,2,,0.404,Maternal
+MC,Whi.Pur,female,a9838,4.2,3,,0.404,Maternal
+MC,Gre.Bla,male,a9866,2.2,1,,0.276,Maternal
+MC,Gre.Bla,male,a9866,2.2,2,,0.276,Maternal
+MC,Gre.Bla,male,a9866,2.2,3,,0.276,Maternal
+MC,Bla.Pin,male,a9785,2.9,1,,0.434,Maternal
+MC,Bla.Pin,male,a9785,2.9,2,,0.434,Maternal
+MC,Bla.Pin,male,a9785,2.9,3,,0.434,Maternal
+MC,Whi._,male,a9840,2.2,1,,0.314,Maternal
+MC,Whi._,male,a9840,2.1,2,,0.314,Maternal
+MC,Whi._,male,a9840,2.1,3,,0.314,Maternal
+WTC,Blu.Gre,male,a10050,2.5,1,,0.312,Within Treatment
+WTC,Blu.Gre,male,a10050,2.3,2,,0.312,Within Treatment
+WTC,Blu.Gre,male,a10050,2.3,3,,0.312,Within Treatment
+WTC,Whi.Gre,male,a10153,1.8,1,,0.466,Within Treatment
+WTC,Whi.Gre,male,a10153,1.8,2,,0.466,Within Treatment
+WTC,Whi.Gre,male,a10153,2.1,3,,0.466,Within Treatment
+WTC,_.Gre,female,a10033,3.6,1,,0.631,Within Treatment
+WTC,_.Gre,female,a10033,3.4,2,,0.631,Within Treatment
+WTC,_.Gre,female,a10033,3.5,3,,0.631,Within Treatment
+WTC,Pur.Whi,female,a10078,1.8,1,,0.458,Within Treatment
+WTC,Pur.Whi,female,a10078,1.8,2,,0.458,Within Treatment
+WTC,Pur.Whi,female,a10078,1.8,3,,0.458,Within Treatment
+WTC,Red.Ora,female,a10170,2,1,,0.306,Within Treatment
+WTC,Red.Ora,female,a10170,2.1,2,,0.306,Within Treatment
+WTC,Red.Ora,female,a10170,1.9,3,,0.306,Within Treatment
+WTC,Blu.Pin,male,a10053,2.4,1,,0.325,Within Treatment
+WTC,Blu.Pin,male,a10053,2.6,2,,0.325,Within Treatment
+WTC,Blu.Pin,male,a10053,2.1,3,,0.325,Within Treatment
+WTC,_.Ora,female,a10048,3.5,1,,0.631,Within Treatment
+WTC,_.Ora,female,a10048,3.2,2,,0.631,Within Treatment
+WTC,_.Ora,female,a10048,3.2,3,,0.631,Within Treatment
+WTC,Pur.Bro,male,a10075,2.2,1,,0.453,Within Treatment
+WTC,Pur.Bro,male,a10075,2.7,2,,0.453,Within Treatment
+WTC,Pur.Bro,male,a10075,2.7,3,,0.453,Within Treatment
+WTC,Pin.Whi,male,a10091,3.7,1,,0.49,Within Treatment
+WTC,Pin.Whi,male,a10091,3.3,2,,0.49,Within Treatment
+WTC,Pin.Whi,male,a10091,3.5,3,,0.49,Within Treatment
+WTC,Pin.Ora,male,a10094,1.9,1,,0.464,Within Treatment
+WTC,Pin.Ora,male,a10094,2,2,,0.464,Within Treatment
+WTC,Pin.Ora,male,a10094,2,3,,0.464,Within Treatment
+WTC,Gre._,female,a10032,2.3,1,,0.521,Within Treatment
+WTC,Gre._,female,a10032,2.3,2,,0.521,Within Treatment
+WTC,Gre._,female,a10032,2.3,3,,0.521,Within Treatment
+WTC,Pin.Pur,male,a10093,2.3,1,,0.463,Within Treatment
+WTC,Pin.Pur,male,a10093,2.7,2,,0.463,Within Treatment
+WTC,Pin.Pur,male,a10093,2,3,,0.463,Within Treatment
+WTC,Red.Blu,female,a10171,3.6,1,,0.565,Within Treatment
+WTC,Red.Blu,female,a10171,3.4,2,,0.565,Within Treatment
+WTC,Red.Blu,female,a10171,2.2,3,,0.565,Within Treatment
+WTC,Pur.Yel,male,a10073,2.8,1,,0.432,Within Treatment
+WTC,Pur.Yel,male,a10073,3.1,2,,0.432,Within Treatment
+WTC,Pur.Yel,male,a10073,2.9,3,,0.432,Within Treatment
+WTC,Whi.Blu,male,a10161,3.2,3,,0.616,Within Treatment
+WTC,_.Red,female,a10162,4.4,1,,0.517,Within Treatment
+WTC,_.Red,female,a10162,4.3,2,,0.517,Within Treatment
+WTC,_.Red,female,a10162,3.8,3,,0.517,Within Treatment
+WTC,Gre.Yel,male,a10038,1.9,1,,0.379,Within Treatment
+WTC,Gre.Yel,male,a10038,2.1,2,,0.379,Within Treatment
+WTC,Gre.Yel,male,a10038,2.2,3,,0.379,Within Treatment
+WTC,Pin.Pin,female,a10085,1.9,1,,0.5,Within Treatment
+WTC,Pin.Pin,female,a10085,1.8,2,,0.5,Within Treatment
+WTC,Pin.Pin,female,a10085,1.7,3,,0.5,Within Treatment
+WTC,Red.Yel,female,a10165,1.7,1,,0.378,Within Treatment
+WTC,Gre.Bla,female,a10035,3.2,2,,0.569,Within Treatment
