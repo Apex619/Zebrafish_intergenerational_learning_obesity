@@ -64,14 +64,11 @@ rpt_weight2 <- function(df) {
   x <- rpt(Weight_g ~ Age_Weeks + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
 }
 
-#Obtaining within and between-individual variances (body weight without week)
-rpt_within_weight <- function(df) {
-  rpt(scale(Weight.g.) ~ (1 |  Fish_ID), grname = c("Fish_ID", "Residual"), data = df, datatype = "Gaussian", nboot = 100, npermut = 100, ratio = FALSE)
-}
+
 
 #Obtaining within and between-individual variances (body weight with week)
-rpt_within_weight2 <- function(df) {
-  rpt(scale(Weight.g.) ~ Week + (1 |  Fish_ID), grname = c("Fish_ID", "Residual"), data = df, datatype = "Gaussian", nboot = 100, npermut = 100, ratio = FALSE)
+rpt_within_weight <- function(df) {
+  rpt(scale(Weight_g) ~ Age_Weeks + (1 |  Fish_ID), grname = c("Fish_ID", "Residual"), data = df, datatype = "Gaussian", nboot = 100, npermut = 100, ratio = FALSE)
 }
 
 

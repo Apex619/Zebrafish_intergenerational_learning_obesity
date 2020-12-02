@@ -19,7 +19,7 @@ pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, 
 
 ```{r}
 #Import data
-Glucose <- read.csv("Data/Glucose/Glucose_Data.csv")
+Glucose <- read.csv("Data/Glucose/Glucose_Data.csv") #check this works, issues with file directories
 str(Glucose)
 
 #Check structure

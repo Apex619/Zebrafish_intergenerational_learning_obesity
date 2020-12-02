@@ -19,8 +19,8 @@ violin_plot_custom_hamza <- function(df,param,lab1,lab2) { #only need to add dat
 
 #Function for generating a custom designed violin plot (f0)
 violin_plot_custom_hamza2 <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
-  ggplot(data = df,aes(x = Group, y = param, fill = Group))+
-    scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ #color scheme
+  ggplot(data = df,aes(x = Tank, y = param, fill = Tank))+
+    scale_fill_manual(values = wes_palette("Darjeeling1", n = 4))+ #color scheme
     geom_violin(alpha=0.4, position = position_dodge(width = .75),size=1,color="black")+ #violin plot to display distribution density
     geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=1.2, alpha = 0.7)+#boxplot to display quantiles
     geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points

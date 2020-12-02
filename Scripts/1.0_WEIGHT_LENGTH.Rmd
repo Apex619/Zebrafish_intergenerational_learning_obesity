@@ -15,11 +15,11 @@ pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, 
                stargazer)
 
 # Load custom functions
-source("Scripts/functions_learning.R")
-source("Scripts/functions_repeatability.R")
+source("functions_learning.R")
+source("functions_repeatability.R")
 
 #Run this after all the coding has been run with 10,000 bootstraps
-save.image(file='myEnvironment.RData') 
+#save.image(file='myEnvironment.RData') 
 #load('myEnvironment.RData')
 ```
 
@@ -58,41 +58,23 @@ hist(residuals(Model_Body_Weight2))
 
 
 
-#Calculating repeatabilities (without week and with week)
-rpt_weight(Weight_Length_Control) -> rpt_body_weight_control #without week factored in
+#Calculating repeatabilities (with week)
+
+rpt_weight2(Weight_Length_Control) -> rpt_body_weight_control 
 rpt_body_weight_control
-rpt_weight(Weight_Length_Treatment) -> rpt_body_weight_treatment #without week factored in
+rpt_weight2(Weight_Length_Treatment) -> rpt_body_weight_treatment 
 rpt_body_weight_treatment
-rpt_weight2(Weight_Length_Control) -> rpt_body_weight_control2 #adjusted for week
-rpt_body_weight_control2
-rpt_weight2(Weight_Length_Treatment) -> rpt_body_weight_treatment2 #adjusted for week
-rpt_body_weight_treatment2
 
+rpt_weight2(Weight_Length_Maternal) -> rpt_body_weight_maternal 
+rpt_body_weight_maternal
+rpt_weight2(Weight_Length_Paternal) -> rpt_body_weight_paternal
+rpt_body_weight_paternal
 
-
-#Obtaining within-individual and between-individual variance for body weight
-
-rpt_within_weight(Weight_Length_Control) -> within_between_body_weight_control
-rpt_within_weight(Weight_Length_Treatment) -> within_between_body_weight_treatment
-
-rpt_within_weight2(Weight_Length_Control) -> within_between_body_weight_control2 #adjusted for week
-rpt_within_weight2(Weight_Length_Treatment) -> within_between_body_weight_treatment2 #adjusted for week
-
-
-#Obtaining differences between repeatabilities using custom made functions
-Control_weight_boot <- unlist_rptr(rpt_body_weight_control) 
-Treatment_weight_boot <- unlist_rptr(rpt_body_weight_treatment) 
-body_weight_diff <- difference_boot(Control_weight_boot,Treatment_weight_boot) #calculating the difference
-q_body_weight <- quantiles_diff_boot(body_weight_diff) #obtaining 95% CI
-m_mody_weight <- mean(body_weight_diff) #Obtaining mean
-
-q_body_weight
-m_mody_weight
 
 # Calculating difference in variance between control and treatment group 
-Model_Weight_1 <- lme(Weight.g. ~ (Treatment_Tank + Sex + Week)^2, random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
+Model_Weight_1 <- lme(Weight_g ~ (Set + Sex + Age_Weeks)^2, random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
 summary(Model_Weight_1)
-Model_Weight_2 <- lme(Weight.g. ~ (Treatment_Tank + Sex + Week)^2, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Treatment_Tank), data = Weight_Length_Data) #mixed model with variance structure varIdent
+Model_Weight_2 <- lme(Weight_g ~ (Set + Sex + Age_Weeks)^2, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
 summary(Model_Weight_2)
 anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models to find difference in variance
 ```
