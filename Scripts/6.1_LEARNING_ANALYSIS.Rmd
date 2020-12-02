@@ -8,9 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 #checks for installation and loads packages
-pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, plyr, magrittr, lubridate, stringr, purrr,
-               sjPlot,ggplot2,lubridate,wesanderson,ggbeeswarm,emmeans,patchwork,viridis,nlme,Rmisc,ggpubr,
-               stargazer)
+         
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")

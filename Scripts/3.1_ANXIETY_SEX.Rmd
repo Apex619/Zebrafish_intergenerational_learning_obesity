@@ -192,15 +192,15 @@ Paternal_freezing_dur_Female
 ### Latency to high
 ```{r}
 #Repeatability analysis males
-rpt_latency(Anxiety_Control_Male) -> Control_latency_high_Male 
-Control_latency_high_Male
-rpt_latency(Anxiety_Treatment_Male) -> Treatment_latency_high_Male 
-Treatment_latency_high_Male
+rpt_latency(Anxiety_Control_Male) -> Control_latency_Male 
+Control_latency_Male
+rpt_latency(Anxiety_Treatment_Male) -> Treatment_latency_Male 
+Treatment_latency_Male
 
 #Repeatability analysis females
-rpt_latency(Anxiety_Control_Female) -> Control_latency_high_Female 
+rpt_latency(Anxiety_Control_Female) -> Control_latency_Female 
 Control_latency_high_Female
-rpt_latency(Anxiety_Treatment_Female) -> Treatment_latency_high_Female
+rpt_latency(Anxiety_Treatment_Female) -> Treatment_latency_Female
 Treatment_latency_high_Female
 
 #Repeatability analysis males
@@ -221,16 +221,16 @@ Paternal_latency_Female
 ```{r}
 
 #Repeatability analysis males
-rpt_freq(Anxiety_Control_Male) -> Control_freq_high_Male 
-Control_freq_high_Male
-rpt_freq(Anxiety_Treatment_Male) -> Treatment_freq_high_Male 
+rpt_freq(Anxiety_Control_Male) -> Control_freq_Male 
+Control_freq_Male
+rpt_freq(Anxiety_Treatment_Male) -> Treatment_freq_Male 
 Treatment_freq_high_Male
 
 #Repeatability analysis females
-rpt_freq(Anxiety_Control_Female) -> Control_freq_high_Female 
-Control_freq_high_Female
-rpt_freq(Anxiety_Treatment_Female) -> Treatment_freq_high_Female
-Treatment_freq_high_Female
+rpt_freq(Anxiety_Control_Female) -> Control_freq_Female 
+Control_freq_Female
+rpt_freq(Anxiety_Treatment_Female) -> Treatment_freq_Female
+Treatment_freq_Female
 
 #Repeatability analysis males
 rpt_freq(Anxiety_Maternal_Male) -> Maternal_freq_Male 

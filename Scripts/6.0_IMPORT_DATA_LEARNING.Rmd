@@ -7,10 +7,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
+Package conflict causing issue with loading data, update which packages need to be loaded
 #checks for installation and loads packages
-pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, plyr, magrittr, lubridate, stringr, purrr,
-               sjPlot,ggplot2,lubridate,wesanderson,ggbeeswarm,emmeans,patchwork,viridis,nlme,Rmisc,ggpubr,
-               stargazer)
+# pacman::p_load(tidyverse)
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")
@@ -21,7 +20,7 @@ source("../Scripts/functions_learning.R")
 
 ```{r, warning=FALSE}
 ## importing csv's & transforming data
-path <- paste0("../Data/Learning/Day", 1:8, "/")
+path <- paste0("../Data/Learning/Day", 1:16, "/")
 
 all_path <- map(path,  ~list.files(path = .)[str_detect(list.files(path = .), ".csv")] ) %>% map2(.,path,~ paste0(.y, .x))
 
