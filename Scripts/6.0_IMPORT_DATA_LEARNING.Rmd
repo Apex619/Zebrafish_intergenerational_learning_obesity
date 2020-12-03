@@ -7,12 +7,13 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-Package conflict causing issue with loading data, update which packages need to be loaded
+#Package conflict causing issue with loading data, update which packages need to be loaded
 #checks for installation and loads packages
-# pacman::p_load(tidyverse)
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR)
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")
+source("../Scripts/functions_repeatability.R")
 
 #load('myEnvironment.RData')
 ```
@@ -50,7 +51,7 @@ dat %>% filter(unit %in% c("UNIT1", "UNIT2", "UNIT3", "UNIT4", "UNIT5", "UNIT6",
   summarise(time = mean(time_min), arena = unique(arena)) %>%
   add_diff -> dat_1probe
 
-sex <- read.csv("../Data/Learning/ID_Sex.csv") %>% rename(fishID = Fish_ID) %>% rename(sex = Sex)
+sex <- read.csv("../Data/Learning/ID_Sex_Tank.csv") %>% rename(fishID = Fish_ID) %>% rename(sex = Sex)
 
 left_join(sex, dat_2probe, by = "fishID") -> p2
 left_join(sex, dat_2base, by = "fishID") -> b2
