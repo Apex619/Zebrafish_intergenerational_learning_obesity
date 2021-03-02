@@ -20,7 +20,6 @@ pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, 
                stargazer)
 
 # Load custom functions
-source("../Scripts/functions_learning.R")
 source("../Scripts/functions_repeatability.R")
 ```
 
@@ -67,6 +66,89 @@ THESE STEPS ARE REPEATED FOR ALL BEHAVIORAL PARAMETERS, REFER TO THE FIRST BEHAV
 
 NEED TO EDIT COMMENTS !
 
+#Normality checks
+```{r}
+behav_vars <- c("tot_dist", "low_dur", "mid_dur", "high_dur", "freezing_dur", "latency_high", "freq_high")
+
+#Raw data
+func_behav_raw <- func_var <- function(var = behav_vars[1]){
+  {
+  
+    mod <- lmer(Anxiety_Joined[,paste(var)] ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) 
+    residuals <- resid(mod)
+    VC <- data.frame(VarCorr(mod))
+    rpt <- round(VC$vcov[1]/sum(VC$vcov),2)
+    sw <- shapiro.test(residuals)
+    df <- data.frame(var, rpt, W = round(sw$statistic,3), p = round(sw$p.value,3))
+    return(df)
+  } # raw general linear model to determine whether transformations are required
+  
+   rpt_vals <- bind_rows(lapply(behav_vars, function(x) func_var(x)))
+ return(rpt_vals)
+}
+
+
+rpt_resids <- bind_rows(lapply(behav_vars, function(x) func_behav_raw(x)))
+
+#Freezing duration seems to be the main trait that needs a transformation,a square root transformation should help
+
+func_behav_sqrt <- func_var <- function(var = behav_vars[1]){
+  {
+  
+    mod <- lmer(sqrt(Anxiety_Joined[,paste(var)]) ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined)
+    residuals <- resid(mod)
+    VC <- data.frame(VarCorr(mod))
+    rpt <- round(VC$vcov[1]/sum(VC$vcov),2)
+    sw <- shapiro.test(residuals)
+    df <- data.frame(var, rpt, W = round(sw$statistic,3), p = round(sw$p.value,3))
+    return(df)
+  } # raw general linear model to determine whether transformations are required
+  
+   rpt_vals <- bind_rows(lapply(behav_vars, function(x) func_var(x)))
+ return(rpt_vals)
+}
+
+rpt_resids_sqrt <- bind_rows(lapply(behav_vars, function(x) func_behav_sqrt(x)))
+
+#Freezing with a square root transformation should be adequate
+```
+
+
+#Analyzing all variables with functions
+
+```{r}
+
+df <- Anxiety_Joined
+
+func_mod_behav <- function(var,df = Anxiety_Joined){
+  mod <- lmer(df[,var] ~ Tank + Sex + (1 | Fish_ID), data = df)
+   if(str_detect(var, "freezing_dur")){ 
+    mod <- lmer(sqrt(df[,var]) ~ Tank  + Sex + (1 | Fish_ID), data = df) 
+   }
+  return(mod)
+}
+
+#Using lapply to apply function to all variables
+
+mod_list_behavs <- lapply(behav_vars, function(x) func_mod_behav(x)) 
+
+mod_list_behavs
+
+names(mod_list_behavs) <- behav_vars
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Total distance travelled
 ```{r, echo=FALSE}
@@ -77,6 +159,10 @@ Model_Tot_Dist <- lmer(tot_dist ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joi
 tab_model(Model_Tot_Dist)#mixed model 
 hist(residuals(Model_Tot_Dist)) #histogram of residuals to check for normal distribution (easiest way to check assumption of normality)
 
+totdist_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=tot_dist, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~Sex)
 
 #Calculating repeatabilities using custom made functions
 rpt_tot_dist(Anxiety_Control) -> Control_Tot_Dist 
@@ -90,11 +176,19 @@ Paternal_Tot_Dist
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_Tot_Dist1 <- lme(tot_dist ~ Tank-1 + Sex, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
-summary(Model_Tot_Dist1)
-Model_Tot_Dist2 <- lme(tot_dist ~ Tank-1 + Sex, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
-summary(Model_Tot_Dist2)
-anova(Model_Tot_Dist1, Model_Tot_Dist2) #calculating difference between two models to find difference in variance
+
+#Making function for variance (total distance)
+
+lmer_var_tot_dist <- function(){
+  mod1 <- lme(tot_dist ~ Tank-1 + Sex, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude)
+  mod2 <- lme(tot_dist ~ Tank-1 + Sex, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude)
+  variance <- anova(mod1,mod2)
+  return(variance)
+}
+
+lmer_var_tot_dist()
+
+#TODO: Make function to apply to all variables
 ```
 
 
@@ -107,7 +201,13 @@ Model_low_dur <- lmer(low_dur ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joine
 tab_model(Model_low_dur)
 hist(residuals(Model_low_dur))
 
-#Calculating repeatabilities using custom made functions
+lowzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=low_dur, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~Sex)
+
+
+.#Calculating repeatabilities using custom made functions
 rpt_low_dur(Anxiety_Control) -> Control_low_dur 
 Control_low_dur 
 rpt_low_dur(Anxiety_Treatment) -> Treatment_low_dur 
@@ -135,6 +235,11 @@ anova(Model_low_dur1, Model_low_dur2) #calculating difference between two models
 Model_mid_dur <- lmer(mid_dur ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
 tab_model(Model_mid_dur)
 hist(residuals(Model_mid_dur))
+
+midzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=mid_dur, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~Sex)
 
 #Calculating repeatabilities using custom made functions
 rpt_mid_dur(Anxiety_Control) -> Control_mid_dur 
@@ -165,6 +270,11 @@ Model_high_dur <- lmer(high_dur ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joi
 tab_model(Model_high_dur)
 hist(residuals(Model_high_dur))
 
+highzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=high_dur, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~Sex)
+
 #Calculating repeatabilities using custom made functions
 rpt_high_dur(Anxiety_Control) -> Control_high_dur 
 Control_high_dur 
@@ -191,7 +301,16 @@ anova(Model_high_dur1, Model_high_dur2) #calculating difference between two mode
 
 Model_freezing_dur <- lmer(freezing_dur ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
 tab_model(Model_freezing_dur)
-hist(residuals(Model_freezing_dur))
+hist(residuals(Model_freezing_dur)) # needs transformation
+
+Model_freezing_dur_sqrt <- lmer(sqrt(freezing_dur) ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
+tab_model(Model_freezing_dur_sqrt)
+hist(residuals(Model_freezing_dur_sqrt))
+
+freezing_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=freezing_dur, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~Sex)
 
 #Calculating repeatabilities using custom made functions
 rpt_freezing_dur(Anxiety_Control) -> Control_freezing_dur 
@@ -221,6 +340,11 @@ Model_latency_high <- lmer(latency_high ~ Tank + Sex + (1 | Fish_ID), data = Anx
 tab_model(Model_latency_high)
 hist(residuals(Model_latency_high))
 
+latency_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=latency_high, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~Sex)
+
 #Calculating repeatabilities using custom made functions
 rpt_latency(Anxiety_Control) -> Control_latency
 Control_latency
@@ -248,7 +372,11 @@ anova(Model_latency_high1, Model_latency_high2) #calculating difference between 
 
 Model_freq_high <- lmer(freq_high ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
 tab_model(Model_freq_high)
-hist(residuals(Model_freq_high))
+hist(residuals(Model_freq_high)) # needs transformation
+
+Model_freq_high_sqrt <- lmer(sqrt(freq_high) ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
+tab_model(Model_freq_high_sqrt)
+hist(residuals(Model_freq_high_sqrt))
 
 #Calculating repeatabilities using custom made functions
 rpt_freq(Anxiety_Control) -> Control_freq 
