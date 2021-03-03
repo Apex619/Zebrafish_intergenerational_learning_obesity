@@ -83,11 +83,14 @@ Anxiety_Joined <- left_join(mean_low_dur, Anxiety_Joined, by = "Fish_ID") #Joini
 
 #This can be done by extracting the data that we need (in this case, from the learning data set, the fish ID, learning ID and difference between baseline and probe and from the anxiety datas et, the mean of total distance and low duration; we would also ned details regarding sex and tank)
 
-Learning_summary <- group_by(p2cs, Fish_ID, L.ID) %>% summarize(learning = difference)
+Learning_summary <- group_by(p2cs, Fish_ID, L.ID) %>% summarize(learning = difference) %>% mutate(Unique_ID = paste0(Fish_ID, L.ID))
 
-Anxiety_summary <- group_by(Anxiety_Joined, Fish_ID, A.ID, Sex, Tank) %>% summarize(mean_low_dur = mean_low_dur, mean_tot_dist = mean_tot_dist, tot_dist = tot_dist, low_dur = low_dur)
+Anxiety_summary <- group_by(Anxiety_Joined, Fish_ID, A.ID, Sex, Tank) %>% summarize(mean_low_dur = mean_low_dur, mean_tot_dist = mean_tot_dist, tot_dist = tot_dist, low_dur = low_dur) %>% mutate(Unique_ID = paste0(Fish_ID, A.ID))
 
-test <- left_join(Learning_summary, Anxiety_summary, by = "Fish_ID")
+
+
+
+test <- left_join(Learning_summary, Anxiety_summary, by = "Unique_ID")
 
 
 ```
