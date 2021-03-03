@@ -15,7 +15,7 @@ pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR)
 source("../Scripts/functions_learning.R")
 source("../Scripts/functions_repeatability.R")
 
-#load('myEnvironment.RData')
+load('myEnvironment.RData')
 ```
 
 Joining data frames
@@ -81,7 +81,13 @@ Anxiety_Joined <- left_join(mean_low_dur, Anxiety_Joined, by = "Fish_ID") #Joini
 
 #Now that we have our data frames with all the required information, we must now merge the two data sets
 
+#This can be done by extracting the data that we need (in this case, from the learning data set, the fish ID, learning ID and difference between baseline and probe and from the anxiety datas et, the mean of total distance and low duration; we would also ned details regarding sex and tank)
 
+Learning_summary <- group_by(p2cs, Fish_ID, L.ID) %>% summarize(learning = difference)
+
+Anxiety_summary <- group_by(Anxiety_Joined, Fish_ID, A.ID, Sex, Tank) %>% summarize(mean_low_dur = mean_low_dur, mean_tot_dist = mean_tot_dist, tot_dist = tot_dist, low_dur = low_dur)
+
+test <- left_join(Learning_summary, Anxiety_summary, by = "Fish_ID")
 
 
 ```
