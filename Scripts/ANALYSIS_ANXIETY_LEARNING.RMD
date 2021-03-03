@@ -1,0 +1,88 @@
+---
+title: "Analysis_Anxiety_Learning"
+output: html_document
+---
+
+### Load packages
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Package conflict causing issue with loading data, update which packages need to be loaded
+#checks for installation and loads packages
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR)
+
+# Load custom function to extract data 
+source("../Scripts/functions_learning.R")
+source("../Scripts/functions_repeatability.R")
+
+#load('myEnvironment.RData')
+```
+
+Joining data frames
+```{r}
+#Our two data sets are "Anxiety_Joined" and "p2cs". We want a data frame with the variables total distance traveled and time spent in the low zone as well as the baseline, probe and difference. We also want to add the learning and anxiety ID's as well as the mean of the anxiety variables to use in our models as fixed effects. 
+
+#First we will work with the learning dataset
+
+str(p2cs) #rename columns to match anxiety data set
+
+p2cs <- p2cs %>% 
+  dplyr::rename(
+    Sex = sex, Fish_ID = fishID
+  )
+
+# Renaming factor levels with dplyr
+p2cs$Tank <- dplyr::recode_factor(p2cs$Tank, Within_Control = "Within Control", 
+                                Within_Treatment = "Within Treatment")
+
+# Assigning learning ID's using date
+
+#Will first mutate another column to duplicate the data column, as would rather keep date in the dataset
+
+p2cs <- p2cs %>%
+ mutate(
+  L.ID = date)
+
+p2cs$L.ID <- as.character(p2cs$L.ID)
+
+p2cs$L.ID <- dplyr::recode(p2cs$L.ID, "2020-01-13" = "1", "2020-01-14" = "1", "2020-01-15" = "1", "2020-01-16" = "1", "2020-01-20" = "2", "2020-01-21" = "2", "2020-01-22" = "2", "2020-01-23" = "2", "2020-02-17" = "3", "2020-02-18" = "3", "2020-02-19" = "3", "2020-02-20" = "3", "2020-02-23" = "4", "2020-02-24" = "4", "2020-02-25" = "4", "2020-02-26" = "4", "2020-02-27" = "4") #Assigning learning ID's
+
+p2cs$L.ID <- as.factor(p2cs$L.ID) #Converting back to factor
+
+class(p2cs$L.ID) #Checking
+
+#Removing redundant columns
+
+p2cs <- p2cs %>% mutate(set = NULL, tod = NULL)
+
+#Anxiety dataset prep
+
+#Need to assign learning ID's using day 
+
+Anxiety_Joined <- Anxiety_Joined %>%
+ mutate(
+  A.ID = Day)
+
+Anxiety_Joined$A.ID <- as.character(Anxiety_Joined$A.ID)
+
+Anxiety_Joined$A.ID <- dplyr::recode(Anxiety_Joined$A.ID, "Friday1" = "1", "Friday2" = "2", "Monday3" = "3", "Friday4" = "4") #Assigning learning ID's
+
+Anxiety_Joined$A.ID <- as.factor(Anxiety_Joined$A.ID)
+
+#Now we need mean values for total distance traveled and time spent in the low zone
+
+mean_tot_dist <- group_by(Anxiety_Joined, Fish_ID) %>% summarize(mean_tot_dist = mean(tot_dist)) #Mean total distance for every fish
+
+Anxiety_Joined <- left_join(mean_tot_dist, Anxiety_Joined, by = "Fish_ID") #Joining into main dataset
+
+mean_low_dur <- group_by(Anxiety_Joined, Fish_ID) %>% summarize(mean_low_dur = mean(low_dur)) #mean low duration for every fish
+
+Anxiety_Joined <- left_join(mean_low_dur, Anxiety_Joined, by = "Fish_ID") #Joining into main data frame
+
+#Now that we have our data frames with all the required information, we must now merge the two data sets
+
+
+
+
+```
+
