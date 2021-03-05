@@ -13,12 +13,84 @@ pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR)
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")
-source("../Scripts/functions_repeatability.R")
 
-load('myEnvironment.RData')
+#load('myEnvironment_Learning_Analysis.RData')
 ```
 
-Joining data frames
+### Import Anxiety
+```{r, include=FALSE}
+
+#Anxiety
+Anxiety_Joined <- read.csv("../Data/Anxiety/Anxiety_Joined.csv")
+```
+
+#Import learning data
+```{r, warning=FALSE}
+## importing csv's & transforming data
+path <- paste0("../Data/Learning/Day", 1:16, "/")
+
+all_path <- map(path,  ~list.files(path = .)[str_detect(list.files(path = .), ".csv")] ) %>% map2(.,path,~ paste0(.y, .x))
+
+dat <- map(unlist(all_path), import_csv) %>% bind_rows() %>% as_tibble() %>% group_by(filepath, date, marking, type, test, unit, variable, arena) %>% summarise(total = sum(number), mean = mean(number)) %>% filter(variable == "ZONE_TIMERS") %>% group_by(type, marking, test, unit, filepath, date) %>% summarise(sum_time = sum(total), arena = unique(arena)) %>% arrange(filepath, marking, type, test) %>% mutate(time_min = if_else(type == "BASELINE", sum_time/5, sum_time/1)) %>% add_day %>% add_exp %>% add_zone %>% add_tod %>% add_set %>% mutate(day = as.numeric(day)) %>% rename(fishID = marking)
+
+dat
+```
+
+#Subset Learning data
+```{r}
+dat %>% filter(unit %in% c("UNIT1", "UNIT2", "UNIT3", "UNIT4", "UNIT5", "UNIT6", "PROBE1", "PROBE2")) %>%
+  group_by(type, fishID, test, filepath, date) %>%
+  summarise(time = mean(time_min), arena = unique(arena)) %>%
+  add_diff -> dat_2probe #We will use this dataset as it takes into acocunt the first 2 mins of the probe period, which the literature says is the most important as fish tend to forget after 2 mins, however we have options below for analysis also
+
+# dat %>% filter(unit %in% c("UNIT5", "UNIT6", "PROBE1", "PROBE2")) %>%
+#   group_by(type, fishID, test, filepath, day) %>%
+#   summarise(time = mean(time_min), arena = unique(arena)) %>%
+#   add_diff -> dat_2base
+# 
+# dat %>% filter(unit %in% c("UNIT1", "UNIT2", "UNIT3", "UNIT4", "UNIT5", "UNIT6", "PROBE1", "PROBE2","PROBE3", "PROBE4", "PROBE5")) %>%
+#   group_by(type, fishID, test, filepath, day) %>%
+#   summarise(time = mean(time_min), arena = unique(arena)) %>%
+#   add_diff -> dat_5probe
+# 
+# dat %>% filter(unit %in% c("UNIT1", "UNIT2", "UNIT3", "UNIT4", "UNIT5", "UNIT6", "PROBE1")) %>%
+#   group_by(type, fishID, test, filepath, day) %>%
+#   summarise(time = mean(time_min), arena = unique(arena)) %>%
+#   add_diff -> dat_1probe
+
+sex <- read.csv("../Data/Learning/ID_Sex_Tank.csv") %>% rename(fishID = Fish_ID) %>% rename(sex = Sex)
+
+left_join(sex, dat_2probe, by = "fishID") -> p2
+# left_join(sex, dat_2base, by = "fishID") -> b2
+# left_join(sex, dat_5probe, by = "fishID") -> p5
+# left_join(sex, dat_1probe, by = "fishID") -> p1
+
+
+p2 %>% add_set %>% add_tod %>% filter(test == "BLUCS") -> p2cs #OUR MAIN DATASET
+# b2%>% add_set %>% add_tod %>% filter(test == "BLUCS") -> b2cs
+# p5 %>% add_set %>% add_tod %>% filter(test == "BLUCS") -> p5cs
+# p1 %>% add_set %>% add_tod %>% filter(test == "BLUCS") -> p1cs
+```
+
+### Examine Data
+
+```{r, include=FALSE}
+
+str(Anxiety_Joined)
+
+
+#Convert characters into factors
+
+Anxiety_Joined$Sex <- as.factor(Anxiety_Joined$Sex)
+Anxiety_Joined$Group <- as.factor(Anxiety_Joined$Group)
+Anxiety_Joined$Fish_ID <- as.factor(Anxiety_Joined$Fish_ID)
+Anxiety_Joined$Day <- as.factor(Anxiety_Joined$Day)
+Anxiety_Joined$Tank <- as.factor(Anxiety_Joined$Tank)
+```
+
+
+
+Joining data sets
 ```{r}
 #Our two data sets are "Anxiety_Joined" and "p2cs". We want a data frame with the variables total distance traveled and time spent in the low zone as well as the baseline, probe and difference. We also want to add the learning and anxiety ID's as well as the mean of the anxiety variables to use in our models as fixed effects. 
 
@@ -81,17 +153,30 @@ Anxiety_Joined <- left_join(mean_low_dur, Anxiety_Joined, by = "Fish_ID") #Joini
 
 #Now that we have our data frames with all the required information, we must now merge the two data sets
 
-#This can be done by extracting the data that we need (in this case, from the learning data set, the fish ID, learning ID and difference between baseline and probe and from the anxiety datas et, the mean of total distance and low duration; we would also ned details regarding sex and tank)
+#This can be done by extracting the data that we need (in this case, from the learning data set, the fish ID, learning ID and difference between baseline and probe and from the anxiety datas et, the mean of total distance and low duration; we would also need details regarding sex and tank)
+
+#VERY IMPORTANT ! WHEN JOINING, YOU NEED THAT UNIQUE KEY ! IN THIS CASE, FISH ID WILL NOT BE UNIQUE BECAUSE IT IS ASSOCIATED WITH THE LEARNING ID AND ANXIETY ID, THEREFORE YOU NEED ANOTHER UNIQUE ID AND USE THAT TO JOIN. HERE WE USED "UNIQUE_ID"
 
 Learning_summary <- group_by(p2cs, Fish_ID, L.ID) %>% summarize(learning = difference) %>% mutate(Unique_ID = paste0(Fish_ID, L.ID))
 
 Anxiety_summary <- group_by(Anxiety_Joined, Fish_ID, A.ID, Sex, Tank) %>% summarize(mean_low_dur = mean_low_dur, mean_tot_dist = mean_tot_dist, tot_dist = tot_dist, low_dur = low_dur) %>% mutate(Unique_ID = paste0(Fish_ID, A.ID))
 
-
-
-
-test <- left_join(Learning_summary, Anxiety_summary, by = "Unique_ID")
+Anxiety_Learning <- left_join(Anxiety_summary, Learning_summary, by = "Unique_ID") #Joining by unique ID !
 
 
 ```
+
+#Preliminary data analysis
+```{r}
+# Double check data frame, remove NA fish? Check Fish.ID (x or y?)
+
+Model_example <- lmer(learning ~ Tank + Sex + mean_low_dur + mean_tot_dist + (1 | Fish_ID.x), data = Anxiety_Learning)
+tab_model(Model_example)#mixed model 
+hist(residuals(Model_example)) 
+
+#Contrasts 
+em_learning <- emmeans(Model_example, ~ Tank) 
+pairs(em_learning)
+```
+
 
