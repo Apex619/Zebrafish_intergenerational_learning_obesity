@@ -9,12 +9,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Package conflict causing issue with loading data, update which packages need to be loaded
 #checks for installation and loads packages
-pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR)
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson, ggpubr, extrafonts)
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")
+source("../Scripts/functions_plots.R")
 
-#load('myEnvironment_Learning_Analysis.RData')
+load('myEnvironment_Learning_Analysis.RData')
 ```
 
 ### Import Anxiety
@@ -168,7 +169,7 @@ Anxiety_Learning <- left_join(Anxiety_summary, Learning_summary, by = "Unique_ID
 
 #Preliminary data analysis
 ```{r}
-# Double check data frame, remove NA fish? Check Fish.ID (x or y?)
+# Double check data frame 
 
 Model_example <- lmer(learning ~ Tank + Sex + mean_low_dur + mean_tot_dist + (1 | Fish_ID.x), data = Anxiety_Learning)
 tab_model(Model_example)#mixed model 
@@ -178,5 +179,51 @@ hist(residuals(Model_example))
 em_learning <- emmeans(Model_example, ~ Tank) 
 pairs(em_learning)
 ```
+
+#Plots
+```{r}
+
+#Example plot showing relationship between anxiety variables and learning
+low_dur_learning <- ggplot(Anxiety_Learning, aes(x = mean_low_dur, y = learning,color = Tank)) +
+  geom_point(alpha=0.5) +
+  facet_wrap(~Sex)+
+  scale_color_viridis_d()+
+  geom_smooth(method=lm)+
+  facet_wrap(~Tank, ncol=2)
+
+low_dur_learning
+
+tot_dist_learning <- ggplot(Anxiety_Learning, aes(x = mean_tot_dist, y = learning, color = Tank)) +
+  geom_point(aes(color = Tank)) +
+  facet_wrap(~Sex)+
+  scale_color_viridis_d()+
+  geom_smooth(method=lm)+
+  facet_wrap(~Tank, ncol=2)
+
+tot_dist_learning
+
+# Individual plots for learning and anxiety
+learning_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$learning, "Difference between baseline and probe (CS+)", "Seconds")
+
+learning_violin
+
+low_dur_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$low_dur, "Time spent in the low zone", "Seconds")
+
+low_dur_violin
+
+tot_dist_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$tot_dist, "Total distance travelled", "CM")
+
+tot_dist_violin
+
+#Density plots
+
+# Use semi-transparent fill
+density_learning <- ggplot(Anxiety_Learning, aes(x=learning, fill=Tank)) +
+  geom_density(alpha=0.5)+
+  facet_grid(~Sex)
+
+density_learning
+```
+
 
 
