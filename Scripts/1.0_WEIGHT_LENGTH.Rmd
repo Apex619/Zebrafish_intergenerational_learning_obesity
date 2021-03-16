@@ -67,9 +67,6 @@ summary(Model_Body_Weight2)
 tab_model(Model_Body_Weight2)
 hist(residuals(Model_Body_Weight2))
 
-em_weight <- emmeans(Model_Body_Weight, ~ c(Sex, Set)) 
-pairs(em_weight)
-
   #Calculating repeatabilities (with week)
 
 rpt_weight2(Weight_Length_Control) -> rpt_body_weight_control 
