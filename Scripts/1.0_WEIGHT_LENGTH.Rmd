@@ -57,7 +57,7 @@ Weight_Length_Age30 <- subset(Weight_Length_Data, Weight_Length_Data$Age_Weeks =
 
 #Check Normality with mixed model and then histogram of residuals
 
-Model_Body_Weight <- lmer(Weight_g ~ Set -1  + Sex +scale(Age_Weeks) + (1 + Age_Weeks | Fish_ID) , data = Weight_Length_Data)
+Model_Body_Weight <- lmer(Weight_g ~ Set -1  + Sex +Age_Weeks + (1 + Age_Weeks | Fish_ID) , data = Weight_Length_Data)
 summary(Model_Body_Weight)
 tab_model(Model_Body_Weight)
 hist(residuals(Model_Body_Weight))#histogram of residuals to check for normal distribution 
@@ -66,7 +66,7 @@ AIC(Model_Body_Weight)
 #[1] -1483.305
 
 # this does not coverge 
-Model_Body_Weight2 <- lmer(Weight_g ~ Set + Sex + scale(Age_Weeks) + (1 | Fish_ID), data = Weight_Length_Data) 
+Model_Body_Weight2 <- lmer(Weight_g ~ Set + Sex + Age_Weeks + (1 | Fish_ID), data = Weight_Length_Data) 
 summary(Model_Body_Weight2)
 tab_model(Model_Body_Weight2)
 hist(residuals(Model_Body_Weight2))
