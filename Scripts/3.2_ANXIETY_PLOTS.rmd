@@ -3,6 +3,8 @@ title: "F0 Anxiety Plots"
 author: "Hamza"
 date: "23/10/2020"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ### Load packages
@@ -280,30 +282,33 @@ Sex_New_plot
 ```{r}
 
 
-low_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined,Anxiety_Joined$low_dur,"Time spent in low zone", "Seconds")
+low_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined,Anxiety_Joined$low_dur,"Time spent in low zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+
+tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$tot_dist, "Total distance travelled", "Distance (cm)")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
 
-tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$tot_dist, "Total distance travelled", "Distance (cm)")
+
+mid_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$mid_dur, "Time spent in mid zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
 
-
-mid_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$mid_dur, "Time spent in mid zone", "Seconds")
-
-
-high_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$high_dur, "Time spent in high zone", "Seconds")
+high_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$high_dur, "Time spent in high zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
 
-freezing_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, log(Anxiety_Joined$freezing_dur+1), "Time spent freezing", "Seconds")
+freezing_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, log(Anxiety_Joined$freezing_dur+1), "Time spent freezing", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
 
-freq_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$freq_high, "Frequency of visits to high zone", "Visits")
+freq_violin <- violin_plot_custom_hamza2(Anxiety_Joined, sqrt(Anxiety_Joined$freq_high), "Frequency of visits to high zone", "Visits")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
-latency_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$latency_high, "Latency to the high zone", "Seconds")
+latency_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$latency_high, "Latency to the high zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
 #Joining plots together using patchwork to create one main plot
 
-Joined_violins_new_design <- tot_dist_violin + low_dur_violin + mid_dur_violin + high_dur_violin + freezing_dur_violin + latency_violin+freq_violin + plot_layout(ncol = 2, nrow=4)
+Joined_violins_new_design <- tot_dist_violin + low_dur_violin + mid_dur_violin + high_dur_violin + freezing_dur_violin + latency_violin+freq_violin + plot_layout(ncol = 3, nrow=4)+ theme(legend.position = c(1.5,0.4))+ theme(
+  legend.text = element_text(color = "black", size = 22)
+  )
+
 Joined_violins_new_design
+  
 
 ```
 

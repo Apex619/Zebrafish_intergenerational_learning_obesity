@@ -9,13 +9,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Package conflict causing issue with loading data, update which packages need to be loaded
 #checks for installation and loads packages
-pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR)
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson)
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")
 source("../Scripts/functions_repeatability.R")
 
-#load('myEnvironment.RData')
+load('myEnvironment.RData')
 ```
 
 
@@ -32,7 +32,7 @@ dat
 
 ```{r}
 dat %>% filter(unit %in% c("UNIT1", "UNIT2", "UNIT3", "UNIT4", "UNIT5", "UNIT6", "PROBE1", "PROBE2")) %>%
-  group_by(type, fishID, test, filepath, day) %>%
+  group_by(type, fishID, test, filepath, date) %>%
   summarise(time = mean(time_min), arena = unique(arena)) %>%
   add_diff -> dat_2probe #We will use this dataset as it takes into acocunt the first 2 mins of the probe period, which the literature says is the most important as fish tend to forget after 2 mins, however we have options below for analysis also
 

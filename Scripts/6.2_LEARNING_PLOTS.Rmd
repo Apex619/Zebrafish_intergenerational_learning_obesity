@@ -7,10 +7,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-#checks for installation and loads packages
-pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, lubridate, stringr, purrr,
-               sjPlot,ggplot2,lubridate,wesanderson,ggbeeswarm,emmeans,patchwork,viridis,nlme,Rmisc,ggpubr,
-               stargazer)
+
 # Load custom functions
 source("../Scripts/functions_plots.R") #load custom functions
 ```
@@ -108,7 +105,7 @@ Sex_New_plot_personality
 ```{r}
 
 
-learning_violin <- violin_plot_custom_hamza3(p2cs,p2cs$difference,"Difference between baseline and probe period for CS+", "Seconds")
+learning_violin1 <- violin_plot_custom_hamza3(p2cs,p2cs$difference,"Difference between baseline and probe period for CS+", "Seconds")
 
 learning_violin
 ```

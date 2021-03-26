@@ -2,7 +2,7 @@
 
 #Calculating repeatability for learning (Zantiks)
 rpt_learning <- function(df) {
-  x <- rpt(difference ~ (1 |  fishID), grname = "fishID", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
+  x <- rpt(learning ~ + Tank + Sex + (1 |  Fish_ID.x), grname = "Fish_ID.x", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
 }
 
 #Obtaining within and between-individual variances for learning
@@ -13,7 +13,7 @@ rpt_within_learning <- function(df) {
 
 #Calculating repeatability for mean speed
 rpt_speed <- function(df) {
-  x <- rpt(mean_speed ~ (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
+  x <- rpt(mean_speed ~ Tank + Sex + Water_Time + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
 }
 
 #Obtaining within and between-individual variances for mean speed
@@ -79,7 +79,7 @@ rpt_within_tot_dist <- function(df) {
 
 #Calculating repeatability for total distance travelled
 rpt_tot_dist <- function(df) {
-  x <- rpt(tot_dist ~ (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
+  x <- rpt(tot_dist ~ Tank + Sex + Water_Time + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
 }
 
 #Obtaining within and between-individual variances (time spent in low zone)

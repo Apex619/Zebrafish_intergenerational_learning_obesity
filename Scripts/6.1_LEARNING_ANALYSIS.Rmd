@@ -51,6 +51,18 @@ Model_Learning <- lmer(difference ~ Tank + sex + (1 | fishID), data = p2cs)
 tab_model(Model_Learning)
 hist(residuals(Model_Learning)) 
 
+learning_f1 <- ggplot(p2cs, aes(x=Tank, y=difference, fill = Tank)) + 
+  geom_violin()+
+  geom_jitter(height = 0, width = 0.1)+
+  facet_grid(~sex)
+
+#Contrasts 
+em_tank <- emmeans(Model_Learning, ~ Tank) 
+pairs(em_tank)
+
+Model_Learning_p5 <- lmer(difference ~ Tank + sex + (1 | fishID), data = p5cs) 
+tab_model(Model_Learning_p5)
+
 #Calculating repeatabilities using custom made functions
 rpt_learning(Learning_Control) -> rpt_learning_control
 rpt_learning_control
@@ -78,7 +90,8 @@ p2cs %>%
     draw_quantiles = c(0.25, 0.5, 0.75), 
     alpha=0.5
   ) + 
-  geom_point(position = "jitter", alpha = 0.7, size = 3)
+  geom_point(position = "jitter", alpha = 0.7, size = 3)+
+  facet_grid(~sex)
 ```
 
 #Sex Analysis

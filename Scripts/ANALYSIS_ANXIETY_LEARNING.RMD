@@ -1,6 +1,10 @@
 ---
 title: "Analysis_Anxiety_Learning"
-output: html_document
+output:
+  word_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
 ---
 
 ### Load packages
@@ -9,11 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Package conflict causing issue with loading data, update which packages need to be loaded
 #checks for installation and loads packages
-pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson, ggpubr, extrafonts)
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson, ggpubr, extrafonts, stargazer)
 
 # Load custom function to extract data 
-source("../Scripts/functions_learning.R")
-source("../Scripts/functions_plots.R")
+source("./Scripts/functions_learning.R")
+source("./Scripts/functions_plots.R")
 
 #load('myEnvironment_Learning_Analysis.RData')
 ```
@@ -22,7 +26,7 @@ source("../Scripts/functions_plots.R")
 ```{r, include=FALSE}
 
 #Anxiety
-Anxiety_Joined <- read.csv("../Data/Anxiety/Anxiety_Joined.csv")
+Anxiety_Joined <- read.csv("./Data/Anxiety/Anxiety_Joined.csv")
 ```
 
 #Import learning data
@@ -164,20 +168,44 @@ Anxiety_summary <- group_by(Anxiety_Joined, Fish_ID, A.ID, Sex, Tank) %>% summar
 
 Anxiety_Learning <- left_join(Anxiety_summary, Learning_summary, by = "Unique_ID") #Joining by unique ID !
 
+Anxiety_Learning <- Anxiety_Learning %>% #Remove NAs (those fish that didn't undergo learning)
+  filter(!is.na(Fish_ID.y))
+
+
 
 ```
 
 #Preliminary data analysis
 ```{r}
-# Double check data frame 
+#Filter data to remove NA's of fish that have no learning data
 
-Model_example <- lmer(learning ~ Tank + Sex + mean_low_dur + mean_tot_dist + (1 | Fish_ID.x), data = Anxiety_Learning)
-tab_model(Model_example)#mixed model 
-hist(residuals(Model_example)) 
+Anxiety_Learning <- Anxiety_Learning %>% filter(!is.na(Fish_ID.y))
+
+#Relevel
+Anxiety_Learning <- within(Anxiety_Learning, Tank <- relevel(Tank, ref = "Paternal"))
+
+Model_example <- lmer(learning ~ Tank + Sex + mean_low_dur + mean_tot_dist + (1|Fish_ID.x),data = Anxiety_Learning)
+summary(Model_example)
+tab_model(Model_example)
+hist(residuals(Model_example))
+
 
 #Contrasts 
 em_learning <- emmeans(Model_example, ~ Tank) 
 pairs(em_learning)
+
+
+#Repeatability
+rpt_learning(Anxiety_Learning) -> rpt_learning_overall
+rpt_learning_overall
+
+
+# Calculating difference in variance between short tanks and tall tanks 
+Model_learning1 <- lme(learning ~ Tank-1 + Sex + mean_low_dur + mean_tot_dist, random = ~ 1|Fish_ID.x,data = Anxiety_Learning) #mixed model without variance structure
+summary(Model_learning1)
+Model_learning2 <- lme(learning ~ Tank-1 + Sex + mean_low_dur + mean_tot_dist, random = ~ 1|Fish_ID.x, weights = varIdent(form=~1|Tank), data = Anxiety_Learning)
+summary(Model_learning2)
+anova(Model_learning1, Model_learning2) #calculating difference between two models to find difference in variance
 ```
 
 #Plots
@@ -185,16 +213,18 @@ pairs(em_learning)
 
 #Example plot showing relationship between anxiety variables and learning
 low_dur_learning <- ggplot(Anxiety_Learning, aes(x = mean_low_dur, y = learning,color = Tank)) +
-  geom_point(alpha=0.5) +
+  geom_point(alpha=0.8) +
   facet_wrap(~Sex)+
   scale_color_viridis_d()+
   geom_smooth(method=lm)+
   facet_wrap(~Tank, ncol=2)
 
 low_dur_learning
+    
+    
 
 tot_dist_learning <- ggplot(Anxiety_Learning, aes(x = mean_tot_dist, y = learning, color = Tank)) +
-  geom_point(aes(color = Tank)) +
+  geom_point(alpha=0.8) +
   facet_wrap(~Sex)+
   scale_color_viridis_d()+
   geom_smooth(method=lm)+
@@ -203,7 +233,15 @@ tot_dist_learning <- ggplot(Anxiety_Learning, aes(x = mean_tot_dist, y = learnin
 tot_dist_learning
 
 # Individual plots for learning and anxiety
-learning_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$learning, "Difference between baseline and probe (CS+)", "Seconds")
+learning_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$learning, "Difference between baseline and probe (CS+)", "Seconds") +
+  geom_signif(comparisons = list(c("Maternal", "Within Treatment")), #Adding contrasts
+              map_signif_level=TRUE, y_position = 45, annotations = "**")+
+  geom_signif(comparisons = list(c("Paternal", "Within Treatment")), 
+              map_signif_level=TRUE, y_position = 50)
+
+counts <- Anxiety_Learning %>% group_by(Tank) %>% tally()
+
+#n=40 x 4 measurements
 
 learning_violin
 
@@ -220,10 +258,127 @@ tot_dist_violin
 # Use semi-transparent fill
 density_learning <- ggplot(Anxiety_Learning, aes(x=learning, fill=Tank)) +
   geom_density(alpha=0.5)+
-  facet_grid(~Sex)
+  facet_grid(~Sex)+
+  scale_fill_viridis_d()
 
 density_learning
 ```
+
+#Mixed effects model plotting - mean low duration
+```{r}
+
+#Model for mean_low_duration
+Model_example2 <- lmer(learning ~ Tank + Sex + mean_low_dur + (1|Fish_ID.x), data = Anxiety_Learning)
+summary(Model_example2)
+tab_model(Model_example2)
+
+#Calculating repeatabilities using custom made functions
+rpt_learning(Anxiety_Learning) -> rpt_learning
+rpt_learning
+
+# make predictions dataframe
+new_data <- data.frame(expand.grid(Tank = unique(Anxiety_Learning$Tank), Sex = unique(Anxiety_Learning$Sex), mean_low_dur = unique(Anxiety_Learning$mean_low_dur),stringsAsFactors = FALSE))
+
+# add predictions 
+new_data$learning <- predict(Model_example2, newdata = new_data, re.form=NA)
+
+# OPTIONAL EXTRA
+# get confidence and prediction intervals around mean prediction 
+# get model matrix
+mm <- model.matrix(terms(Model_example2), new_data)
+
+## or newdat$distance <- mm %*% fixef(fm1)
+# variance of fixed effect
+pvar <- diag(mm %*% tcrossprod(vcov(Model_example2), mm))
+# variance of random effects
+tvar <- pvar + VarCorr(Model_example2)$Fish_ID.x[1]  
+cmult <- 1.96
+
+# add columns to dataframes
+# CI gives uncertainty around fixed effects only
+# PI gives uncertainty based on random effects as well!
+new_data <- mutate(new_data,
+                   PI_low = learning - cmult*sqrt(tvar),
+                   PI_high = learning + cmult*sqrt(tvar),
+                   CI_low = learning - cmult*sqrt(pvar), 
+                   CI_high = learning + cmult*sqrt(pvar))
+
+# create dataframe for new_data for each individual ####
+new_data_ind <- select(Anxiety_Learning, Tank, Sex,mean_low_dur, Fish_ID.x)
+# predict each individuals relationship including the random effects
+new_data_ind$learning <- predict(Model_example2, new_data_ind, re.form = NULL)
+
+
+
+# plots the mean relationship and each individual random relationship
+ggplot(Anxiety_Learning) +
+  geom_point(aes(mean_low_dur, learning, col = Tank), alpha = 0.1, Anxiety_Learning) +
+  geom_line(aes(mean_low_dur, learning, col = Tank, group = Fish_ID.x), alpha = 0.25, new_data_ind) +
+  geom_line(aes(mean_low_dur, learning, col = Tank), new_data) +
+  ylab('Learning Index') +
+  xlab('Mean time spent in low zone') +
+  facet_wrap(~ Sex) 
+
+```
+
+#Mixed effects model plotting - mean tot dist
+```{r}
+
+#Model for mean_tot_distation
+Model_example2 <- lmer(learning ~ Tank + Sex + mean_tot_dist + (1|Fish_ID.x), data = Anxiety_Learning)
+summary(Model_example2)
+tab_model(Model_example2)
+
+#Calculating repeatabilities using custom made functions
+rpt_learning(Anxiety_Learning) -> rpt_learning
+rpt_learning
+
+# make predictions dataframe
+new_data <- data.frame(expand.grid(Tank = unique(Anxiety_Learning$Tank), Sex = unique(Anxiety_Learning$Sex), mean_tot_dist = unique(Anxiety_Learning$mean_tot_dist),stringsAsFactors = FALSE))
+
+# add predictions 
+new_data$learning <- predict(Model_example2, newdata = new_data, re.form=NA)
+
+# OPTIONAL EXTRA
+# get confidence and prediction intervals around mean prediction 
+# get model matrix
+mm <- model.matrix(terms(Model_example2), new_data)
+
+## or newdat$distance <- mm %*% fixef(fm1)
+# variance of fixed effect
+pvar <- diag(mm %*% tcrossprod(vcov(Model_example2), mm))
+# variance of random effects
+tvar <- pvar + VarCorr(Model_example2)$Fish_ID.x[1]  
+cmult <- 1.96
+
+# add columns to dataframes
+# CI gives uncertainty around fixed effects only
+# PI gives uncertainty based on random effects as well!
+new_data <- mutate(new_data,
+                   PI_low = learning - cmult*sqrt(tvar),
+                   PI_high = learning + cmult*sqrt(tvar),
+                   CI_low = learning - cmult*sqrt(pvar), 
+                   CI_high = learning + cmult*sqrt(pvar))
+
+# create dataframe for new_data for each individual ####
+new_data_ind <- select(Anxiety_Learning, Tank, Sex,mean_tot_dist, Fish_ID.x)
+# predict each individuals relationship including the random effects
+new_data_ind$learning <- predict(Model_example2, new_data_ind, re.form = NULL)
+
+
+
+# plots the mean relationship and each individual random relationship
+ggplot(Anxiety_Learning) +
+  geom_point(aes(mean_tot_dist, learning, col = Tank), alpha = 0.1, Anxiety_Learning) +
+  geom_line(aes(mean_tot_dist, learning, col = Tank, group = Fish_ID.x), alpha = 0.25, new_data_ind) +
+  geom_line(aes(mean_tot_dist, learning, col = Tank), new_data) +
+  ylab('Learning Index') +
+  xlab('Mean total distance travelled') +
+  facet_wrap(~ Sex) 
+
+```
+
+
 
 
 

@@ -32,7 +32,8 @@ Weight_Length_Data <- read.csv("./Data/Weight_Length/Weight_Length.csv")
 
 str(Weight_Length_Data)
 
-#Weight_Length_Data$Age_Weeks <- as.numeric(as.factor(Weight_Length_Data$Age_Weeks))
+Weight_Length_Data$Age_Weeks <- as.numeric(Weight_Length_Data$Age_Weeks)
+# Weight_Length_Data$Age_Weeks <- as.numeric(as.factor(Weight_Length_Data$Age_Weeks))
 
 
 
@@ -57,29 +58,16 @@ Weight_Length_Age30 <- subset(Weight_Length_Data, Weight_Length_Data$Age_Weeks =
 
 #Check Normality with mixed model and then histogram of residuals
 
-Model_Body_Weight <- lmer(Weight_g ~ Set -1  + Sex +Age_Weeks + (1 + Age_Weeks | Fish_ID) , data = Weight_Length_Data)
+Model_Body_Weight <- lmer(Weight_g ~ Set + Sex + Age_Weeks + (1 | Fish_ID), data = Weight_Length_Data)
 summary(Model_Body_Weight)
 tab_model(Model_Body_Weight)
-hist(residuals(Model_Body_Weight))#histogram of residuals to check for normal distribution 
+hist(residuals(Model_Body_Weight))
 
 AIC(Model_Body_Weight)
-#[1] -1483.305
 
-# this does not coverge 
-Model_Body_Weight2 <- lmer(Weight_g ~ Set + Sex + Age_Weeks + (1 | Fish_ID), data = Weight_Length_Data) 
-summary(Model_Body_Weight2)
-tab_model(Model_Body_Weight2)
-hist(residuals(Model_Body_Weight2))
+emmeans_weight <- emmeans(Model_Body_Weight, ~c(Set, Sex))
+pairs(emmeans_weight)
 
-<<<<<<< HEAD
-=======
-AIC(Model_Body_Weight2)
-#[1] -1468.374
-
-em_weight <- emmeans(Model_Body_Weight, ~ c(Sex, Set)) 
-pairs(em_weight)
-
->>>>>>> 93cf7cfc91807e23158cdfd7d21c81ee05e823ff
   #Calculating repeatabilities (with week)
 
 rpt_weight2(Weight_Length_Control) -> rpt_body_weight_control 
@@ -94,9 +82,9 @@ rpt_body_weight_paternal
 
 
 # Calculating difference in variance between control and treatment group 
-Model_Weight_1 <- lme(Weight_g ~ (Set + Sex + Age_Weeks)^2, random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
+Model_Weight_1 <- lme(Weight_g ~ Set + Sex + Age_Weeks, random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
 summary(Model_Weight_1)
-Model_Weight_2 <- lme(Weight_g ~ (Set + Sex + Age_Weeks)^2, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
+Model_Weight_2 <- lme(Weight_g ~ Set + Sex + Age_Weeks, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
 summary(Model_Weight_2)
 anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models to find difference in variance
 ```
@@ -129,28 +117,8 @@ violin_plot_bw <- function(df,param,lab1,lab2) { #only need to add dataframe, pa
 violin_plot_bw(Weight_Length_Data, Weight_Length_Data$Weight_g, "Body weight (g) by age (weeks)", "g")+
   facet_grid(~Age_Weeks)
 
-violin_plot_bw(Weight_Length_Age30, Weight_Length_Age30$Weight_g, "Body weight (g) at 30 weeks", "g")
-
-
-
-
-
-
- str(Weight_Length_Data)
-
 # Summary
 Summary_Weight <- summarySE(Weight_Length_Data, measurevar="Weight_g", groupvars=c("Set", "Age_Weeks", "Sex"))
-
-?summarySE
-
-#Line plot
-
-
-ggplot(Summary_Weight, aes(x=Age_Weeks, y=Weight_g,color=Set, group=Set)) + 
-  geom_line()+
-  geom_point()+
-  geom_errorbar(aes(ymin=Weight_g-se, ymax=Weight_g+se), colour="black", width=.1)+
-  facet_grid(~Sex)
 
 Summary_Weight %>% kable() %>% kable_styling()
 
@@ -159,6 +127,11 @@ Summary_Weight %>%
   kable_classic(full_width = F, html_font = "Cambria")%>%
     row_spec(c(1,3,5,7), color = "white", background = "#666666")%>%
   row_spec(c(2,4,6,8), color = "black", background = "#FFFFFF")
+
+
+
+
+
 
 ```
 
