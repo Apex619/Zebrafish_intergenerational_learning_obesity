@@ -3,7 +3,7 @@
 #Function for generating a custom designed violin plot (f1 methods)
 violin_plot_custom_hamza <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
   p <- ggplot(data = df,aes(x = Tank, y = param, fill = Tank))+
-    scale_fill_viridis_d()+ #color scheme
+    scale_fill_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+ #color scheme
     geom_violin(alpha=0.4, position = position_dodge(width = .75),size=0.5,color="black")+ #violin plot to display distribution density
     geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=0.9, alpha = 0.5)+#boxplot to display quantiles
     geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points

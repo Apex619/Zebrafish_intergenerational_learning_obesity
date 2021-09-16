@@ -8,21 +8,25 @@ editor_options:
 ---
 
 ### Load packages
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 #Package conflict causing issue with loading data, update which packages need to be loaded
 #checks for installation and loads packages
-pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson, ggpubr, extrafonts, stargazer)
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson, ggpubr, stargazer, patchwork, effects)
 
 # Load custom function to extract data 
 source("./Scripts/functions_learning.R")
 source("./Scripts/functions_plots.R")
 
+
+
 #load('myEnvironment_Learning_Analysis.RData')
 ```
 
 ### Import Anxiety
+
 ```{r, include=FALSE}
 
 #Anxiety
@@ -30,6 +34,7 @@ Anxiety_Joined <- read.csv("./Data/Anxiety/Anxiety_Joined.csv")
 ```
 
 #Import learning data
+
 ```{r, warning=FALSE}
 ## importing csv's & transforming data
 path <- paste0("../Data/Learning/Day", 1:16, "/")
@@ -42,6 +47,7 @@ dat
 ```
 
 #Subset Learning data
+
 ```{r}
 dat %>% filter(unit %in% c("UNIT1", "UNIT2", "UNIT3", "UNIT4", "UNIT5", "UNIT6", "PROBE1", "PROBE2")) %>%
   group_by(type, fishID, test, filepath, date) %>%
@@ -93,9 +99,8 @@ Anxiety_Joined$Day <- as.factor(Anxiety_Joined$Day)
 Anxiety_Joined$Tank <- as.factor(Anxiety_Joined$Tank)
 ```
 
+### Joining data sets
 
-
-Joining data sets
 ```{r}
 #Our two data sets are "Anxiety_Joined" and "p2cs". We want a data frame with the variables total distance traveled and time spent in the low zone as well as the baseline, probe and difference. We also want to add the learning and anxiety ID's as well as the mean of the anxiety variables to use in our models as fixed effects. 
 
@@ -172,10 +177,31 @@ Anxiety_Learning <- Anxiety_Learning %>% #Remove NAs (those fish that didn't und
   filter(!is.na(Fish_ID.y))
 
 
+Learning_Control <- subset(Anxiety_Learning, Anxiety_Learning$Tank == "Within Control") 
+Learning_Treatment <- subset(Anxiety_Learning, Anxiety_Learning$Tank == "Within Treatment") 
+Learning_Maternal <- subset(Anxiety_Learning, Anxiety_Learning$Tank == "Maternal") 
+Learning_Paternal <- subset(Anxiety_Learning, Anxiety_Learning$Tank == "Paternal") 
+
+#Subset by sex
+
+#Control and treatment males and females 
+Control_Male_Learning <- subset(Learning_Control, Learning_Control$Sex == "male")
+Control_Female_Learning <- subset(Learning_Control, Learning_Control$Sex == "female")
+Treatment_Male_Learning <- subset(Learning_Treatment, Learning_Treatment$Sex == "male")
+Treatment_Female_Learning <- subset(Learning_Treatment, Learning_Treatment$Sex == "female")
+Maternal_Male_Learning <- subset(Learning_Maternal, Learning_Maternal$Sex == "male")
+Maternal_Female_Learning <- subset(Learning_Maternal, Learning_Maternal$Sex == "female")
+Paternal_Male_Learning <- subset(Learning_Paternal, Learning_Paternal$Sex == "male")
+Paternal_Female_Learning <- subset(Learning_Paternal, Learning_Paternal$Sex == "female")
 
 ```
 
-#Preliminary data analysis
+### Preliminary data analysis
+
+NOTES:
+1) LME4 USED FOR INITIAL ASSUMPTIONS
+1) LME USED FOR FINAL MODELS RESULTS
+
 ```{r}
 #Filter data to remove NA's of fish that have no learning data
 
@@ -184,11 +210,14 @@ Anxiety_Learning <- Anxiety_Learning %>% filter(!is.na(Fish_ID.y))
 #Relevel
 Anxiety_Learning <- within(Anxiety_Learning, Tank <- relevel(Tank, ref = "Paternal"))
 
-Model_example <- lmer(learning ~ Tank + Sex + mean_low_dur + mean_tot_dist + (1|Fish_ID.x),data = Anxiety_Learning)
+str(Anxiety_Learning)
+
+Model_example <- lmer(learning ~ Tank*Sex + mean_low_dur + mean_tot_dist + as.numeric(L.ID) + (1|Fish_ID.x),data = Anxiety_Learning)
 summary(Model_example)
 tab_model(Model_example)
 hist(residuals(Model_example))
 
+Count_Learning <- Anxiety_Learning %>% dplyr::count(Tank) #Checking counts (should be ~20 per sex, ~40 per group)
 
 #Contrasts 
 em_learning <- emmeans(Model_example, ~ Tank) 
@@ -196,19 +225,117 @@ pairs(em_learning)
 
 
 #Repeatability
-rpt_learning(Anxiety_Learning) -> rpt_learning_overall
-rpt_learning_overall
+# rpt_learning(Anxiety_Learning) -> rpt_learning_overall
+# rpt_learning_overall
+
+rpt_learning(Learning_Control) -> rpt_learning_control
+rpt_learning(Learning_Treatment) -> rpt_learning_treatment
+rpt_learning(Learning_Maternal) -> rpt_learning_Maternal
+rpt_learning(Learning_Paternal) -> rpt_learning_Paternal
+
+#Checking combinations
+groups <- c("maternal", "paternal", "control", "treatment")
+
+combn(groups, 2)
+
+#      [,1]       [,2]       [,3]        [,4]       [,5]        [,6]       
+# [1,] "maternal" "maternal" "maternal"  "paternal" "paternal"  "control"  
+# [2,] "paternal" "control"  "treatment" "control"  "treatment" "treatment"
+
+control_boot <- unlist_rptr(rpt_learning_control) #unlisting from the control tanks
+treatment_boot <- unlist_rptr(rpt_learning_treatment)#unlisting from treatment tanks
+maternal_boot <- unlist_rptr(rpt_learning_Maternal)#unlisting from maternal tanks
+paternal_boot <- unlist_rptr(rpt_learning_Paternal)#unlisting from paternal tanks
+
+
+mat_pat_diff <- difference_boot(maternal_boot,paternal_boot) #calculating the difference
+qmp <- quantiles_diff_boot(mat_pat_diff) #obtaining 95% CI
+mmp <- mean(mat_pat_diff) #Obtaining mean
+qmp
+mmp #not significant
+
+mat_con_diff <- difference_boot(control_boot,maternal_boot) #calculating the difference
+qmc <- quantiles_diff_boot(mat_con_diff) #obtaining 95% CI
+mmc <- mean(mat_con_diff) #Obtaining mean
+qmc
+mmc #SIGNIFICANT
+
+
+mat_tre_diff <- difference_boot(treatment_boot,maternal_boot) #calculating the difference
+qmt <- quantiles_diff_boot(mat_tre_diff) #obtaining 95% CI
+mmt <- mean(mat_tre_diff) #Obtaining mean
+qmt
+mmt #not significant
+
+pat_con_diff <- difference_boot(control_boot,paternal_boot) #calculating the difference
+qpc <- quantiles_diff_boot(pat_con_diff) #obtaining 95% CI
+mpc <- mean(pat_con_diff) #Obtaining mean
+qpc
+mpc #SIGNIFICANT
+
+pat_tre_diff <- difference_boot(treatment_boot,paternal_boot) #calculating the difference
+qpt <- quantiles_diff_boot(pat_tre_diff) #obtaining 95% CI
+mpt <- mean(pat_tre_diff) #Obtaining mean
+qpt
+mpt #not significant
+
+con_tre_diff <- difference_boot(control_boot,treatment_boot) #calculating the difference
+qct <- quantiles_diff_boot(con_tre_diff) #obtaining 95% CI
+mct <- mean(con_tre_diff) #Obtaining mean
+qct
+mct #not significant
+
+
+
+
+
+# ###REPEATABILIT SEX
+# 
+# #Calculating repeatabilities using custom made functions for males (control and treatment)
+# rpt_learning_sex(Control_Male_Learning) -> rpt_learning_control_male
+# rpt_learning_control_male
+# rpt_learning_sex(Treatment_Male_Learning) -> rpt_learning_treatment_male
+# rpt_learning_treatment_male
+# 
+# #Calculating repeatabilities using custom made functions for females (control and treatment)
+# rpt_learning_sex(Control_Female_Learning) -> rpt_learning_control_female
+# rpt_learning_control_female
+# rpt_learning_sex(Treatment_Female_Learning) -> rpt_learning_treatment_female
+# rpt_learning_treatment_female
+# 
+# #Calculating repeatabilities using custom made functions for males (Maternal and Paternal)
+# rpt_learning_sex(Maternal_Male_Learning) -> rpt_learning_Maternal_male
+# rpt_learning_Maternal_male
+# rpt_learning_sex(Paternal_Male_Learning) -> rpt_learning_Paternal_male
+# rpt_learning_Paternal_male
+# 
+# #Calculating repeatabilities using custom made functions for females (Maternal and Paternal)
+# rpt_learning_sex(Maternal_Female_Learning) -> rpt_learning_Maternal_female
+# rpt_learning_Maternal_female
+# rpt_learning_sex(Paternal_Female_Learning) -> rpt_learning_Paternal_female
+# rpt_learning_Paternal_female
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_learning1 <- lme(learning ~ Tank-1 + Sex + mean_low_dur + mean_tot_dist, random = ~ 1|Fish_ID.x,data = Anxiety_Learning) #mixed model without variance structure
+Model_learning1 <- lme(learning ~ Tank*Sex + scale(mean_low_dur, scale = FALSE) + scale(mean_tot_dist, scale = FALSE), random = ~ 1|Fish_ID.x,data = Anxiety_Learning, na.action=na.omit) #mixed model without variance structure
 summary(Model_learning1)
-Model_learning2 <- lme(learning ~ Tank-1 + Sex + mean_low_dur + mean_tot_dist, random = ~ 1|Fish_ID.x, weights = varIdent(form=~1|Tank), data = Anxiety_Learning)
+tab_model(Model_learning1)
+
+#Contrasts 
+em_learning1 <- emmeans(Model_learning1, ~ c(Tank, Sex)) 
+pairs(em_learning1)
+
+e_learning <- allEffects(Model_learning1)
+print(e_learning)
+plot(e_learning)
+
+Model_learning2 <- lme(learning ~ Tank*Sex + scale(mean_low_dur, scale = FALSE) + scale(mean_tot_dist, scale = FALSE), random = ~ 1|Fish_ID.x, weights = varIdent(form=~1|Tank), data = Anxiety_Learning,na.action=na.omit)
 summary(Model_learning2)
 anova(Model_learning1, Model_learning2) #calculating difference between two models to find difference in variance
 ```
 
-#Plots
+### Plots
+
 ```{r}
 
 #Example plot showing relationship between anxiety variables and learning
@@ -233,11 +360,22 @@ tot_dist_learning <- ggplot(Anxiety_Learning, aes(x = mean_tot_dist, y = learnin
 tot_dist_learning
 
 # Individual plots for learning and anxiety
-learning_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$learning, "Difference between baseline and probe (CS+)", "Seconds") +
-  geom_signif(comparisons = list(c("Maternal", "Within Treatment")), #Adding contrasts
-              map_signif_level=TRUE, y_position = 45, annotations = "**")+
-  geom_signif(comparisons = list(c("Paternal", "Within Treatment")), 
-              map_signif_level=TRUE, y_position = 50)
+
+
+Anxiety_Learning$Tank <- factor(Anxiety_Learning$Tank, levels = c("Paternal","Maternal","Within Treatment","Within Control")) #Reorder factors to match colour scheme of other plots
+
+groups_f1 <- c("F1P", "F1M", "F1T", "F1C") #rename the groups to newly decided labels
+
+learning_violin <- violin_plot_custom_hamza(Anxiety_Learning, Anxiety_Learning$learning, "Difference in time spent between baseline and probe (CS+)", "Seconds") +
+  scale_x_discrete(labels= groups_f1)+
+  # geom_signif(comparisons = list(c("Maternal", "Within Treatment")), #Adding contrasts
+  #             map_signif_level=TRUE, y_position = 45, annotations = "**")+
+  # geom_signif(comparisons = list(c("Paternal", "Within Treatment")), 
+  #             map_signif_level=TRUE, y_position = 50)+
+  facet_grid(~Sex)+
+  stat_summary(fun.y=mean, geom="point", shape=20, size=6, color="red", fill="red") 
+
+learning_violin
 
 counts <- Anxiety_Learning %>% group_by(Tank) %>% tally()
 
@@ -264,7 +402,8 @@ density_learning <- ggplot(Anxiety_Learning, aes(x=learning, fill=Tank)) +
 density_learning
 ```
 
-#Mixed effects model plotting - mean low duration
+### Mixed effects model plotting - mean low duration
+
 ```{r}
 
 #Model for mean_low_duration
@@ -306,22 +445,24 @@ new_data <- mutate(new_data,
 # create dataframe for new_data for each individual ####
 new_data_ind <- select(Anxiety_Learning, Tank, Sex,mean_low_dur, Fish_ID.x)
 # predict each individuals relationship including the random effects
-new_data_ind$learning <- predict(Model_example2, new_data_ind, re.form = NULL)
+new_data_ind$learning <- predict(Model_example2, new_data_ind, re.form = NULL,allow.new.levels=TRUE)
 
 
 
 # plots the mean relationship and each individual random relationship
-ggplot(Anxiety_Learning) +
+mean_low_dur_anxiety <- ggplot(Anxiety_Learning) +
   geom_point(aes(mean_low_dur, learning, col = Tank), alpha = 0.1, Anxiety_Learning) +
   geom_line(aes(mean_low_dur, learning, col = Tank, group = Fish_ID.x), alpha = 0.25, new_data_ind) +
   geom_line(aes(mean_low_dur, learning, col = Tank), new_data) +
   ylab('Learning Index') +
   xlab('Mean time spent in low zone') +
-  facet_wrap(~ Sex) 
+  facet_wrap(~ Sex) +
+  theme(legend.position = "none")
 
 ```
 
-#Mixed effects model plotting - mean tot dist
+### Mixed effects model plotting - mean tot dist
+
 ```{r}
 
 #Model for mean_tot_distation
@@ -363,22 +504,79 @@ new_data <- mutate(new_data,
 # create dataframe for new_data for each individual ####
 new_data_ind <- select(Anxiety_Learning, Tank, Sex,mean_tot_dist, Fish_ID.x)
 # predict each individuals relationship including the random effects
-new_data_ind$learning <- predict(Model_example2, new_data_ind, re.form = NULL)
+new_data_ind$learning <- predict(Model_example2, new_data_ind, re.form = NULL,allow.new.levels=TRUE)
 
 
 
 # plots the mean relationship and each individual random relationship
-ggplot(Anxiety_Learning) +
+tot_dist_anxiety_plot <- ggplot(Anxiety_Learning) +
   geom_point(aes(mean_tot_dist, learning, col = Tank), alpha = 0.1, Anxiety_Learning) +
   geom_line(aes(mean_tot_dist, learning, col = Tank, group = Fish_ID.x), alpha = 0.25, new_data_ind) +
   geom_line(aes(mean_tot_dist, learning, col = Tank), new_data) +
   ylab('Learning Index') +
   xlab('Mean total distance travelled') +
+  scale_color_discrete(labels = c("F1P", "F1M", "F1T", "F1C"))+
   facet_wrap(~ Sex) 
+
+tot_dist_anxiety_plot
 
 ```
 
+### Joining plots
+
+```{r}
+
+mean_low_dur_anxiety + tot_dist_anxiety_plot + plot_layout(ncol = 2, nrow=1)
+
+```
+
+#Overall forest plot showing repeatabilities of control and treatment groups (Learning F1)
+```{r}
+Learning_rptr_F1$Group2 <- reorder(Learning_rptr_F1$Group, Learning_rptr_F1$r)
+
+Overall_plot_F1_learning <- ggplot(Learning_rptr_F1, aes(x=Endpoint, y=r, colour=Group2)) +
+geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
+geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
+geom_hline(yintercept = 0, lty = "dotted") +
+scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+ #color scheme
+coord_flip()+
+ylim(0, 0.9)+
+   theme(axis.title.y=element_blank())+
+   theme_classic()+
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+ font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
+  theme(axis.title.y=element_blank())+
+  theme(legend.position = "none") +
+  labs(y = "r", title = "Repeatabiltiy of Aversive Learning", tag = "A)")+
+    theme(legend.title=element_blank())+
+  scale_y_continuous(breaks=c(0,0.1,0.2,0.3,0.4,0.5,0.7))
+ 
 
 
+Overall_plot_F1_learning
 
+#Within and Between individual variance plot
+Learning_within_between_F1$Group2 <- reorder(Learning_within_between_F1$Group, Learning_within_between_F1$r)
 
+plot_within_between <- ggplot(Learning_within_between_F1, aes(x=Endpoint, y=r, colour=Group2)) +
+geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
+geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
+scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+#color scheme
+geom_hline(yintercept = 0, lty = "dotted") +
+coord_flip()+
+ylim(0, 1.3)+
+   theme(axis.title.y=element_blank())+
+  theme_classic()+
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
+    theme(legend.position = "bottom")+
+  theme(legend.title = element_blank())+
+  theme(axis.title.y=element_blank())+
+  facet_grid(~Condition)+
+  labs(y = "Variance component", tag = "B)")
+ 
+plot_within_between
+
+joined_plots <- Overall_plot_F1_learning + plot_within_between + plot_layout(ncol = 1, nrow=2)
+
+joined_plots
+
+```

@@ -44,6 +44,7 @@ Anxiety_Joined$Group <- as.factor(Anxiety_Joined$Group)
 Anxiety_Joined$Fish_ID <- as.factor(Anxiety_Joined$Fish_ID)
 Anxiety_Joined$Day <- as.factor(Anxiety_Joined$Day)
 Anxiety_Joined$Tank <- as.factor(Anxiety_Joined$Tank)
+Anxiety_Joined$Water_Time <- as.numeric(Anxiety_Joined$Water_Time)
 
 #Subsetting into control and treatment
 

@@ -12,101 +12,108 @@ knitr::opts_chunk$set(echo = TRUE)
 source("../Scripts/functions_plots.R") #load custom functions
 ```
 
-#Creating tibbles to use in plotting repeatabilities : one for overall plots, and one for sex plots
+#Creating tibbles to use in plotting repeatabilities
+
+
 
 Learning analysis
 ```{r, echo=FALSE}
-Learning_rptr_F0 <- tibble(
-  Group = c("Control", "Treatment", "Contrast", "Between-Individual Variance (Control Group)", "Within-Individual Variance (Control Group)","Between-Individual Variance (Treatment Group)", "Within-Individual Variance (Treatment Group)"),
-  r = c(rpt_learning_control$R$fishID,rpt_learning_treatment$R$fishID, m_learning, within_between_learning_control$R[1], within_between_learning_control$R[2],within_between_learning_treatment$R[1], within_between_learning_treatment$R[2]),
-  ci.lb = c(rpt_learning_control$CI_emp$`2.5%`,rpt_learning_treatment$CI_emp$`2.5%`,-0.04, within_between_learning_control$CI_emp[1,1], within_between_learning_control$CI_emp[2,1],within_between_learning_treatment$CI_emp[1,1], within_between_learning_treatment$CI_emp[2,1]),
-  ci.ub = c(rpt_learning_control$CI_emp$`97.5%`,rpt_learning_treatment$CI_emp$`97.5%`, 0.49, within_between_learning_control$CI_emp[1,2], within_between_learning_control$CI_emp[2,2],within_between_learning_treatment$CI_emp[1,2], within_between_learning_treatment$CI_emp[2,2]),
-Endpoint = c("Learning", "Learning", "Learning", "Learning", "Learning","Learning","Learning"))
+Learning_rptr_F1 <- tibble(
+  Group = c("F1C", "F1T", "F1M", "F1P"),
+  r = c(rpt_learning_control$R$fishID,rpt_learning_treatment$R$fishID,rpt_learning_Maternal$R$fishID,rpt_learning_Paternal$R$fishID),
+  ci.lb = c(rpt_learning_control$CI_emp$`2.5%`,rpt_learning_treatment$CI_emp$`2.5%`,rpt_learning_Maternal$CI_emp$`2.5%`,rpt_learning_Paternal$CI_emp$`2.5%`),
+  ci.ub = c(rpt_learning_control$CI_emp$`97.5%`,rpt_learning_treatment$CI_emp$`97.5%`,rpt_learning_Maternal$CI_emp$`97.5%`,rpt_learning_Paternal$CI_emp$`97.5%`),
+Endpoint = c("Learning", "Learning", "Learning", "Learning"))
   
-Learning_rptr_F0$r <- as.numeric(Learning_rptr_F0$r)
-Learning_rptr_F0
+Learning_rptr_F1
+
+Learning_within_between_F1 <- tibble(
+  Group = c("F1C","F1C","F1T","F1T","F1M","F1M","F1P","F1P"),
+  Condition = c("Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance"),
+  r= c(rpt_within_between_control$R[1],rpt_within_between_control$R[2],rpt_within_between_treatment$R[1],rpt_within_between_treatment$R[2],rpt_within_between_maternal$R[1],rpt_within_between_maternal$R[2],rpt_within_between_paternal$R[1],rpt_within_between_paternal$R[2]),
+  ci.lb = c(rpt_within_between_control$CI_emp[1,1],rpt_within_between_control$CI_emp[2,1],rpt_within_between_treatment$CI_emp[1,1],rpt_within_between_treatment$CI_emp[2,1],rpt_within_between_maternal$CI_emp[1,1],rpt_within_between_maternal$CI_emp[2,1],rpt_within_between_paternal$CI_emp[1,1],rpt_within_between_paternal$CI_emp[2,1]),
+  ci.ub = c(rpt_within_between_control$CI_emp[1,2],rpt_within_between_control$CI_emp[2,2],rpt_within_between_treatment$CI_emp[1,2],rpt_within_between_treatment$CI_emp[2,2],rpt_within_between_maternal$CI_emp[1,2],rpt_within_between_maternal$CI_emp[2,2],rpt_within_between_paternal$CI_emp[1,2],rpt_within_between_paternal$CI_emp[2,2]),
+  Endpoint = c("Learning","Learning","Learning","Learning","Learning","Learning","Learning","Learning")
+)
+
+Learning_within_between_F1$r <- as.numeric(Learning_within_between_F1$r)
+
+Learning_within_between_F1
 
 
-Overall_Learning_Plotting_Data_F0 <- subset(Learning_rptr_F0, Learning_rptr_F0$Group %in% c("Treatment","Control","Contrast")) #Will be used for plotting just the overall repeatabilites 
-
-Learning_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Control", "Treatment"),
-  Condition = c("Male","Female","Male", "Female", "Contrast", "Contrast"),
-  r = c(rpt_learning_control_male$R$fishID,rpt_learning_control_female$R$fishID,rpt_learning_treatment_male$R$fishID,rpt_learning_treatment_female$R$fishID,m_learning_control, m_learning_treatment ),
-  ci.lb = c(rpt_learning_control_male$CI_emp$`2.5%`,rpt_learning_control_female$CI_emp$`2.5%`,rpt_learning_treatment_male$CI_emp$`2.5%`,rpt_learning_treatment_female$CI_emp$`2.5%`, -0.16, -0.17),
-  ci.ub = c(rpt_learning_control_male$CI_emp$`97.5%`,rpt_learning_control_female$CI_emp$`97.5%`,rpt_learning_treatment_male$CI_emp$`97.5%`,rpt_learning_treatment_female$CI_emp$`97.5%`, 0.45, 0.48),
-Endpoint = c("Learning","Learning","Learning","Learning","Learning","Learning"))
-  
-Learning_rptr_sex
 
 ```
 
-#Overall forest plot showing repeatabilities of control and treatment groups (Learning F0)
+#Overall forest plot showing repeatabilities of control and treatment groups (Learning F1)
 ```{r}
+Learning_rptr_F1$Group2 <- reorder(Learning_rptr_F1$Group, Learning_rptr_F1$r)
 
-Overall_plot_F0_learning <- ggplot(Overall_Learning_Plotting_Data_F0, aes(x=Endpoint, y=r, colour=Group)) +
+Overall_plot_F1_learning <- ggplot(Learning_rptr_F1, aes(x=Endpoint, y=r, colour=Group2)) +
 geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
 geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
 geom_hline(yintercept = 0, lty = "dotted") +
+scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+ #color scheme
 coord_flip()+
-ylim(-0.25, 0.9)+
+ylim(0, 0.9)+
    theme(axis.title.y=element_blank())+
-  theme_classic()+
-  scale_color_manual(values=c("#000000", "#DD8D29", "#E2D200"))+
-    theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+ font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
   theme(axis.title.y=element_blank())+
-   theme(legend.position = "bottom")+
-    theme(legend.title=element_blank())
+  theme(legend.position = "none") +
+  labs(y = "r", title = "Repeatabiltiy of Aversive Learning", tag = "A)")+
+    theme(legend.title=element_blank())+
+  scale_y_continuous(breaks=c(0,0.1,0.2,0.3,0.4,0.5,0.7))
  
 
 
-Overall_plot_F0_learning
-```
+Overall_plot_F1_learning
 
-#Overall forest plot showing differences between males and female repeatabilities for learning
-```{r}
-Sex_New_plot_personality <-
-  ggplot(Learning_rptr_sex,
-         aes(x = Endpoint, y = r, colour = Condition)) +
-  geom_errorbar(
-    aes(ymin = ci.lb, ymax = ci.ub),
-    width = 0.4,
-    position = position_dodge(0.3),
-    size = 0.8
-  ) +
-  geom_point(aes(x = Endpoint, y = r),
-             position = position_dodge(0.3),
-             size = 3) +
-  geom_hline(yintercept = 0, lty = "dotted") +
-  coord_flip() +
-  ylim(-0.4, 0.9) +
-  facet_grid( ~ Tank) +
-  theme(axis.title.y = element_blank()) +
-  scale_color_manual(values = c("#000000", "#f8766d", "#00bfc4")) +
-    theme_classic()+
-  theme(
-    panel.border = element_rect(
-      colour = "black",
-      fill = NA,
-      size = 2
-    ),
-    axis.ticks = element_line(size = 2, color = "black"),
-    axis.ticks.length = unit(0.2, "cm")
-  ) +      font("xylab", size = 15) + font("xy", size = 15) + font("xy.text", size = 15) +
-  theme(axis.title.y = element_blank()) +
-  theme(legend.position = "bottom") +
-  theme(legend.title = element_blank())
+#Within and Between individual variance plot
+Learning_within_between_F1$Group2 <- reorder(Learning_within_between_F1$Group, Learning_within_between_F1$r)
 
-Sex_New_plot_personality
+plot_within_between <- ggplot(Learning_within_between_F1, aes(x=Endpoint, y=r, colour=Group2)) +
+geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
+geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
+scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+#color scheme
+geom_hline(yintercept = 0, lty = "dotted") +
+coord_flip()+
+ylim(0, 1.3)+
+   theme(axis.title.y=element_blank())+
+  theme_classic()+
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
+    theme(legend.position = "bottom")+
+  theme(legend.title = element_blank())+
+  theme(axis.title.y=element_blank())+
+  facet_grid(~Condition)+
+  labs(y = "Variance component", tag = "B)")
+ 
+plot_within_between
+
+joined_plots <- Overall_plot_F1_learning + plot_within_between + plot_layout(ncol = 1, nrow=2)
+
+joined_plots
 
 ```
+
 
 #Generating custom designed violin plots to display raw distributions of behavioral responses
 ```{r}
 
+groups_f1 <- c("F1C", "F1T", "F1P", "F1M")
 
-learning_violin1 <- violin_plot_custom_hamza3(p2cs,p2cs$difference,"Difference between baseline and probe period for CS+", "Seconds")
+p2cs$Tank2 <- reorder(p2cs$Tank, p2cs$difference)
 
-learning_violin
+means <- aggregate(difference ~  Tank + Sex, p2cs, mean)
+
+learning_violin1 <- violin_plot_custom_hamza(p2cs,p2cs$difference,"Difference between time spent in baseline and probe period for CS+", "Seconds")+
+# scale_x_discrete(labels= groups_f1)+
+# geom_signif(comparisons = list(c("Within Treatment", "Paternal")), #Adding contrasts         #EDIT ONCE CONFIRMED WHICH ARE SIGNIFICANT
+#               map_signif_level=TRUE, y_position = 50, annotations = "**", textsize = 4)+
+# geom_signif(comparisons = list(c("Within Treatment", "Maternal")), #Adding contrasts
+#               map_signif_level=TRUE, y_position = 40, annotations = "**", textsize = 4)  +
+    stat_summary(fun=mean, geom="point", shape=20, size=10, color="red", fill="red")+
+  scale_y_continuous(breaks = round(seq(min(p2cs$difference), max(p2cs$difference), by = 5),1))+
+  facet_grid(~Sex)
+
+learning_violin1
 ```
 

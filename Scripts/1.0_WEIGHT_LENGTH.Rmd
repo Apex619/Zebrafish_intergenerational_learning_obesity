@@ -65,7 +65,7 @@ hist(residuals(Model_Body_Weight))
 
 AIC(Model_Body_Weight)
 
-emmeans_weight <- emmeans(Model_Body_Weight, ~c(Set, Sex))
+emmeans_weight <- emmeans(Model_Body_Weight, ~c(Set))
 pairs(emmeans_weight)
 
   #Calculating repeatabilities (with week)
@@ -82,9 +82,10 @@ rpt_body_weight_paternal
 
 
 # Calculating difference in variance between control and treatment group 
-Model_Weight_1 <- lme(Weight_g ~ Set + Sex + Age_Weeks, random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
+Model_Weight_1 <- lme(Weight_g ~ Set*Sex + scale(Age_Weeks, scale = FALSE), random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
 summary(Model_Weight_1)
-Model_Weight_2 <- lme(Weight_g ~ Set + Sex + Age_Weeks, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
+tab_model(Model_Weight_1)
+Model_Weight_2 <- lme(Weight_g ~ Set*Sex + scale(Age_Weeks, scale = FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
 summary(Model_Weight_2)
 anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models to find difference in variance
 ```
@@ -92,6 +93,8 @@ anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models
 
 #Plot
 ```{r}
+
+
 violin_plot_bw <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
   p <- ggplot(data = df,aes(x = Sex, y = param, fill = Set))+
     scale_fill_viridis_d()+ #color scheme

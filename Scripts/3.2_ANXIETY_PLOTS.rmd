@@ -16,7 +16,7 @@ pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, 
                sjPlot,ggplot2,lubridate,wesanderson,ggbeeswarm,emmeans,patchwork,viridis,nlme,Rmisc,ggpubr,
                stargazer)
 # Load custom functions
-source("../Scripts/functions_plots.R") #load custom functions
+source("./Scripts/functions_plots.R") #load custom functions
 ```
 
 

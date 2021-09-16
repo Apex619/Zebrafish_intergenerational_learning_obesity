@@ -8,7 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 #checks for installation and loads packages
-         
+pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, wesanderson, ggpubr, extrafonts, stargazer, patchwork)         
 
 # Load custom function to extract data 
 source("../Scripts/functions_learning.R")
@@ -64,7 +64,7 @@ Model_Learning_p5 <- lmer(difference ~ Tank + sex + (1 | fishID), data = p5cs)
 tab_model(Model_Learning_p5)
 
 #Calculating repeatabilities using custom made functions
-rpt_learning(Learning_Control) -> rpt_learning_control
+rpt_learning(Learning_Control) -> str(rpt_learning_control)
 rpt_learning_control
 rpt_learning(Learning_Treatment) -> rpt_learning_treatment
 rpt_learning_treatment
@@ -73,6 +73,14 @@ rpt_learning(Learning_Maternal) -> rpt_learning_Maternal
 rpt_learning_Maternal
 rpt_learning(Learning_Paternal) -> rpt_learning_Paternal
 rpt_learning_Paternal
+
+#Within and between individual variance for all groups
+
+
+rpt_within_learning(Learning_Control) -> rpt_within_between_control
+rpt_within_learning(Learning_Treatment) -> rpt_within_between_treatment
+rpt_within_learning(Learning_Maternal) -> rpt_within_between_maternal
+rpt_within_learning(Learning_Paternal) -> rpt_within_between_paternal
 
 
 # Calculating difference in variance between control and treatment groups
@@ -99,27 +107,27 @@ p2cs %>%
 ```{r}
 
 #Calculating repeatabilities using custom made functions for males (control and treatment)
-rpt_learning(Control_Male_Learning) -> rpt_learning_control_male
+rpt_learning_sex(Control_Male_Learning) -> rpt_learning_control_male
 rpt_learning_control_male
-rpt_learning(Treatment_Male_Learning) -> rpt_learning_treatment_male
+rpt_learning_sex(Treatment_Male_Learning) -> rpt_learning_treatment_male
 rpt_learning_treatment_male
 
 #Calculating repeatabilities using custom made functions for females (control and treatment)
-rpt_learning(Control_Female_Learning) -> rpt_learning_control_female
+rpt_learning_sex(Control_Female_Learning) -> rpt_learning_control_female
 rpt_learning_control_female
-rpt_learning(Treatment_Female_Learning) -> rpt_learning_treatment_female
+rpt_learning_sex(Treatment_Female_Learning) -> rpt_learning_treatment_female
 rpt_learning_treatment_female
 
 #Calculating repeatabilities using custom made functions for males (Maternal and Paternal)
-rpt_learning(Maternal_Male_Learning) -> rpt_learning_Maternal_male
+rpt_learning_sex(Maternal_Male_Learning) -> rpt_learning_Maternal_male
 rpt_learning_Maternal_male
-rpt_learning(Paternal_Male_Learning) -> rpt_learning_Paternal_male
+rpt_learning_sex(Paternal_Male_Learning) -> rpt_learning_Paternal_male
 rpt_learning_Paternal_male
 
 #Calculating repeatabilities using custom made functions for females (Maternal and Paternal)
-rpt_learning(Maternal_Female_Learning) -> rpt_learning_Maternal_female
+rpt_learning_sex(Maternal_Female_Learning) -> rpt_learning_Maternal_female
 rpt_learning_Maternal_female
-rpt_learning(Paternal_Female_Learning) -> rpt_learning_Paternal_female
+rpt_learning_sex(Paternal_Female_Learning) -> rpt_learning_Paternal_female
 rpt_learning_Paternal_female
 
 

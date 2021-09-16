@@ -2,12 +2,16 @@
 
 #Calculating repeatability for learning (Zantiks)
 rpt_learning <- function(df) {
-  x <- rpt(learning ~ + Tank + Sex + mean_low_dur + mean_tot_dist +  (1 |  Fish_ID.x), grname = "Fish_ID.x", data = df, datatype = "Gaussian", nboot = 100, npermut = 100)
+  x <- rpt(learning ~ Sex + mean_low_dur + mean_tot_dist +  (1 |  Fish_ID.x), grname = "Fish_ID.x", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+}
+
+rpt_learning_sex <- function(df) {
+  x <- rpt(learning ~ mean_low_dur + mean_tot_dist +  (1 |  Fish_ID.x), grname = "Fish_ID.x", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 #Obtaining within and between-individual variances for learning
 rpt_within_learning <- function(df) {
-  rpt(scale(difference) ~ (1 |  fishID), grname = c("fishID", "Residual"), data = df, datatype = "Gaussian", nboot = 100, npermut = 100, ratio = FALSE)
+  rpt(scale(difference) ~ (1 |  fishID), grname = c("fishID", "Residual"), data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000, ratio = FALSE)
 }
 
 
