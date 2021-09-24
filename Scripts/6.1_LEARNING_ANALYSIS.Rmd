@@ -21,20 +21,6 @@ Learning_Control <- subset(p2cs, p2cs$Tank == "Within_Control")
 Learning_Treatment <- subset(p2cs, p2cs$Tank == "Within_Treatment") 
 Learning_Maternal <- subset(p2cs, p2cs$Tank == "Maternal") 
 Learning_Paternal <- subset(p2cs, p2cs$Tank == "Paternal") 
-
-
-
-#Subset by sex
-
-#Control and treatment males and females 
-Control_Male_Learning <- subset(Learning_Control, Learning_Control$sex == "male")
-Control_Female_Learning <- subset(Learning_Control, Learning_Control$sex == "female")
-Treatment_Male_Learning <- subset(Learning_Treatment, Learning_Treatment$sex == "male")
-Treatment_Female_Learning <- subset(Learning_Treatment, Learning_Treatment$sex == "female")
-Maternal_Male_Learning <- subset(Learning_Maternal, Learning_Maternal$sex == "male")
-Maternal_Female_Learning <- subset(Learning_Maternal, Learning_Maternal$sex == "female")
-Paternal_Male_Learning <- subset(Learning_Paternal, Learning_Paternal$sex == "male")
-Paternal_Female_Learning <- subset(Learning_Paternal, Learning_Paternal$sex == "female")
 ```
 
 ### MAIN ANALYSIS 
@@ -45,26 +31,26 @@ Paternal_Female_Learning <- subset(Learning_Paternal, Learning_Paternal$sex == "
 5) CALCULATING VARIANCE DIFFERENCES BETWEEN CONTROL AND TREATMENT
 
 ```{r}
-#Check Normality with mixed model and then histogram of residuals
-
-Model_Learning <- lmer(difference ~ Tank + sex + (1 | fishID), data = p2cs) 
-tab_model(Model_Learning)
-hist(residuals(Model_Learning)) 
-
-learning_f1 <- ggplot(p2cs, aes(x=Tank, y=difference, fill = Tank)) + 
-  geom_violin()+
-  geom_jitter(height = 0, width = 0.1)+
-  facet_grid(~sex)
-
-#Contrasts 
-em_tank <- emmeans(Model_Learning, ~ Tank) 
-pairs(em_tank)
-
-Model_Learning_p5 <- lmer(difference ~ Tank + sex + (1 | fishID), data = p5cs) 
-tab_model(Model_Learning_p5)
+# #Check Normality with mixed model and then histogram of residuals
+# 
+# Model_Learning <- lmer(difference ~ Tank + sex + (1 | fishID), data = p2cs) 
+# tab_model(Model_Learning)
+# hist(residuals(Model_Learning)) 
+# 
+# learning_f1 <- ggplot(p2cs, aes(x=Tank, y=difference, fill = Tank)) + 
+#   geom_violin()+
+#   geom_jitter(height = 0, width = 0.1)+
+#   facet_grid(~sex)
+# 
+# #Contrasts 
+# em_tank <- emmeans(Model_Learning, ~ Tank) 
+# pairs(em_tank)
+# 
+# Model_Learning_p5 <- lmer(difference ~ Tank + sex + (1 | fishID), data = p5cs) 
+# tab_model(Model_Learning_p5)
 
 #Calculating repeatabilities using custom made functions
-rpt_learning(Learning_Control) -> str(rpt_learning_control)
+rpt_learning(Learning_Control) -> rpt_learning_control
 rpt_learning_control
 rpt_learning(Learning_Treatment) -> rpt_learning_treatment
 rpt_learning_treatment
@@ -74,18 +60,64 @@ rpt_learning_Maternal
 rpt_learning(Learning_Paternal) -> rpt_learning_Paternal
 rpt_learning_Paternal
 
-#Within and between individual variance for all groups
+#Checking combinations
+groups <- c("maternal", "paternal", "control", "treatment")
+
+combn(groups, 2)
+
+#      [,1]       [,2]       [,3]        [,4]       [,5]        [,6]       
+# [1,] "maternal" "maternal" "maternal"  "paternal" "paternal"  "control"  
+# [2,] "paternal" "control"  "treatment" "control"  "treatment" "treatment"
+
+control_boot <- unlist_rptr(rpt_learning_control) #unlisting from the control tanks
+treatment_boot <- unlist_rptr(rpt_learning_treatment)#unlisting from treatment tanks
+maternal_boot <- unlist_rptr(rpt_learning_Maternal)#unlisting from maternal tanks
+paternal_boot <- unlist_rptr(rpt_learning_Paternal)#unlisting from paternal tanks
 
 
-rpt_within_learning(Learning_Control) -> rpt_within_between_control
-rpt_within_learning(Learning_Treatment) -> rpt_within_between_treatment
-rpt_within_learning(Learning_Maternal) -> rpt_within_between_maternal
-rpt_within_learning(Learning_Paternal) -> rpt_within_between_paternal
+mat_pat_diff <- difference_boot(maternal_boot,paternal_boot) #calculating the difference
+qmp <- quantiles_diff_boot(mat_pat_diff) #obtaining 95% CI
+mmp <- mean(mat_pat_diff) #Obtaining mean
+qmp
+mmp #not significant
 
+mat_con_diff <- difference_boot(control_boot,maternal_boot) #calculating the difference
+qmc <- quantiles_diff_boot(mat_con_diff) #obtaining 95% CI
+mmc <- mean(mat_con_diff) #Obtaining mean
+qmc
+mmc #not significant
+
+
+mat_tre_diff <- difference_boot(treatment_boot,maternal_boot) #calculating the difference
+qmt <- quantiles_diff_boot(mat_tre_diff) #obtaining 95% CI
+mmt <- mean(mat_tre_diff) #Obtaining mean
+qmt
+mmt #not significant
+
+pat_con_diff <- difference_boot(control_boot,paternal_boot) #calculating the difference
+qpc <- quantiles_diff_boot(pat_con_diff) #obtaining 95% CI
+mpc <- mean(pat_con_diff) #Obtaining mean
+qpc
+mpc #SIGNIFICANT
+
+pat_tre_diff <- difference_boot(treatment_boot,paternal_boot) #calculating the difference
+qpt <- quantiles_diff_boot(pat_tre_diff) #obtaining 95% CI
+mpt <- mean(pat_tre_diff) #Obtaining mean
+qpt
+mpt #not significant
+
+con_tre_diff <- difference_boot(control_boot,treatment_boot) #calculating the difference
+qct <- quantiles_diff_boot(con_tre_diff) #obtaining 95% CI
+mct <- mean(con_tre_diff) #Obtaining mean
+qct
+mct #not significant
 
 # Calculating difference in variance between control and treatment groups
 Model_Learning1 <- lme(difference ~ Tank + sex, random = ~ 1| fishID, data = p2cs, na.action=na.exclude) #mixed model without variance structure
 summary(Model_Learning1)
+tab_model(Model_Learning1)
+em_tank <- emmeans(Model_Learning1, ~ Tank) 
+pairs(em_tank)
 Model_Learning2 <- lme(difference ~ Tank + sex, random = ~ 1| fishID, weights = varIdent(form=~1|Tank), data = p2cs, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_Learning2)
 anova(Model_Learning1, Model_Learning2) #calculating difference between two models to find difference in variance
@@ -102,43 +134,4 @@ p2cs %>%
   facet_grid(~sex)
 ```
 
-#Sex Analysis
 
-```{r}
-
-#Calculating repeatabilities using custom made functions for males (control and treatment)
-rpt_learning_sex(Control_Male_Learning) -> rpt_learning_control_male
-rpt_learning_control_male
-rpt_learning_sex(Treatment_Male_Learning) -> rpt_learning_treatment_male
-rpt_learning_treatment_male
-
-#Calculating repeatabilities using custom made functions for females (control and treatment)
-rpt_learning_sex(Control_Female_Learning) -> rpt_learning_control_female
-rpt_learning_control_female
-rpt_learning_sex(Treatment_Female_Learning) -> rpt_learning_treatment_female
-rpt_learning_treatment_female
-
-#Calculating repeatabilities using custom made functions for males (Maternal and Paternal)
-rpt_learning_sex(Maternal_Male_Learning) -> rpt_learning_Maternal_male
-rpt_learning_Maternal_male
-rpt_learning_sex(Paternal_Male_Learning) -> rpt_learning_Paternal_male
-rpt_learning_Paternal_male
-
-#Calculating repeatabilities using custom made functions for females (Maternal and Paternal)
-rpt_learning_sex(Maternal_Female_Learning) -> rpt_learning_Maternal_female
-rpt_learning_Maternal_female
-rpt_learning_sex(Paternal_Female_Learning) -> rpt_learning_Paternal_female
-rpt_learning_Paternal_female
-
-
-#Quick Visualization
-p2cs %>%
-  ggplot(aes(Tank, difference, fill=Tank)) +
-  geom_violin(
-    trim = FALSE,
-    draw_quantiles = c(0.25, 0.5, 0.75), 
-    alpha=0.5
-  ) + 
-  geom_point(position = "jitter", alpha = 0.7, size = 3)+
-  facet_grid(~sex)
-```

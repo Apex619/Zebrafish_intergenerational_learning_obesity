@@ -82,10 +82,10 @@ rpt_body_weight_paternal
 
 
 # Calculating difference in variance between control and treatment group 
-Model_Weight_1 <- lme(Weight_g ~ Set*Sex + scale(Age_Weeks, scale = FALSE), random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
+Model_Weight_1 <- lme(Weight_g ~ Set + Sex + scale(Age_Weeks, scale = FALSE), random = ~ 1| Fish_ID, data = Weight_Length_Data) #Mixed model without variance structure
 summary(Model_Weight_1)
 tab_model(Model_Weight_1)
-Model_Weight_2 <- lme(Weight_g ~ Set*Sex + scale(Age_Weeks, scale = FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
+Model_Weight_2 <- lme(Weight_g ~ Set + Sex + scale(Age_Weeks, scale = FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Set), data = Weight_Length_Data) #mixed model with variance structure varIdent
 summary(Model_Weight_2)
 anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models to find difference in variance
 ```
@@ -97,7 +97,7 @@ anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models
 
 violin_plot_bw <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
   p <- ggplot(data = df,aes(x = Sex, y = param, fill = Set))+
-    scale_fill_viridis_d()+ #color scheme
+      scale_fill_manual(values=c("#1F968BFF","#74D055FF", "39568CFF","#440154FF"), labels = c("F1M", "F1P", "F1C", "F1T"))+ #color scheme
     geom_violin(alpha=0.4, position = position_dodge(width = .75),size=0.5,color="black")+ #violin plot to display distribution density
     geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=0.9, alpha = 0.5)+#boxplot to display quantiles
     geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points

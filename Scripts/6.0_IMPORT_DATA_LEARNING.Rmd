@@ -15,7 +15,7 @@ pacman::p_load(tidyverse, sjPlot, lme4, lmerTest, nlme, ggplot2, rptR, emmeans, 
 source("../Scripts/functions_learning.R")
 source("../Scripts/functions_repeatability.R")
 
-load('myEnvironment.RData')
+#load('myEnvironment.RData')
 ```
 
 

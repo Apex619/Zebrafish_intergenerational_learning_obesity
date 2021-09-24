@@ -20,24 +20,22 @@ pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, 
 ```{r}
 #Import data
 Glucose <- read.csv("../Data/Glucose/Glucose_Data.csv") #check this works, issues with file directories
-str(Glucose)
+
+
 
 #Check structure
 str(Glucose)
 Glucose$Meter <- as.factor(Glucose$Meter)
+Glucose$Group <- as.factor(Glucose$Group)
 
 hist(Glucose$Glucose)
 #Very high reading confirmed to be correct
 
-Glucose %>% dplyr::count(Origin)
+Glucose %>% dplyr::count(Origin) #Maternal had more data because other groups had one set not done properly
 
 
 
-glucose_f1 <- ggplot(Glucose, aes(x=Group, y=Glucose, fill = Group)) + 
-  geom_violin()+
-  geom_jitter(height = 0, width = 0.1)
 
-glucose_f1
 
 
 Repeatability_Glucose <- rpt(Glucose ~ Meter + Sex + Group + (1 | Fish_ID), grname = "Fish_ID", data = Glucose, datatype = "Gaussian", 
@@ -54,12 +52,46 @@ hist(residuals(Mixed_Model_Glucose)) #Transform ?
 
 
 # Calculating difference in variance between control and treatment group 
-Model_Glucose_1 <- lme(Glucose ~ Group*Sex, random = ~ 1| Fish_ID, data = Glucose, na.action = na.omit) #Mixed model without variance structure
+Model_Glucose_1 <- lme(Glucose ~ Group + Sex, random = ~ 1| Fish_ID, data = Glucose, na.action = na.omit) #Mixed model without variance structure
 summary(Model_Glucose_1)
 tab_model(Model_Glucose_1)
-Model_Glucose_2 <- lme(Glucose ~ Group*Sex, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Group), data = Glucose, na.action = na.omit) #mixed model with variance structure varIdent
+Model_Glucose_2 <- lme(Glucose ~ Group + Sex, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Group), data = Glucose, na.action = na.omit) #mixed model with variance structure varIdent
 summary(Model_Glucose_2)
 anova(Model_Glucose_1, Model_Glucose_2)
+
+
+#Plot
+violin_plot_glucose <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
+  p <- ggplot(data = df,aes(x = Group, y = param, fill = Group))+
+      scale_fill_manual(values=c("#1F968BFF","#74D055FF", "39568CFF","#440154FF"), labels = c("F1M", "F1P", "F1C", "F1T"))+ #color scheme
+    geom_violin(alpha=0.4, position = position_dodge(width = .75),size=0.5,color="black")+ #violin plot to display distribution density
+    geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=0.9, alpha = 0.5)+#boxplot to display quantiles
+    geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points
+    theme_pubr(base_family = "")+
+    labs(title=lab1,y = lab2)+#labels
+    rremove("legend.title")+
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=1),
+    axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"),
+    legend.position = c(0.92, 0.85))+
+    font("xylab",size=13)+font("xy",size=13)+
+    font("xy.text", size = 13)+
+    font("legend.text",size = 13)+
+    theme(legend.position = "right")+
+    theme(axis.title.x=element_blank())+
+    theme(text=element_text(family="Times New Roman", size=12))
+  return(p)
+  
+}
+
+
+
+
+
+gluc_plot <- violin_plot_glucose(Glucose, Glucose$Glucose, "Fasting blood glucose (mmol/L) levels", "mmol/L")+
+  facet_grid(~Sex)+
+    theme(axis.ticks = element_blank())+
+  theme(axis.text.x = element_blank())
+  
 
 ```
 

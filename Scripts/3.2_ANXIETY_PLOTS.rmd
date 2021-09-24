@@ -34,15 +34,6 @@ Endpoint = c("Total Distance", "Total Distance", "Total Distance", "Total Distan
 Tot_Dist_rptr_F1$r <- as.numeric(Tot_Dist_rptr_F1$r)
 Tot_Dist_rptr_F1
 
-Tot_Dist_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_Tot_Dist_Male$R$Fish_ID,Control_Tot_Dist_Female$R$Fish_ID,Treatment_Tot_Dist_Male$R$Fish_ID,Treatment_Tot_Dist_Female$R$Fish_ID,Maternal_Tot_Dist_Male$R$Fish_ID,Maternal_Tot_Dist_Female$R$Fish_ID,Paternal_Tot_Dist_Male$R$Fish_ID,Paternal_Tot_Dist_Female$R$Fish_ID),
-  ci.lb = c(Control_Tot_Dist_Male$CI_emp$`2.5%`,Control_Tot_Dist_Female$CI_emp$`2.5%`,Treatment_Tot_Dist_Male$CI_emp$`2.5%`,Treatment_Tot_Dist_Female$CI_emp$`2.5%`,Maternal_Tot_Dist_Male$CI_emp$`2.5%`,Maternal_Tot_Dist_Female$CI_emp$`2.5%`,Paternal_Tot_Dist_Male$CI_emp$`2.5%`,Paternal_Tot_Dist_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_Tot_Dist_Male$CI_emp$`97.5%`,Control_Tot_Dist_Female$CI_emp$`97.5%`,Treatment_Tot_Dist_Male$CI_emp$`97.5%`,Treatment_Tot_Dist_Female$CI_emp$`97.5%`,Maternal_Tot_Dist_Male$CI_emp$`97.5%`,Maternal_Tot_Dist_Female$CI_emp$`97.5%`,Paternal_Tot_Dist_Male$CI_emp$`97.5%`,Paternal_Tot_Dist_Female$CI_emp$`97.5%` ),
-Endpoint = c("Total Distance","Total Distance","Total Distance","Total Distance","Total Distance","Total Distance","Total Distance","Total Distance"))
-  
-Tot_Dist_rptr_sex
 ```
 
 
@@ -59,15 +50,6 @@ Endpoint = c("Low Duration", "Low Duration", "Low Duration", "Low Duration"))
 low_dur_rptr_F1$r <- as.numeric(low_dur_rptr_F1$r)
 low_dur_rptr_F1
 
-low_dur_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_low_dur_Male$R$Fish_ID,Control_low_dur_Female$R$Fish_ID,Treatment_low_dur_Male$R$Fish_ID,Treatment_low_dur_Female$R$Fish_ID,Maternal_low_dur_Male$R$Fish_ID,Maternal_low_dur_Female$R$Fish_ID,Paternal_low_dur_Male$R$Fish_ID,Paternal_low_dur_Female$R$Fish_ID),
-  ci.lb = c(Control_low_dur_Male$CI_emp$`2.5%`,Control_low_dur_Female$CI_emp$`2.5%`,Treatment_low_dur_Male$CI_emp$`2.5%`,Treatment_low_dur_Female$CI_emp$`2.5%`,Maternal_low_dur_Male$CI_emp$`2.5%`,Maternal_low_dur_Female$CI_emp$`2.5%`,Paternal_low_dur_Male$CI_emp$`2.5%`,Paternal_low_dur_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_low_dur_Male$CI_emp$`97.5%`,Control_low_dur_Female$CI_emp$`97.5%`,Treatment_low_dur_Male$CI_emp$`97.5%`,Treatment_low_dur_Female$CI_emp$`97.5%`,Maternal_low_dur_Male$CI_emp$`97.5%`,Maternal_low_dur_Female$CI_emp$`97.5%`,Paternal_low_dur_Male$CI_emp$`97.5%`,Paternal_low_dur_Female$CI_emp$`97.5%` ),
-Endpoint = c("Low Duration","Low Duration","Low Duration","Low Duration","Low Duration","Low Duration","Low Duration","Low Duration"))
-  
-low_dur_rptr_sex
 ```
 
 Time spent in mid zone
@@ -82,15 +64,7 @@ Endpoint = c("Mid Duration", "Mid Duration", "Mid Duration", "Mid Duration"))
 mid_dur_rptr_F1$r <- as.numeric(mid_dur_rptr_F1$r)
 mid_dur_rptr_F1
 
-mid_dur_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_mid_dur_Male$R$Fish_ID,Control_mid_dur_Female$R$Fish_ID,Treatment_mid_dur_Male$R$Fish_ID,Treatment_mid_dur_Female$R$Fish_ID,Maternal_mid_dur_Male$R$Fish_ID,Maternal_mid_dur_Female$R$Fish_ID,Paternal_mid_dur_Male$R$Fish_ID,Paternal_mid_dur_Female$R$Fish_ID),
-  ci.lb = c(Control_mid_dur_Male$CI_emp$`2.5%`,Control_mid_dur_Female$CI_emp$`2.5%`,Treatment_mid_dur_Male$CI_emp$`2.5%`,Treatment_mid_dur_Female$CI_emp$`2.5%`,Maternal_mid_dur_Male$CI_emp$`2.5%`,Maternal_mid_dur_Female$CI_emp$`2.5%`,Paternal_mid_dur_Male$CI_emp$`2.5%`,Paternal_mid_dur_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_mid_dur_Male$CI_emp$`97.5%`,Control_mid_dur_Female$CI_emp$`97.5%`,Treatment_mid_dur_Male$CI_emp$`97.5%`,Treatment_mid_dur_Female$CI_emp$`97.5%`,Maternal_mid_dur_Male$CI_emp$`97.5%`,Maternal_mid_dur_Female$CI_emp$`97.5%`,Paternal_mid_dur_Male$CI_emp$`97.5%`,Paternal_mid_dur_Female$CI_emp$`97.5%` ),
-Endpoint = c("Mid Duration","Mid Duration","Mid Duration","Mid Duration","Mid Duration","Mid Duration","Mid Duration","Mid Duration"))
-  
-mid_dur_rptr_sex
+
 ```
 
 Time spent in the high zone
@@ -105,15 +79,7 @@ Endpoint = c("High Duration", "High Duration", "High Duration", "High Duration")
 high_dur_rptr_F1$r <- as.numeric(high_dur_rptr_F1$r)
 high_dur_rptr_F1
 
-high_dur_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_high_dur_Male$R$Fish_ID,Control_high_dur_Female$R$Fish_ID,Treatment_high_dur_Male$R$Fish_ID,Treatment_high_dur_Female$R$Fish_ID,Maternal_high_dur_Male$R$Fish_ID,Maternal_high_dur_Female$R$Fish_ID,Paternal_high_dur_Male$R$Fish_ID,Paternal_high_dur_Female$R$Fish_ID),
-  ci.lb = c(Control_high_dur_Male$CI_emp$`2.5%`,Control_high_dur_Female$CI_emp$`2.5%`,Treatment_high_dur_Male$CI_emp$`2.5%`,Treatment_high_dur_Female$CI_emp$`2.5%`,Maternal_high_dur_Male$CI_emp$`2.5%`,Maternal_high_dur_Female$CI_emp$`2.5%`,Paternal_high_dur_Male$CI_emp$`2.5%`,Paternal_high_dur_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_high_dur_Male$CI_emp$`97.5%`,Control_high_dur_Female$CI_emp$`97.5%`,Treatment_high_dur_Male$CI_emp$`97.5%`,Treatment_high_dur_Female$CI_emp$`97.5%`,Maternal_high_dur_Male$CI_emp$`97.5%`,Maternal_high_dur_Female$CI_emp$`97.5%`,Paternal_high_dur_Male$CI_emp$`97.5%`,Paternal_high_dur_Female$CI_emp$`97.5%` ),
-Endpoint = c("High Duration","High Duration","High Duration","High Duration","High Duration","High Duration","High Duration","High Duration"))
-  
-high_dur_rptr_sex
+
 ```
 
 
@@ -129,15 +95,6 @@ Endpoint = c("Freezing Duration", "Freezing Duration", "Freezing Duration", "Fre
 freezing_dur_rptr_F1$r <- as.numeric(freezing_dur_rptr_F1$r)
 freezing_dur_rptr_F1
 
-freezing_dur_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_freezing_dur_Male$R$Fish_ID,Control_freezing_dur_Female$R$Fish_ID,Treatment_freezing_dur_Male$R$Fish_ID,Treatment_freezing_dur_Female$R$Fish_ID,Maternal_freezing_dur_Male$R$Fish_ID,Maternal_freezing_dur_Female$R$Fish_ID,Paternal_freezing_dur_Male$R$Fish_ID,Paternal_freezing_dur_Female$R$Fish_ID),
-  ci.lb = c(Control_freezing_dur_Male$CI_emp$`2.5%`,Control_freezing_dur_Female$CI_emp$`2.5%`,Treatment_freezing_dur_Male$CI_emp$`2.5%`,Treatment_freezing_dur_Female$CI_emp$`2.5%`,Maternal_freezing_dur_Male$CI_emp$`2.5%`,Maternal_freezing_dur_Female$CI_emp$`2.5%`,Paternal_freezing_dur_Male$CI_emp$`2.5%`,Paternal_freezing_dur_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_freezing_dur_Male$CI_emp$`97.5%`,Control_freezing_dur_Female$CI_emp$`97.5%`,Treatment_freezing_dur_Male$CI_emp$`97.5%`,Treatment_freezing_dur_Female$CI_emp$`97.5%`,Maternal_freezing_dur_Male$CI_emp$`97.5%`,Maternal_freezing_dur_Female$CI_emp$`97.5%`,Paternal_freezing_dur_Male$CI_emp$`97.5%`,Paternal_freezing_dur_Female$CI_emp$`97.5%` ),
-Endpoint = c("Freezing Duration","Freezing Duration","Freezing Duration","Freezing Duration","Freezing Duration","Freezing Duration","Freezing Duration","Freezing Duration"))
-  
-freezing_dur_rptr_sex
 ```
 
 Entries into high zone
@@ -152,15 +109,7 @@ Endpoint = c("Entries into High Zone", "Entries into High Zone", "Entries into H
 freq_rptr_F1$r <- as.numeric(freq_rptr_F1$r)
 freq_rptr_F1
 
-freq_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_freq_Male$R$Fish_ID,Control_freq_Female$R$Fish_ID,Treatment_freq_Male$R$Fish_ID,Treatment_freq_Female$R$Fish_ID,Maternal_freq_Male$R$Fish_ID,Maternal_freq_Female$R$Fish_ID,Paternal_freq_Male$R$Fish_ID,Paternal_freq_Female$R$Fish_ID),
-  ci.lb = c(Control_freq_Male$CI_emp$`2.5%`,Control_freq_Female$CI_emp$`2.5%`,Treatment_freq_Male$CI_emp$`2.5%`,Treatment_freq_Female$CI_emp$`2.5%`,Maternal_freq_Male$CI_emp$`2.5%`,Maternal_freq_Female$CI_emp$`2.5%`,Paternal_freq_Male$CI_emp$`2.5%`,Paternal_freq_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_freq_Male$CI_emp$`97.5%`,Control_freq_Female$CI_emp$`97.5%`,Treatment_freq_Male$CI_emp$`97.5%`,Treatment_freq_Female$CI_emp$`97.5%`,Maternal_freq_Male$CI_emp$`97.5%`,Maternal_freq_Female$CI_emp$`97.5%`,Paternal_freq_Male$CI_emp$`97.5%`,Paternal_freq_Female$CI_emp$`97.5%` ),
-Endpoint = c("Entries into High Zone","Entries into High Zone","Entries into High Zone","Entries into High Zone","Entries into High Zone","Entries into High Zone","Entries into High Zone","Entries into High Zone"))
-  
-freq_rptr_sex
+
 ```
 
 
@@ -176,15 +125,6 @@ Endpoint = c("Latency to High Zone", "Latency to High Zone", "Latency to High Zo
 latency_rptr_F1$r <- as.numeric(latency_rptr_F1$r)
 latency_rptr_F1
 
-latency_rptr_sex <- tibble(
-  Tank = c("Control","Control", "Treatment", "Treatment", "Maternal", "Maternal",  "Paternal", "Paternal"),
-  Condition = c("Male","Female","Male", "Female", "Male","Female","Male", "Female"),
-  r = c(Control_latency_Male$R$Fish_ID,Control_latency_Female$R$Fish_ID,Treatment_latency_Male$R$Fish_ID,Treatment_latency_Female$R$Fish_ID,Maternal_latency_Male$R$Fish_ID,Maternal_latency_Female$R$Fish_ID,Paternal_latency_Male$R$Fish_ID,Paternal_latency_Female$R$Fish_ID),
-  ci.lb = c(Control_latency_Male$CI_emp$`2.5%`,Control_latency_Female$CI_emp$`2.5%`,Treatment_latency_Male$CI_emp$`2.5%`,Treatment_latency_Female$CI_emp$`2.5%`,Maternal_latency_Male$CI_emp$`2.5%`,Maternal_latency_Female$CI_emp$`2.5%`,Paternal_latency_Male$CI_emp$`2.5%`,Paternal_latency_Female$CI_emp$`2.5%`),
-  ci.ub = c(Control_latency_Male$CI_emp$`97.5%`,Control_latency_Female$CI_emp$`97.5%`,Treatment_latency_Male$CI_emp$`97.5%`,Treatment_latency_Female$CI_emp$`97.5%`,Maternal_latency_Male$CI_emp$`97.5%`,Maternal_latency_Female$CI_emp$`97.5%`,Paternal_latency_Male$CI_emp$`97.5%`,Paternal_latency_Female$CI_emp$`97.5%` ),
-Endpoint = c("Latency to High Zone","Latency to High Zone","Latency to High Zone","Latency to High Zone","Latency to High Zone","Latency to High Zone","Latency to High Zone","Latency to High Zone"))
-  
-latency_rptr_sex
 ```
 
 Joining tibbles to use in plotting 
@@ -201,19 +141,10 @@ Overall_Anxiety_Data_Joined_Full_F1 <- full_join(Overall_Data_Joined5, latency_r
 
 Overall_Anxiety_Plotting_Data_F1 <- subset(Overall_Anxiety_Data_Joined_Full_F1, Overall_Anxiety_Data_Joined_Full_F1$Group %in% c("Treatment","Control","Maternal", "Paternal"))
 
-Overall_Anxiety_Plotting_Data_F1 #Will be used for plotting just the overall repeatabilites for tall tank, short tank and the contrast
+Overall_Anxiety_Plotting_Data_F1 
 
 
 
-#Joining all tibbles for sex
-Overall_Data_Joined11 <- full_join(Tot_Dist_rptr_sex, low_dur_rptr_sex)
-Overall_Data_Joined22 <- full_join(Overall_Data_Joined11, mid_dur_rptr_sex)
-Overall_Data_Joined33 <- full_join(Overall_Data_Joined22, high_dur_rptr_sex)
-Overall_Data_Joined44 <- full_join(Overall_Data_Joined33, freezing_dur_rptr_sex)
-Overall_Data_Joined55 <- full_join(Overall_Data_Joined44, freq_rptr_sex)
-Overall_Data_Joined_Final_sex_F1 <- full_join(Overall_Data_Joined55, latency_rptr_sex)
-
-Overall_Data_Joined_Final_sex_F1
 ```
 
 #Overall forest plot showing repeatabilities 

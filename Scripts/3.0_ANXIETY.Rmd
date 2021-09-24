@@ -146,16 +146,6 @@ tab_model(c(mod_list_behavs[1],mod_list_behavs[2],mod_list_behavs[3],mod_list_be
 
 
 
-
-
-
-
-
-
-
-
-
-
 # Total distance travelled
 ```{r, echo=FALSE}
 
@@ -171,7 +161,6 @@ totdist_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=tot_dist, fill = Tank)) +
   facet_grid(~Sex)
 
 #Calculating repeatabilities using custom made functions
-rpt_tot_dist(Anxiety_Joined) -> Overall_tot_dist 
 
 rpt_tot_dist(Anxiety_Control) -> Control_Tot_Dist 
 Control_Tot_Dist
@@ -188,13 +177,15 @@ Paternal_Tot_Dist
 #Making function for variance (total distance)
 
 lmer_var_tot_dist <- function(){
-  mod1 <- lme(tot_dist ~ Tank-1 + Sex + Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude)
-  mod2 <- lme(tot_dist ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude)
+  mod1 <- lme(tot_dist ~ Tank + Sex + scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude)
+  mod2 <- lme(tot_dist ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude)
   variance <- anova(mod1,mod2)
   return(variance)
 }
 
 lmer_var_tot_dist()
+
+tab_model(mod1)
 
 #TODO: Make function to apply to all variables
 ```
@@ -227,9 +218,10 @@ Paternal_low_dur
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_low_dur1 <- lme(low_dur ~ Tank-1 + Sex + Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+Model_low_dur1 <- lme(low_dur ~ Tank + Sex +scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+tab_model(Model_low_dur1)
 summary(Model_low_dur1)
-Model_low_dur2 <- lme(low_dur ~ Tank-1 + Sex + Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
+Model_low_dur2 <- lme(low_dur ~ Tank + Sex + scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_low_dur2)
 anova(Model_low_dur1, Model_low_dur2) #calculating difference between two models to find difference in variance
 ```
@@ -261,9 +253,10 @@ Paternal_mid_dur
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_mid_dur1 <- lme(mid_dur ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+Model_mid_dur1 <- lme(mid_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
 summary(Model_mid_dur1)
-Model_mid_dur2 <- lme(mid_dur ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
+tab_model(Model_mid_dur1)
+Model_mid_dur2 <- lme(mid_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_mid_dur2)
 anova(Model_mid_dur1, Model_mid_dur2) #calculating difference between two models to find difference in variance
 ```
@@ -295,9 +288,10 @@ Paternal_high_dur
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_high_dur1 <- lme(high_dur ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+Model_high_dur1 <- lme(high_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
 summary(Model_high_dur1)
-Model_high_dur2 <- lme(high_dur ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
+tab_model(Model_high_dur1)
+Model_high_dur2 <- lme(high_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_high_dur2)
 anova(Model_high_dur1, Model_high_dur2) #calculating difference between two models to find difference in variance
 ```
@@ -336,9 +330,10 @@ Paternal_freezing_dur
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_freezing_dur1 <- lme(log(freezing_dur+1) ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+Model_freezing_dur1 <- lme(log(freezing_dur+1) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
 summary(Model_freezing_dur1)
-Model_freezing_dur2 <- lme(log(freezing_dur+1) ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
+tab_model(Model_freezing_dur1)
+Model_freezing_dur2 <- lme(log(freezing_dur+1) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_freezing_dur2)
 anova(Model_freezing_dur1, Model_freezing_dur2) #calculating difference between two models to find difference in variance
 ```
@@ -368,9 +363,10 @@ Paternal_latency
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_latency_high1 <- lme(latency_high ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+Model_latency_high1 <- lme(latency_high ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
 summary(Model_latency_high1)
-Model_latency_high2 <- lme(latency_high ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
+tab_model(Model_latency_high1)
+Model_latency_high2 <- lme(latency_high ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_latency_high2)
 anova(Model_latency_high1, Model_latency_high2) #calculating difference between two models to find difference in variance
 ```
@@ -401,9 +397,10 @@ Paternal_freq
 
 
 # Calculating difference in variance between short tanks and tall tanks 
-Model_freq_high1 <- lme(sqrt(freq_high) ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
+Model_freq_high1 <- lme(sqrt(freq_high) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
 summary(Model_freq_high1)
-Model_freq_high2 <- lme(sqrt(freq_high) ~ Tank-1 + Sex+ Water_Time, random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
+tab_model(Model_freq_high1)
+Model_freq_high2 <- lme(sqrt(freq_high) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
 summary(Model_freq_high2)
 anova(Model_freq_high1, Model_freq_high2) #calculating difference between two models to find difference in variance
 ```
