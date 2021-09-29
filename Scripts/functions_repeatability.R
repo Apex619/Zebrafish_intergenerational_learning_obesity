@@ -17,27 +17,27 @@ rpt_weight2 <- function(df) {
 
 #Calculating repeatability for total distance travelled
 rpt_tot_dist <- function(df) {
-  x <- rpt(tot_dist ~ Sex + scale(Water_Time, scale=FALSE) + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(tot_dist ~ Sex + cWater_Time + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
 
 #Calculating repeatability for time spent in low zone
 rpt_low_dur <- function(df) {
-  x <- rpt(low_dur ~ Sex + scale(Water_Time, scale=FALSE)+ (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(low_dur ~ Sex + cWater_Time+ (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
 #Calculating repeatability for time spent in mid zone
 rpt_mid_dur <- function(df) {
-  x <- rpt(mid_dur ~ Sex + scale(Water_Time, scale=FALSE)+(1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(mid_dur ~ Sex + cWater_Time+(1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
 
 #Calculating repeatability for time spent in high zone
 rpt_high_dur <- function(df) {
-  x <- rpt(high_dur ~ Sex + scale(Water_Time, scale=FALSE) + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(high_dur ~ Sex + cWater_Time + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
@@ -45,21 +45,21 @@ rpt_high_dur <- function(df) {
 
 #Calculating repeatability for time spent freezing 
 rpt_freezing_dur <- function(df) {
-  x <- rpt(log(freezing_dur+1) ~ Sex + scale(Water_Time, scale=FALSE) + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(log(freezing_dur+1) ~ Sex + cWater_Time + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
 
 #Calculating repeatability for latency to the high zone
 rpt_latency <- function(df) {
-  x <- rpt(latency_high ~ Sex + scale(Water_Time, scale=FALSE)+(1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(latency_high ~ Sex + cWater_Time+(1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
 
 #Calculating repeatability for entries to the high zone
 rpt_freq <- function(df) {
-  x <- rpt(sqrt(freq_high) ~ Sex + scale(Water_Time, scale=FALSE) + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
+  x <- rpt(sqrt(freq_high) ~ Sex + cWater_Time + (1 |  Fish_ID), grname = "Fish_ID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 

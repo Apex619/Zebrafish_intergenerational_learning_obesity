@@ -28,6 +28,8 @@ source("../Scripts/functions_repeatability.R")
 ```{r, include=FALSE}
 Anxiety_Joined <- read.csv("Data/Anxiety/Anxiety_Joined.csv")
 
+Anxiety_Joined$cWater_Time <- scale(Anxiety_Joined$Water_Time, scale=FALSE)
+
 ```
 
 ### Examine Data
@@ -53,6 +55,18 @@ Anxiety_Treatment <- subset(Anxiety_Joined, Anxiety_Joined$Tank == "Within Treat
 Anxiety_Maternal <- subset(Anxiety_Joined, Anxiety_Joined$Tank == "Maternal") 
 Anxiety_Paternal <- subset(Anxiety_Joined, Anxiety_Joined$Tank == "Paternal") 
 
+#Load rpt models
+
+load("./Models/Paternal_Tot_Dist.rdata")
+load("./Models/Maternal_Tot_Dist.rdata")
+load("./Models/Control_Tot_Dist.rdata")
+load("./Models/Treatment_Tot_Dist.rdata")
+
+load("./Models/Treatment_low_dur.rdata")
+load("./Models/Control_low_dur.rdata")
+load("./Models/Maternal_low_dur.rdata")
+load("./Models/Paternal_low_dur.rdata")
+
 ```
 
 
@@ -65,84 +79,82 @@ Anxiety_Paternal <- subset(Anxiety_Joined, Anxiety_Joined$Tank == "Paternal")
 
 THESE STEPS ARE REPEATED FOR ALL BEHAVIORAL PARAMETERS, REFER TO THE FIRST BEHAVIORAL PARAMETER FOR COMMENTS AND REFERENCE 
 
-NEED TO EDIT COMMENTS !
+<!-- #Normality checks -->
+<!-- ```{r} -->
+<!-- behav_vars <- c("tot_dist", "low_dur", "mid_dur", "high_dur", "freezing_dur", "latency_high", "freq_high") -->
 
-#Normality checks
-```{r}
-behav_vars <- c("tot_dist", "low_dur", "mid_dur", "high_dur", "freezing_dur", "latency_high", "freq_high")
+<!-- #Raw data -->
+<!-- func_behav_raw <- func_var <- function(var = behav_vars[1]){ -->
+<!--   { -->
 
-#Raw data
-func_behav_raw <- func_var <- function(var = behav_vars[1]){
-  {
-  
-    mod <- lmer(Anxiety_Joined[,paste(var)] ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) 
-    residuals <- resid(mod)
-    VC <- data.frame(VarCorr(mod))
-    rpt <- round(VC$vcov[1]/sum(VC$vcov),2)
-    sw <- shapiro.test(residuals)
-    df <- data.frame(var, rpt, W = round(sw$statistic,3), p = round(sw$p.value,3))
-    return(df)
-  } # raw general linear model to determine whether transformations are required
-  
-   rpt_vals <- bind_rows(lapply(behav_vars, function(x) func_var(x)))
- return(rpt_vals)
-}
+<!--     mod <- lmer(Anxiety_Joined[,paste(var)] ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined)  -->
+<!--     residuals <- resid(mod) -->
+<!--     VC <- data.frame(VarCorr(mod)) -->
+<!--     rpt <- round(VC$vcov[1]/sum(VC$vcov),2) -->
+<!--     sw <- shapiro.test(residuals) -->
+<!--     df <- data.frame(var, rpt, W = round(sw$statistic,3), p = round(sw$p.value,3)) -->
+<!--     return(df) -->
+<!--   } # raw general linear model to determine whether transformations are required -->
+
+<!--    rpt_vals <- bind_rows(lapply(behav_vars, function(x) func_var(x))) -->
+<!--  return(rpt_vals) -->
+<!-- } -->
 
 
-rpt_resids <- bind_rows(lapply(behav_vars, function(x) func_behav_raw(x)))
+<!-- rpt_resids <- bind_rows(lapply(behav_vars, function(x) func_behav_raw(x))) -->
 
-#Freezing duration seems to be the main trait that needs a transformation,a square root transformation should help
+<!-- #Freezing duration seems to be the main trait that needs a transformation,a square root transformation should help -->
 
-func_behav_sqrt <- func_var <- function(var = behav_vars[1]){
-  {
-  
-    mod <- lmer(sqrt(Anxiety_Joined[,paste(var)]) ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined)
-    residuals <- resid(mod)
-    VC <- data.frame(VarCorr(mod))
-    rpt <- round(VC$vcov[1]/sum(VC$vcov),2)
-    sw <- shapiro.test(residuals)
-    df <- data.frame(var, rpt, W = round(sw$statistic,3), p = round(sw$p.value,3))
-    return(df)
-  } # raw general linear model to determine whether transformations are required
-  
-   rpt_vals <- bind_rows(lapply(behav_vars, function(x) func_var(x)))
- return(rpt_vals)
-}
+<!-- func_behav_sqrt <- func_var <- function(var = behav_vars[1]){ -->
+<!--   { -->
 
-rpt_resids_sqrt <- bind_rows(lapply(behav_vars, function(x) func_behav_sqrt(x)))
+<!--     mod <- lmer(sqrt(Anxiety_Joined[,paste(var)]) ~ Tank + Sex + (1 | Fish_ID), data = Anxiety_Joined) -->
+<!--     residuals <- resid(mod) -->
+<!--     VC <- data.frame(VarCorr(mod)) -->
+<!--     rpt <- round(VC$vcov[1]/sum(VC$vcov),2) -->
+<!--     sw <- shapiro.test(residuals) -->
+<!--     df <- data.frame(var, rpt, W = round(sw$statistic,3), p = round(sw$p.value,3)) -->
+<!--     return(df) -->
+<!--   } # raw general linear model to determine whether transformations are required -->
 
-#Freezing with a square root transformation should be adequate
-```
+<!--    rpt_vals <- bind_rows(lapply(behav_vars, function(x) func_var(x))) -->
+<!--  return(rpt_vals) -->
+<!-- } -->
+
+<!-- rpt_resids_sqrt <- bind_rows(lapply(behav_vars, function(x) func_behav_sqrt(x))) -->
+
+<!-- #Freezing with a square root transformation should be adequate -->
+<!-- ``` -->
 
 
-#Analyzing all variables with functions
+<!-- #Analyzing all variables with functions -->
 
-```{r}
+<!-- ```{r} -->
 
-df <- Anxiety_Joined
+<!-- df <- Anxiety_Joined -->
 
-func_mod_behav <- function(var,df = Anxiety_Joined){
-  mod <- lmer(df[,var] ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = df)
-   if(str_detect(var, "freezing_dur")){ 
-    mod <- lmer(log(df[,var]+1) ~ Tank  + Sex + Water_Time + (1 | Fish_ID), data = df) 
-   }
-  if(str_detect(var, "freq_high")){ 
-    mod <- lmer(sqrt(df[,var]) ~ Tank  + Sex + Water_Time + (1 | Fish_ID), data = df) 
-   }
-  return(mod)
-}
+<!-- func_mod_behav <- function(var,df = Anxiety_Joined){ -->
+<!--   mod <- lmer(df[,var] ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = df) -->
+<!--    if(str_detect(var, "freezing_dur")){  -->
+<!--     mod <- lmer(log(df[,var]+1) ~ Tank  + Sex + Water_Time + (1 | Fish_ID), data = df)  -->
+<!--    } -->
+<!--   if(str_detect(var, "freq_high")){  -->
+<!--     mod <- lmer(sqrt(df[,var]) ~ Tank  + Sex + Water_Time + (1 | Fish_ID), data = df)  -->
+<!--    } -->
+<!--   return(mod) -->
+<!-- } -->
 
-#Using lapply to apply function to all variables
+<!-- #Using lapply to apply function to all variables -->
 
-mod_list_behavs <- lapply(behav_vars, function(x) func_mod_behav(x)) 
+<!-- mod_list_behavs <- lapply(behav_vars, function(x) func_mod_behav(x))  -->
 
-mod_list_behavs
+<!-- mod_list_behavs -->
 
-names(mod_list_behavs) <- behav_vars
+<!-- names(mod_list_behavs) <- behav_vars -->
 
-tab_model(c(mod_list_behavs[1],mod_list_behavs[2],mod_list_behavs[3],mod_list_behavs[4],mod_list_behavs[5],mod_list_behavs[6],mod_list_behavs[7]))
+<!-- tab_model(c(mod_list_behavs[1],mod_list_behavs[2],mod_list_behavs[3],mod_list_behavs[4],mod_list_behavs[5],mod_list_behavs[6],mod_list_behavs[7])) -->
 
-```
+<!-- ``` -->
 
 
 
@@ -162,13 +174,13 @@ totdist_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=tot_dist, fill = Tank)) +
 
 #Calculating repeatabilities using custom made functions
 
-rpt_tot_dist(Anxiety_Control) -> Control_Tot_Dist 
+# rpt_tot_dist(Anxiety_Control) -> Control_Tot_Dist 
 Control_Tot_Dist
-rpt_tot_dist(Anxiety_Treatment) -> Treatment_Tot_Dist 
+# rpt_tot_dist(Anxiety_Treatment) -> Treatment_Tot_Dist 
 Treatment_Tot_Dist
-rpt_tot_dist(Anxiety_Maternal) -> Maternal_Tot_Dist 
+# rpt_tot_dist(Anxiety_Maternal) -> Maternal_Tot_Dist 
 Maternal_Tot_Dist
-rpt_tot_dist(Anxiety_Paternal) -> Paternal_Tot_Dist 
+# rpt_tot_dist(Anxiety_Paternal) -> Paternal_Tot_Dist 
 Paternal_Tot_Dist
 
 
@@ -207,13 +219,17 @@ lowzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=low_dur, fill = Tank)) +
 
 
 .#Calculating repeatabilities using custom made functions
-rpt_low_dur(Anxiety_Control) -> Control_low_dur 
+# rpt_low_dur(Anxiety_Control) -> Control_low_dur 
+# save(Control_low_dur, file = "./Models/Control_low_dur.rdata")
 Control_low_dur 
-rpt_low_dur(Anxiety_Treatment) -> Treatment_low_dur 
+# rpt_low_dur(Anxiety_Treatment) -> Treatment_low_dur 
+# save(Treatment_low_dur, file = "./Models/Treatment_low_dur.rdata")
 Treatment_low_dur
-rpt_low_dur(Anxiety_Maternal) -> Maternal_low_dur
+# rpt_low_dur(Anxiety_Maternal) -> Maternal_low_dur
+# save(Maternal_low_dur, file = "./Models/Maternal_low_dur.rdata")
 Maternal_low_dur
-rpt_low_dur(Anxiety_Paternal) -> Paternal_low_dur
+# rpt_low_dur(Anxiety_Paternal) -> Paternal_low_dur
+# save(Paternal_low_dur, file = "./Models/Paternal_low_dur.rdata")
 Paternal_low_dur
 
 
@@ -227,181 +243,181 @@ anova(Model_low_dur1, Model_low_dur2) #calculating difference between two models
 ```
 
 
-# Time spent in mid zone
-```{r, echo=FALSE}
+<!-- # Time spent in mid zone -->
+<!-- ```{r, echo=FALSE} -->
 
-#Check Normality with mixed model and then histogram of residuals
+<!-- #Check Normality with mixed model and then histogram of residuals -->
 
-Model_mid_dur <- lmer(mid_dur ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_mid_dur)
-hist(residuals(Model_mid_dur))
+<!-- Model_mid_dur <- lmer(mid_dur ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_mid_dur) -->
+<!-- hist(residuals(Model_mid_dur)) -->
 
-midzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=mid_dur, fill = Tank)) + 
-  geom_violin()+
-  geom_jitter(height = 0, width = 0.1)+
-  facet_grid(~Sex)
+<!-- midzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=mid_dur, fill = Tank)) +  -->
+<!--   geom_violin()+ -->
+<!--   geom_jitter(height = 0, width = 0.1)+ -->
+<!--   facet_grid(~Sex) -->
 
-#Calculating repeatabilities using custom made functions
-rpt_mid_dur(Anxiety_Control) -> Control_mid_dur 
-Control_mid_dur 
-rpt_mid_dur(Anxiety_Treatment) -> Treatment_mid_dur 
-Treatment_mid_dur
-rpt_mid_dur(Anxiety_Maternal) -> Maternal_mid_dur
-Maternal_mid_dur
-rpt_mid_dur(Anxiety_Paternal) -> Paternal_mid_dur
-Paternal_mid_dur
-
-
-# Calculating difference in variance between short tanks and tall tanks 
-Model_mid_dur1 <- lme(mid_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
-summary(Model_mid_dur1)
-tab_model(Model_mid_dur1)
-Model_mid_dur2 <- lme(mid_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
-summary(Model_mid_dur2)
-anova(Model_mid_dur1, Model_mid_dur2) #calculating difference between two models to find difference in variance
-```
+<!-- #Calculating repeatabilities using custom made functions -->
+<!-- rpt_mid_dur(Anxiety_Control) -> Control_mid_dur  -->
+<!-- Control_mid_dur  -->
+<!-- rpt_mid_dur(Anxiety_Treatment) -> Treatment_mid_dur  -->
+<!-- Treatment_mid_dur -->
+<!-- rpt_mid_dur(Anxiety_Maternal) -> Maternal_mid_dur -->
+<!-- Maternal_mid_dur -->
+<!-- rpt_mid_dur(Anxiety_Paternal) -> Paternal_mid_dur -->
+<!-- Paternal_mid_dur -->
 
 
-# Time spent in high zone
-```{r, echo=FALSE}
-
-#Check Normality with mixed model and then histogram of residuals
-
-Model_high_dur <- lmer(high_dur ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_high_dur)
-hist(residuals(Model_high_dur))
-
-highzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=high_dur, fill = Tank)) + 
-  geom_violin()+
-  geom_jitter(height = 0, width = 0.1)+
-  facet_grid(~Sex)
-
-#Calculating repeatabilities using custom made functions
-rpt_high_dur(Anxiety_Control) -> Control_high_dur 
-Control_high_dur 
-rpt_high_dur(Anxiety_Treatment) -> Treatment_high_dur 
-Treatment_high_dur
-rpt_high_dur(Anxiety_Maternal) -> Maternal_high_dur
-Maternal_high_dur
-rpt_high_dur(Anxiety_Paternal) -> Paternal_high_dur
-Paternal_high_dur
+<!-- # Calculating difference in variance between short tanks and tall tanks  -->
+<!-- Model_mid_dur1 <- lme(mid_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure -->
+<!-- summary(Model_mid_dur1) -->
+<!-- tab_model(Model_mid_dur1) -->
+<!-- Model_mid_dur2 <- lme(mid_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent -->
+<!-- summary(Model_mid_dur2) -->
+<!-- anova(Model_mid_dur1, Model_mid_dur2) #calculating difference between two models to find difference in variance -->
+<!-- ``` -->
 
 
-# Calculating difference in variance between short tanks and tall tanks 
-Model_high_dur1 <- lme(high_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
-summary(Model_high_dur1)
-tab_model(Model_high_dur1)
-Model_high_dur2 <- lme(high_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
-summary(Model_high_dur2)
-anova(Model_high_dur1, Model_high_dur2) #calculating difference between two models to find difference in variance
-```
+<!-- # Time spent in high zone -->
+<!-- ```{r, echo=FALSE} -->
 
-# Time spent freezing
-```{r, echo=FALSE}
+<!-- #Check Normality with mixed model and then histogram of residuals -->
 
-#Check Normality with mixed model and then histogram of residuals
+<!-- Model_high_dur <- lmer(high_dur ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_high_dur) -->
+<!-- hist(residuals(Model_high_dur)) -->
 
-Model_freezing_dur <- lmer(freezing_dur ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_freezing_dur)
-hist(residuals(Model_freezing_dur)) # needs transformation
+<!-- highzone_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=high_dur, fill = Tank)) +  -->
+<!--   geom_violin()+ -->
+<!--   geom_jitter(height = 0, width = 0.1)+ -->
+<!--   facet_grid(~Sex) -->
 
-Model_freezing_dur_sqrt <- lmer(sqrt(freezing_dur) ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_freezing_dur_sqrt)
-hist(residuals(Model_freezing_dur_sqrt))
-
-Model_freezing_dur_log <- lmer(log(freezing_dur+1) ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_freezing_dur_log)
-hist(residuals(Model_freezing_dur_log))
-
-freezing_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=freezing_dur, fill = Tank)) + 
-  geom_violin()+
-  geom_jitter(height = 0, width = 0.1)+
-  facet_grid(~Sex)
-
-#Calculating repeatabilities using custom made functions
-rpt_freezing_dur(Anxiety_Control) -> Control_freezing_dur 
-Control_freezing_dur 
-rpt_freezing_dur(Anxiety_Treatment) -> Treatment_freezing_dur 
-Treatment_freezing_dur
-rpt_freezing_dur(Anxiety_Maternal) -> Maternal_freezing_dur
-Maternal_freezing_dur
-rpt_freezing_dur(Anxiety_Paternal) -> Paternal_freezing_dur
-Paternal_freezing_dur
+<!-- #Calculating repeatabilities using custom made functions -->
+<!-- rpt_high_dur(Anxiety_Control) -> Control_high_dur  -->
+<!-- Control_high_dur  -->
+<!-- rpt_high_dur(Anxiety_Treatment) -> Treatment_high_dur  -->
+<!-- Treatment_high_dur -->
+<!-- rpt_high_dur(Anxiety_Maternal) -> Maternal_high_dur -->
+<!-- Maternal_high_dur -->
+<!-- rpt_high_dur(Anxiety_Paternal) -> Paternal_high_dur -->
+<!-- Paternal_high_dur -->
 
 
-# Calculating difference in variance between short tanks and tall tanks 
-Model_freezing_dur1 <- lme(log(freezing_dur+1) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
-summary(Model_freezing_dur1)
-tab_model(Model_freezing_dur1)
-Model_freezing_dur2 <- lme(log(freezing_dur+1) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
-summary(Model_freezing_dur2)
-anova(Model_freezing_dur1, Model_freezing_dur2) #calculating difference between two models to find difference in variance
-```
+<!-- # Calculating difference in variance between short tanks and tall tanks  -->
+<!-- Model_high_dur1 <- lme(high_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure -->
+<!-- summary(Model_high_dur1) -->
+<!-- tab_model(Model_high_dur1) -->
+<!-- Model_high_dur2 <- lme(high_dur ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent -->
+<!-- summary(Model_high_dur2) -->
+<!-- anova(Model_high_dur1, Model_high_dur2) #calculating difference between two models to find difference in variance -->
+<!-- ``` -->
 
-# Latency to high
-```{r, echo=FALSE}
+<!-- # Time spent freezing -->
+<!-- ```{r, echo=FALSE} -->
 
-#Check Normality with mixed model and then histogram of residuals
+<!-- #Check Normality with mixed model and then histogram of residuals -->
 
-Model_latency_high <- lmer(latency_high ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_latency_high)
-hist(residuals(Model_latency_high))
+<!-- Model_freezing_dur <- lmer(freezing_dur ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_freezing_dur) -->
+<!-- hist(residuals(Model_freezing_dur)) # needs transformation -->
 
-latency_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=latency_high, fill = Tank)) + 
-  geom_violin()+
-  geom_jitter(height = 0, width = 0.1)
+<!-- Model_freezing_dur_sqrt <- lmer(sqrt(freezing_dur) ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_freezing_dur_sqrt) -->
+<!-- hist(residuals(Model_freezing_dur_sqrt)) -->
 
-#Calculating repeatabilities using custom made functions
-rpt_latency(Anxiety_Control) -> Control_latency
-Control_latency
-rpt_latency(Anxiety_Treatment) -> Treatment_latency
-Treatment_latency
-rpt_latency(Anxiety_Maternal) -> Maternal_latency
-Maternal_latency
-rpt_latency(Anxiety_Paternal) -> Paternal_latency
-Paternal_latency
+<!-- Model_freezing_dur_log <- lmer(log(freezing_dur+1) ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_freezing_dur_log) -->
+<!-- hist(residuals(Model_freezing_dur_log)) -->
 
+<!-- freezing_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=freezing_dur, fill = Tank)) +  -->
+<!--   geom_violin()+ -->
+<!--   geom_jitter(height = 0, width = 0.1)+ -->
+<!--   facet_grid(~Sex) -->
 
-# Calculating difference in variance between short tanks and tall tanks 
-Model_latency_high1 <- lme(latency_high ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
-summary(Model_latency_high1)
-tab_model(Model_latency_high1)
-Model_latency_high2 <- lme(latency_high ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
-summary(Model_latency_high2)
-anova(Model_latency_high1, Model_latency_high2) #calculating difference between two models to find difference in variance
-```
-
-
-# Entries to high zone
-```{r, echo=FALSE}
-
-#Check Normality with mixed model and then histogram of residuals
-
-Model_freq_high <- lmer(freq_high ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_freq_high)
-hist(residuals(Model_freq_high)) # needs transformation
-
-Model_freq_high_sqrt <- lmer(sqrt(freq_high) ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model 
-tab_model(Model_freq_high_sqrt)
-hist(residuals(Model_freq_high_sqrt))
-
-#Calculating repeatabilities using custom made functions
-rpt_freq(Anxiety_Control) -> Control_freq 
-Control_freq
-rpt_freq(Anxiety_Treatment) -> Treatment_freq
-Treatment_freq
-rpt_freq(Anxiety_Maternal) -> Maternal_freq
-Maternal_freq
-rpt_freq(Anxiety_Paternal) -> Paternal_freq
-Paternal_freq
+<!-- #Calculating repeatabilities using custom made functions -->
+<!-- rpt_freezing_dur(Anxiety_Control) -> Control_freezing_dur  -->
+<!-- Control_freezing_dur  -->
+<!-- rpt_freezing_dur(Anxiety_Treatment) -> Treatment_freezing_dur  -->
+<!-- Treatment_freezing_dur -->
+<!-- rpt_freezing_dur(Anxiety_Maternal) -> Maternal_freezing_dur -->
+<!-- Maternal_freezing_dur -->
+<!-- rpt_freezing_dur(Anxiety_Paternal) -> Paternal_freezing_dur -->
+<!-- Paternal_freezing_dur -->
 
 
-# Calculating difference in variance between short tanks and tall tanks 
-Model_freq_high1 <- lme(sqrt(freq_high) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure
-summary(Model_freq_high1)
-tab_model(Model_freq_high1)
-Model_freq_high2 <- lme(sqrt(freq_high) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent
-summary(Model_freq_high2)
-anova(Model_freq_high1, Model_freq_high2) #calculating difference between two models to find difference in variance
-```
+<!-- # Calculating difference in variance between short tanks and tall tanks  -->
+<!-- Model_freezing_dur1 <- lme(log(freezing_dur+1) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure -->
+<!-- summary(Model_freezing_dur1) -->
+<!-- tab_model(Model_freezing_dur1) -->
+<!-- Model_freezing_dur2 <- lme(log(freezing_dur+1) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent -->
+<!-- summary(Model_freezing_dur2) -->
+<!-- anova(Model_freezing_dur1, Model_freezing_dur2) #calculating difference between two models to find difference in variance -->
+<!-- ``` -->
+
+<!-- # Latency to high -->
+<!-- ```{r, echo=FALSE} -->
+
+<!-- #Check Normality with mixed model and then histogram of residuals -->
+
+<!-- Model_latency_high <- lmer(latency_high ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_latency_high) -->
+<!-- hist(residuals(Model_latency_high)) -->
+
+<!-- latency_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=latency_high, fill = Tank)) +  -->
+<!--   geom_violin()+ -->
+<!--   geom_jitter(height = 0, width = 0.1) -->
+
+<!-- #Calculating repeatabilities using custom made functions -->
+<!-- rpt_latency(Anxiety_Control) -> Control_latency -->
+<!-- Control_latency -->
+<!-- rpt_latency(Anxiety_Treatment) -> Treatment_latency -->
+<!-- Treatment_latency -->
+<!-- rpt_latency(Anxiety_Maternal) -> Maternal_latency -->
+<!-- Maternal_latency -->
+<!-- rpt_latency(Anxiety_Paternal) -> Paternal_latency -->
+<!-- Paternal_latency -->
+
+
+<!-- # Calculating difference in variance between short tanks and tall tanks  -->
+<!-- Model_latency_high1 <- lme(latency_high ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure -->
+<!-- summary(Model_latency_high1) -->
+<!-- tab_model(Model_latency_high1) -->
+<!-- Model_latency_high2 <- lme(latency_high ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent -->
+<!-- summary(Model_latency_high2) -->
+<!-- anova(Model_latency_high1, Model_latency_high2) #calculating difference between two models to find difference in variance -->
+<!-- ``` -->
+
+
+<!-- # Entries to high zone -->
+<!-- ```{r, echo=FALSE} -->
+
+<!-- #Check Normality with mixed model and then histogram of residuals -->
+
+<!-- Model_freq_high <- lmer(freq_high ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_freq_high) -->
+<!-- hist(residuals(Model_freq_high)) # needs transformation -->
+
+<!-- Model_freq_high_sqrt <- lmer(sqrt(freq_high) ~ Tank + Sex + Water_Time + (1 | Fish_ID), data = Anxiety_Joined) #mixed model  -->
+<!-- tab_model(Model_freq_high_sqrt) -->
+<!-- hist(residuals(Model_freq_high_sqrt)) -->
+
+<!-- #Calculating repeatabilities using custom made functions -->
+<!-- rpt_freq(Anxiety_Control) -> Control_freq  -->
+<!-- Control_freq -->
+<!-- rpt_freq(Anxiety_Treatment) -> Treatment_freq -->
+<!-- Treatment_freq -->
+<!-- rpt_freq(Anxiety_Maternal) -> Maternal_freq -->
+<!-- Maternal_freq -->
+<!-- rpt_freq(Anxiety_Paternal) -> Paternal_freq -->
+<!-- Paternal_freq -->
+
+
+<!-- # Calculating difference in variance between short tanks and tall tanks  -->
+<!-- Model_freq_high1 <- lme(sqrt(freq_high) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, data = Anxiety_Joined, na.action=na.exclude) #mixed model without variance structure -->
+<!-- summary(Model_freq_high1) -->
+<!-- tab_model(Model_freq_high1) -->
+<!-- Model_freq_high2 <- lme(sqrt(freq_high) ~ Tank + Sex+ scale(Water_Time, scale =FALSE), random = ~ 1| Fish_ID, weights = varIdent(form=~1|Tank), data = Anxiety_Joined, na.action=na.exclude) #mixed model with variance structure varIdent -->
+<!-- summary(Model_freq_high2) -->
+<!-- anova(Model_freq_high1, Model_freq_high2) #calculating difference between two models to find difference in variance -->
+<!-- ``` -->
 
