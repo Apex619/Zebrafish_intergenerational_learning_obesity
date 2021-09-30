@@ -23,7 +23,7 @@ Learning_rptr_F1 <- tibble(
   r = c(rpt_learning_control$R$fishID,rpt_learning_treatment$R$fishID,rpt_learning_Maternal$R$fishID,rpt_learning_Paternal$R$fishID),
   ci.lb = c(rpt_learning_control$CI_emp$`2.5%`,rpt_learning_treatment$CI_emp$`2.5%`,rpt_learning_Maternal$CI_emp$`2.5%`,rpt_learning_Paternal$CI_emp$`2.5%`),
   ci.ub = c(rpt_learning_control$CI_emp$`97.5%`,rpt_learning_treatment$CI_emp$`97.5%`,rpt_learning_Maternal$CI_emp$`97.5%`,rpt_learning_Paternal$CI_emp$`97.5%`),
-Endpoint = c("Learning", "Learning", "Learning", "Learning"))
+Endpoint = c("Difference", "Difference", "Difference", "Difference"))
   
 Learning_rptr_F1
 
@@ -55,7 +55,7 @@ Overall_plot_F1_learning <- ggplot(Learning_rptr_F1, aes(x=Endpoint, y=r, colour
 geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
 geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
 geom_hline(yintercept = 0, lty = "dotted") +
-  scale_colour_manual(values = c("#E69F00","#56B4E9","#999999", "#009E73"))+
+  scale_colour_manual(values = c("#56B4E9","#E69F00","#999999", "#009E73"))+
 # scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+
 coord_flip()+
 ylim(0, 0.9)+
@@ -66,7 +66,8 @@ ylim(0, 0.9)+
   scale_y_continuous(breaks=c(0,0.1,0.2,0.3,0.4,0.5,0.9))+
   theme(legend.title = element_blank())+
   annotate("text", x = 0.88, y = 0.22, label = "*", size = 7)+
-  annotate("text", x = 1.10, y = 0.51, label = "*", size = 7)
+  annotate("text", x = 1.10, y = 0.51, label = "*", size = 7)+
+  theme(axis.text.y = element_text(angle = 90, hjust = 0.42))
 
 
 
@@ -103,6 +104,14 @@ Overall_plot_F1_learning
 
 #Generating custom designed violin plots to display raw distributions of behavioral responses
 ```{r}
+groups_f1 <- c("F1M", "F1P", "F1C", "F1T")
+
+ 
+p2cs$Tank2 <- reorder(p2cs$Tank, p2cs$difference)
+
+ 
+# means <- aggregate(difference ~  Tank, p2cs, mean)
+
 
 learning_violin1 <- violin_plot_custom_hamza(p2cs,p2cs$difference,"Difference between time spent in baseline and probe period for CS+", "Seconds")+
 scale_x_discrete(labels= groups_f1)+

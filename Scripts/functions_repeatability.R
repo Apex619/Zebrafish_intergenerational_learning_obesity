@@ -2,7 +2,7 @@
 
 #Calculating repeatability for learning (Zantiks)
 rpt_learning <- function(df) {
-  x <- rpt(difference ~ sex +  (1 |  fishID), grname = "fishID", data = df, datatype = "Gaussian", nboot = 1000, npermut = 1000)
+  x <- rpt(difference ~ sex +  (1 |  fishID), grname = "fishID", data = df, datatype = "Gaussian", nboot = 10000, npermut = 10000)
 }
 
 
