@@ -25,11 +25,11 @@ source("./Scripts/functions_plots.R") #load custom functions
 Total distance F0
 ```{r, echo=FALSE}
 Tot_Dist_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
+  Group = c("F1C", "F1T", "F1M", "F1P"),
   r = c(Control_Tot_Dist$R$Fish_ID,Treatment_Tot_Dist$R$Fish_ID, Maternal_Tot_Dist$R$Fish_ID, Paternal_Tot_Dist$R$Fish_ID),
   ci.lb = c(Control_Tot_Dist$CI_emp$`2.5%`,Treatment_Tot_Dist$CI_emp$`2.5%`,Maternal_Tot_Dist$CI_emp$`2.5%`,Paternal_Tot_Dist$CI_emp$`2.5%`),
   ci.ub = c(Control_Tot_Dist$CI_emp$`97.5%`,Treatment_Tot_Dist$CI_emp$`97.5%`, Maternal_Tot_Dist$CI_emp$`97.5%`,Paternal_Tot_Dist$CI_emp$`97.5%`),
-Endpoint = c("Total Distance", "Total Distance", "Total Distance", "Total Distance"))
+Endpoint = c("Total distance travelled", "Total distance travelled", "Total distance travelled", "Total distance travelled"))
   
 Tot_Dist_rptr_F1$r <- as.numeric(Tot_Dist_rptr_F1$r)
 Tot_Dist_rptr_F1
@@ -41,107 +41,107 @@ Tot_Dist_rptr_F1
 
 ```{r}
 low_dur_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
+  Group = c("F1C", "F1T", "F1M", "F1P"),
   r = c(Control_low_dur$R$Fish_ID,Treatment_low_dur$R$Fish_ID, Maternal_low_dur$R$Fish_ID, Paternal_low_dur$R$Fish_ID),
   ci.lb = c(Control_low_dur$CI_emp$`2.5%`,Treatment_low_dur$CI_emp$`2.5%`,Maternal_low_dur$CI_emp$`2.5%`,Paternal_low_dur$CI_emp$`2.5%`),
   ci.ub = c(Control_low_dur$CI_emp$`97.5%`,Treatment_low_dur$CI_emp$`97.5%`, Maternal_low_dur$CI_emp$`97.5%`,Paternal_low_dur$CI_emp$`97.5%`),
-Endpoint = c("Low Duration", "Low Duration", "Low Duration", "Low Duration"))
+Endpoint = c("Time spent in low zone", "Time spent in low zone", "Time spent in low zone", "Time spent in low zone"))
   
 low_dur_rptr_F1$r <- as.numeric(low_dur_rptr_F1$r)
 low_dur_rptr_F1
 
 ```
 
-Time spent in mid zone
-```{r, echo=FALSE}
-mid_dur_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
-  r = c(Control_mid_dur$R$Fish_ID,Treatment_mid_dur$R$Fish_ID, Maternal_mid_dur$R$Fish_ID, Paternal_mid_dur$R$Fish_ID),
-  ci.lb = c(Control_mid_dur$CI_emp$`2.5%`,Treatment_mid_dur$CI_emp$`2.5%`,Maternal_mid_dur$CI_emp$`2.5%`,Paternal_mid_dur$CI_emp$`2.5%`),
-  ci.ub = c(Control_mid_dur$CI_emp$`97.5%`,Treatment_mid_dur$CI_emp$`97.5%`, Maternal_mid_dur$CI_emp$`97.5%`,Paternal_mid_dur$CI_emp$`97.5%`),
-Endpoint = c("Mid Duration", "Mid Duration", "Mid Duration", "Mid Duration"))
-  
-mid_dur_rptr_F1$r <- as.numeric(mid_dur_rptr_F1$r)
-mid_dur_rptr_F1
+<!-- Time spent in mid zone -->
+<!-- ```{r, echo=FALSE} -->
+<!-- mid_dur_rptr_F1 <- tibble( -->
+<!--   Group = c("Control", "Treatment", "Maternal", "Paternal"), -->
+<!--   r = c(Control_mid_dur$R$Fish_ID,Treatment_mid_dur$R$Fish_ID, Maternal_mid_dur$R$Fish_ID, Paternal_mid_dur$R$Fish_ID), -->
+<!--   ci.lb = c(Control_mid_dur$CI_emp$`2.5%`,Treatment_mid_dur$CI_emp$`2.5%`,Maternal_mid_dur$CI_emp$`2.5%`,Paternal_mid_dur$CI_emp$`2.5%`), -->
+<!--   ci.ub = c(Control_mid_dur$CI_emp$`97.5%`,Treatment_mid_dur$CI_emp$`97.5%`, Maternal_mid_dur$CI_emp$`97.5%`,Paternal_mid_dur$CI_emp$`97.5%`), -->
+<!-- Endpoint = c("Mid Duration", "Mid Duration", "Mid Duration", "Mid Duration")) -->
+
+<!-- mid_dur_rptr_F1$r <- as.numeric(mid_dur_rptr_F1$r) -->
+<!-- mid_dur_rptr_F1 -->
 
 
-```
+<!-- ``` -->
 
-Time spent in the high zone
-```{r, echo=FALSE}
-high_dur_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
-  r = c(Control_high_dur$R$Fish_ID,Treatment_high_dur$R$Fish_ID, Maternal_high_dur$R$Fish_ID, Paternal_high_dur$R$Fish_ID),
-  ci.lb = c(Control_high_dur$CI_emp$`2.5%`,Treatment_high_dur$CI_emp$`2.5%`,Maternal_high_dur$CI_emp$`2.5%`,Paternal_high_dur$CI_emp$`2.5%`),
-  ci.ub = c(Control_high_dur$CI_emp$`97.5%`,Treatment_high_dur$CI_emp$`97.5%`, Maternal_high_dur$CI_emp$`97.5%`,Paternal_high_dur$CI_emp$`97.5%`),
-Endpoint = c("High Duration", "High Duration", "High Duration", "High Duration"))
-  
-high_dur_rptr_F1$r <- as.numeric(high_dur_rptr_F1$r)
-high_dur_rptr_F1
+<!-- Time spent in the high zone -->
+<!-- ```{r, echo=FALSE} -->
+<!-- high_dur_rptr_F1 <- tibble( -->
+<!--   Group = c("Control", "Treatment", "Maternal", "Paternal"), -->
+<!--   r = c(Control_high_dur$R$Fish_ID,Treatment_high_dur$R$Fish_ID, Maternal_high_dur$R$Fish_ID, Paternal_high_dur$R$Fish_ID), -->
+<!--   ci.lb = c(Control_high_dur$CI_emp$`2.5%`,Treatment_high_dur$CI_emp$`2.5%`,Maternal_high_dur$CI_emp$`2.5%`,Paternal_high_dur$CI_emp$`2.5%`), -->
+<!--   ci.ub = c(Control_high_dur$CI_emp$`97.5%`,Treatment_high_dur$CI_emp$`97.5%`, Maternal_high_dur$CI_emp$`97.5%`,Paternal_high_dur$CI_emp$`97.5%`), -->
+<!-- Endpoint = c("High Duration", "High Duration", "High Duration", "High Duration")) -->
 
-
-```
+<!-- high_dur_rptr_F1$r <- as.numeric(high_dur_rptr_F1$r) -->
+<!-- high_dur_rptr_F1 -->
 
 
-Freezing duration
-```{r, echo=FALSE}
-freezing_dur_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
-  r = c(Control_freezing_dur$R$Fish_ID,Treatment_freezing_dur$R$Fish_ID, Maternal_freezing_dur$R$Fish_ID, Paternal_freezing_dur$R$Fish_ID),
-  ci.lb = c(Control_freezing_dur$CI_emp$`2.5%`,Treatment_freezing_dur$CI_emp$`2.5%`,Maternal_freezing_dur$CI_emp$`2.5%`,Paternal_freezing_dur$CI_emp$`2.5%`),
-  ci.ub = c(Control_freezing_dur$CI_emp$`97.5%`,Treatment_freezing_dur$CI_emp$`97.5%`, Maternal_freezing_dur$CI_emp$`97.5%`,Paternal_freezing_dur$CI_emp$`97.5%`),
-Endpoint = c("Freezing Duration", "Freezing Duration", "Freezing Duration", "Freezing Duration"))
-  
-freezing_dur_rptr_F1$r <- as.numeric(freezing_dur_rptr_F1$r)
-freezing_dur_rptr_F1
-
-```
-
-Entries into high zone
-```{r}
-freq_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
-  r = c(Control_freq$R$Fish_ID,Treatment_freq$R$Fish_ID, Maternal_freq$R$Fish_ID, Paternal_freq$R$Fish_ID),
-  ci.lb = c(Control_freq$CI_emp$`2.5%`,Treatment_freq$CI_emp$`2.5%`,Maternal_freq$CI_emp$`2.5%`,Paternal_freq$CI_emp$`2.5%`),
-  ci.ub = c(Control_freq$CI_emp$`97.5%`,Treatment_freq$CI_emp$`97.5%`, Maternal_freq$CI_emp$`97.5%`,Paternal_freq$CI_emp$`97.5%`),
-Endpoint = c("Entries into High Zone", "Entries into High Zone", "Entries into High Zone", "Entries into High Zone"))
-  
-freq_rptr_F1$r <- as.numeric(freq_rptr_F1$r)
-freq_rptr_F1
+<!-- ``` -->
 
 
-```
+<!-- Freezing duration -->
+<!-- ```{r, echo=FALSE} -->
+<!-- freezing_dur_rptr_F1 <- tibble( -->
+<!--   Group = c("Control", "Treatment", "Maternal", "Paternal"), -->
+<!--   r = c(Control_freezing_dur$R$Fish_ID,Treatment_freezing_dur$R$Fish_ID, Maternal_freezing_dur$R$Fish_ID, Paternal_freezing_dur$R$Fish_ID), -->
+<!--   ci.lb = c(Control_freezing_dur$CI_emp$`2.5%`,Treatment_freezing_dur$CI_emp$`2.5%`,Maternal_freezing_dur$CI_emp$`2.5%`,Paternal_freezing_dur$CI_emp$`2.5%`), -->
+<!--   ci.ub = c(Control_freezing_dur$CI_emp$`97.5%`,Treatment_freezing_dur$CI_emp$`97.5%`, Maternal_freezing_dur$CI_emp$`97.5%`,Paternal_freezing_dur$CI_emp$`97.5%`), -->
+<!-- Endpoint = c("Freezing Duration", "Freezing Duration", "Freezing Duration", "Freezing Duration")) -->
+
+<!-- freezing_dur_rptr_F1$r <- as.numeric(freezing_dur_rptr_F1$r) -->
+<!-- freezing_dur_rptr_F1 -->
+
+<!-- ``` -->
+
+<!-- Entries into high zone -->
+<!-- ```{r} -->
+<!-- freq_rptr_F1 <- tibble( -->
+<!--   Group = c("Control", "Treatment", "Maternal", "Paternal"), -->
+<!--   r = c(Control_freq$R$Fish_ID,Treatment_freq$R$Fish_ID, Maternal_freq$R$Fish_ID, Paternal_freq$R$Fish_ID), -->
+<!--   ci.lb = c(Control_freq$CI_emp$`2.5%`,Treatment_freq$CI_emp$`2.5%`,Maternal_freq$CI_emp$`2.5%`,Paternal_freq$CI_emp$`2.5%`), -->
+<!--   ci.ub = c(Control_freq$CI_emp$`97.5%`,Treatment_freq$CI_emp$`97.5%`, Maternal_freq$CI_emp$`97.5%`,Paternal_freq$CI_emp$`97.5%`), -->
+<!-- Endpoint = c("Entries into High Zone", "Entries into High Zone", "Entries into High Zone", "Entries into High Zone")) -->
+
+<!-- freq_rptr_F1$r <- as.numeric(freq_rptr_F1$r) -->
+<!-- freq_rptr_F1 -->
 
 
-Latency to high
-```{r}
-latency_rptr_F1 <- tibble(
-  Group = c("Control", "Treatment", "Maternal", "Paternal"),
-  r = c(Control_latency$R$Fish_ID,Treatment_latency$R$Fish_ID, Maternal_latency$R$Fish_ID, Paternal_latency$R$Fish_ID),
-  ci.lb = c(Control_latency$CI_emp$`2.5%`,Treatment_latency$CI_emp$`2.5%`,Maternal_latency$CI_emp$`2.5%`,Paternal_latency$CI_emp$`2.5%`),
-  ci.ub = c(Control_latency$CI_emp$`97.5%`,Treatment_latency$CI_emp$`97.5%`, Maternal_latency$CI_emp$`97.5%`,Paternal_latency$CI_emp$`97.5%`),
-Endpoint = c("Latency to High Zone", "Latency to High Zone", "Latency to High Zone", "Latency to High Zone"))
-  
-latency_rptr_F1$r <- as.numeric(latency_rptr_F1$r)
-latency_rptr_F1
+<!-- ``` -->
 
-```
+
+<!-- Latency to high -->
+<!-- ```{r} -->
+<!-- latency_rptr_F1 <- tibble( -->
+<!--   Group = c("Control", "Treatment", "Maternal", "Paternal"), -->
+<!--   r = c(Control_latency$R$Fish_ID,Treatment_latency$R$Fish_ID, Maternal_latency$R$Fish_ID, Paternal_latency$R$Fish_ID), -->
+<!--   ci.lb = c(Control_latency$CI_emp$`2.5%`,Treatment_latency$CI_emp$`2.5%`,Maternal_latency$CI_emp$`2.5%`,Paternal_latency$CI_emp$`2.5%`), -->
+<!--   ci.ub = c(Control_latency$CI_emp$`97.5%`,Treatment_latency$CI_emp$`97.5%`, Maternal_latency$CI_emp$`97.5%`,Paternal_latency$CI_emp$`97.5%`), -->
+<!-- Endpoint = c("Latency to High Zone", "Latency to High Zone", "Latency to High Zone", "Latency to High Zone")) -->
+
+<!-- latency_rptr_F1$r <- as.numeric(latency_rptr_F1$r) -->
+<!-- latency_rptr_F1 -->
+
+<!-- ``` -->
 
 Joining tibbles to use in plotting 
 ```{r}
 
 #Joining all tibbles for overall
 Overall_Data_Joined1 <- full_join(Tot_Dist_rptr_F1, low_dur_rptr_F1)
-Overall_Data_Joined2 <- full_join(Overall_Data_Joined1, mid_dur_rptr_F1)
-Overall_Data_Joined3 <- full_join(Overall_Data_Joined2, high_dur_rptr_F1)
-Overall_Data_Joined4 <- full_join(Overall_Data_Joined3, freezing_dur_rptr_F1)
-Overall_Data_Joined5 <- full_join(Overall_Data_Joined4, freq_rptr_F1)
-Overall_Anxiety_Data_Joined_Full_F1 <- full_join(Overall_Data_Joined5, latency_rptr_F1)
+# Overall_Data_Joined2 <- full_join(Overall_Data_Joined1, mid_dur_rptr_F1)
+# Overall_Data_Joined3 <- full_join(Overall_Data_Joined2, high_dur_rptr_F1)
+# Overall_Data_Joined4 <- full_join(Overall_Data_Joined3, freezing_dur_rptr_F1)
+# Overall_Data_Joined5 <- full_join(Overall_Data_Joined4, freq_rptr_F1)
+# Overall_Anxiety_Data_Joined_Full_F1 <- full_join(Overall_Data_Joined5, latency_rptr_F1)
 
 
-Overall_Anxiety_Plotting_Data_F1 <- subset(Overall_Anxiety_Data_Joined_Full_F1, Overall_Anxiety_Data_Joined_Full_F1$Group %in% c("Treatment","Control","Maternal", "Paternal"))
-
-Overall_Anxiety_Plotting_Data_F1 
+# Overall_Anxiety_Plotting_Data_F1 <- subset(Overall_Anxiety_Data_Joined_Full_F1, Overall_Anxiety_Data_Joined_Full_F1$Group %in% c("Treatment","Control","Maternal", "Paternal"))
+# 
+# Overall_Anxiety_Plotting_Data_F1 
 
 
 
@@ -150,19 +150,24 @@ Overall_Anxiety_Plotting_Data_F1
 #Overall forest plot showing repeatabilities 
 ```{r}
 
-Overall_plot_F1 <- ggplot(Overall_Anxiety_Plotting_Data_F1, aes(x=Endpoint, y=r, colour=Group)) +
+Overall_plot_F1 <- ggplot(Overall_Data_Joined1, aes(x=Endpoint, y=r, colour=Group)) +
 geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
 geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
 geom_hline(yintercept = 0, lty = "dotted") +
 coord_flip()+
 ylim(-0.25, 0.9)+
    theme(axis.title.y=element_blank())+
-  theme_classic()+
-  scale_color_manual(values=c("#000000", "#DD8D29", "#E2D200", "#56B4E9"))+
+  scale_colour_manual(values=c("#009E73","#E69F00", "#56B4E9","#999999"))+
     theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
   theme(axis.title.y=element_blank())+
    theme(legend.position = "bottom")+
-    theme(legend.title=element_blank())
+    theme(legend.title=element_blank())+
+  annotate("text", x = 0.94, y = 0.70, label = "*", size = 7)+
+  annotate("text", x = 1.02, y = 0.49, label = "*", size = 7)+#low dur
+  annotate("text", x = 1.87, y = 0.73, label = "*", size = 7)+ #tot_dist
+  annotate("text", x = 2.02, y = 0.51, label = "*", size = 7)+
+  theme(axis.text.y = element_text(angle = 90, hjust = 0.42))
+
  
 
 
@@ -170,424 +175,426 @@ Overall_plot_F1
 
 ```
 
-#Overall forest plot showing differences between males and female repeatabilities for behavioral parameters in control and treatment groups
-```{r}
-Sex_New_plot <-
-  ggplot(Overall_Data_Joined_Final_sex_F1,
-         aes(x = Endpoint, y = r, colour = Condition)) +
-  geom_errorbar(
-    aes(ymin = ci.lb, ymax = ci.ub),
-    width = 0.4,
-    position = position_dodge(0.3),
-    size = 0.8
-  ) +
-  geom_point(aes(x = Endpoint, y = r),
-             position = position_dodge(0.3),
-             size = 3) +
-  geom_hline(yintercept = 0, lty = "dotted") +
-  coord_flip() +
-  ylim(-0.4, 0.9) +
-  facet_grid( ~ Tank) +
-  theme(axis.title.y = element_blank()) +
-  scale_color_manual(values = c("#f8766d", "#00bfc4", "#56B4E9")) +
-    theme_classic()+
-  theme(
-    panel.border = element_rect(
-      colour = "black",
-      fill = NA,
-      size = 2
-    ),
-    axis.ticks = element_line(size = 2, color = "black"),
-    axis.ticks.length = unit(0.2, "cm")
-  ) +      font("xylab", size = 15) + font("xy", size = 15) + font("xy.text", size = 15) +
-  theme(axis.title.y = element_blank()) +
-  theme(legend.position = "bottom") +
-  theme(legend.title = element_blank())
+<!-- #Overall forest plot showing differences between males and female repeatabilities for behavioral parameters in control and treatment groups -->
+<!-- ```{r} -->
+<!-- Sex_New_plot <- -->
+<!--   ggplot(Overall_Data_Joined_Final_sex_F1, -->
+<!--          aes(x = Endpoint, y = r, colour = Condition)) + -->
+<!--   geom_errorbar( -->
+<!--     aes(ymin = ci.lb, ymax = ci.ub), -->
+<!--     width = 0.4, -->
+<!--     position = position_dodge(0.3), -->
+<!--     size = 0.8 -->
+<!--   ) + -->
+<!--   geom_point(aes(x = Endpoint, y = r), -->
+<!--              position = position_dodge(0.3), -->
+<!--              size = 3) + -->
+<!--   geom_hline(yintercept = 0, lty = "dotted") + -->
+<!--   coord_flip() + -->
+<!--   ylim(-0.4, 0.9) + -->
+<!--   facet_grid( ~ Tank) + -->
+<!--   theme(axis.title.y = element_blank()) + -->
+<!--   scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+ -->
+<!--     theme_classic()+ -->
+<!--   theme( -->
+<!--     panel.border = element_rect( -->
+<!--       colour = "black", -->
+<!--       fill = NA, -->
+<!--       size = 2 -->
+<!--     ), -->
+<!--     axis.ticks = element_line(size = 2, color = "black"), -->
+<!--     axis.ticks.length = unit(0.2, "cm") -->
+<!--   ) +      font("xylab", size = 15) + font("xy", size = 15) + font("xy.text", size = 15) + -->
+<!--   theme(axis.title.y = element_blank()) + -->
+<!--   theme(legend.position = "bottom") + -->
+<!--   theme(legend.title = element_blank()) -->
 
-Sex_New_plot
+<!-- Sex_New_plot -->
 
 
-```
+<!-- ``` -->
 
 #Generating custom designed violin plots to display raw distributions of behavioral responses
 ```{r}
 
 
-low_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined,Anxiety_Joined$low_dur,"Time spent in low zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+low_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined,Anxiety_Joined$low_dur,"B) Time spent in low zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
 
-tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$tot_dist, "Total distance travelled", "Distance (cm)")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
-
-
-
-mid_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$mid_dur, "Time spent in mid zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$tot_dist, "A) Total distance travelled", "Distance (cm)")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
 
 
-high_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$high_dur, "Time spent in high zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
-
-freezing_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, log(Anxiety_Joined$freezing_dur+1), "Time spent freezing", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
-
-
-freq_violin <- violin_plot_custom_hamza2(Anxiety_Joined, sqrt(Anxiety_Joined$freq_high), "Frequency of visits to high zone", "Visits")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
-
-latency_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$latency_high, "Latency to the high zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+# mid_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$mid_dur, "Time spent in mid zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+# 
+# 
+# high_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$high_dur, "Time spent in high zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+# 
+# 
+# freezing_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined, log(Anxiety_Joined$freezing_dur+1), "Time spent freezing", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+# 
+# 
+# freq_violin <- violin_plot_custom_hamza2(Anxiety_Joined, sqrt(Anxiety_Joined$freq_high), "Frequency of visits to high zone", "Visits")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
+# 
+# latency_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$latency_high, "Latency to the high zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())
 
 #Joining plots together using patchwork to create one main plot
 
-Joined_violins_new_design <- tot_dist_violin + low_dur_violin + mid_dur_violin + high_dur_violin + freezing_dur_violin + latency_violin+freq_violin + plot_layout(ncol = 3, nrow=4)+ theme(legend.position = c(1.5,0.4))+ theme(
+Joined_violins_new_design <- tot_dist_violin + low_dur_violin + plot_layout(ncol =1, nrow=2)+ theme(legend.position = c(1.5,0.4))+ theme(
   legend.text = element_text(color = "black", size = 22)
-  )
+  )+theme(legend.position="bottom")
 
 Joined_violins_new_design
   
 
 ```
 
-#Obtaining individual means and plotting them (tank only)
-```{r}
-#Total distance
-
-individual_means_tot_dist_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(tot_dist, na.rm=TRUE))
+<!-- #Obtaining individual means and plotting them (tank only) -->
+<!-- ```{r} -->
+<!-- #Total distance -->
+
+<!-- individual_means_tot_dist_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(tot_dist, na.rm=TRUE)) -->
 
-individual_means_tot_dist_tank
-
-indiv_tot_dist_tank <-ggplot(individual_means_tot_dist_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean distance (cm)")+
-   labs(title = "Total distance travelled")+
-  theme(legend.position="none")
+<!-- individual_means_tot_dist_tank -->
+
+<!-- indiv_tot_dist_tank <-ggplot(individual_means_tot_dist_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean distance (cm)")+ -->
+<!--    labs(title = "Total distance travelled")+ -->
+<!--   theme(legend.position="none") -->
 
-indiv_tot_dist_tank
-
+<!-- indiv_tot_dist_tank -->
+
 
-#Low Zone
-individual_means_low_dur_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(low_dur, na.rm=TRUE))
+<!-- #Low Zone -->
+<!-- individual_means_low_dur_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(low_dur, na.rm=TRUE)) -->
 
-
-indiv_low_dur_tank <-ggplot(individual_means_low_dur_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-   labs(title = "Time spent in low zone")+
-     theme(legend.position="none")
-
-indiv_low_dur_tank
-
-#Mid Zone
-individual_means_mid_dur_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(mid_dur, na.rm=TRUE))
+
+<!-- indiv_low_dur_tank <-ggplot(individual_means_low_dur_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--    labs(title = "Time spent in low zone")+ -->
+<!--      theme(legend.position="none") -->
+
+<!-- indiv_low_dur_tank -->
+
+<!-- #Mid Zone -->
+<!-- individual_means_mid_dur_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(mid_dur, na.rm=TRUE)) -->
 
 
-indiv_mid_dur_tank <-ggplot(individual_means_mid_dur_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- indiv_mid_dur_tank <-ggplot(individual_means_mid_dur_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-   labs(title = "Time spent in mid zone")+
-     theme(legend.position="none")
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--    labs(title = "Time spent in mid zone")+ -->
+<!--      theme(legend.position="none") -->
 
-indiv_mid_dur_tank
+<!-- indiv_mid_dur_tank -->
 
 
-#High Zone
-individual_means_high_dur_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(high_dur, na.rm=TRUE))
+<!-- #High Zone -->
+<!-- individual_means_high_dur_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(high_dur, na.rm=TRUE)) -->
 
-indiv_high_dur_tank <-ggplot(individual_means_high_dur_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- indiv_high_dur_tank <-ggplot(individual_means_high_dur_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-   labs(title = "Time spent in high zone")+
-     theme(legend.position="none")
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--    labs(title = "Time spent in high zone")+ -->
+<!--      theme(legend.position="none") -->
 
-indiv_high_dur_tank
+<!-- indiv_high_dur_tank -->
 
-#Freezing
-individual_means_freezing_dur_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(freezing_dur, na.rm=TRUE))
+<!-- #Freezing -->
+<!-- individual_means_freezing_dur_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(freezing_dur, na.rm=TRUE)) -->
 
-indiv_freezing_dur_tank <-ggplot(individual_means_freezing_dur_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- indiv_freezing_dur_tank <-ggplot(individual_means_freezing_dur_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-   labs(title = "Time spent freezing")+
-     theme(legend.position="none")
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--    labs(title = "Time spent freezing")+ -->
+<!--      theme(legend.position="none") -->
 
-indiv_freezing_dur_tank
+<!-- indiv_freezing_dur_tank -->
 
 
-#Latency high
+<!-- #Latency high -->
 
 
-individual_means_latency_high_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(latency_high, na.rm=TRUE))
+<!-- individual_means_latency_high_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(latency_high, na.rm=TRUE)) -->
 
 
-indiv_latency_high_tank <-ggplot(individual_means_latency_high_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- indiv_latency_high_tank <-ggplot(individual_means_latency_high_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean latency (seconds)")+
-   labs(title = "Latency to high zone")+
-     theme(legend.position="none")
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean latency (seconds)")+ -->
+<!--    labs(title = "Latency to high zone")+ -->
+<!--      theme(legend.position="none") -->
 
-indiv_latency_high_tank
+<!-- indiv_latency_high_tank -->
 
-#Entries to high
-individual_means_entries_tank <- Anxiety_Joined %>%
-    group_by(Fish_ID, Group) %>%
-    dplyr::summarize(Mean = mean(freq_high, na.rm=TRUE))
+<!-- #Entries to high -->
+<!-- individual_means_entries_tank <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(freq_high, na.rm=TRUE)) -->
 
-indiv_entries_tank <-ggplot(individual_means_entries_tank, aes(Group, Mean, fill=Group)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
- 
-    theme_classic()+
-  scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean entries")+
-   labs(title = "Entries into high zone")+
-    theme(legend.position="none")
+<!-- indiv_entries_tank <-ggplot(individual_means_entries_tank, aes(Group, Mean, fill=Group)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
-indiv_entries_tank
+<!--     theme_classic()+ -->
+<!--   scale_fill_manual(values = wes_palette("FantasticFox1", n = 2))+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean entries")+ -->
+<!--    labs(title = "Entries into high zone")+ -->
+<!--     theme(legend.position="none") -->
 
+<!-- indiv_entries_tank -->
 
-#Joining plots
 
+<!-- #Joining plots -->
 
-Joined_violins_indiv_tank <- indiv_tot_dist_tank + indiv_low_dur_tank + indiv_mid_dur_tank + indiv_high_dur_tank + indiv_freezing_dur_tank + indiv_latency_high_tank+indiv_entries_tank + plot_layout(ncol = 2, nrow=4)
 
-Joined_violins_indiv_tank
-```
+<!-- Joined_violins_indiv_tank <- indiv_tot_dist_tank + indiv_low_dur_tank + indiv_mid_dur_tank + indiv_high_dur_tank + indiv_freezing_dur_tank + indiv_latency_high_tank+indiv_entries_tank + plot_layout(ncol = 2, nrow=4) -->
 
-#Obtaining individual means and plotting them (sex and tank)
-```{r}
+<!-- Joined_violins_indiv_tank -->
+<!-- ``` -->
 
+<!-- #Obtaining individual means and plotting them (sex and tank) -->
+<!-- ```{r} -->
 
 
-#Total distance
 
-individual_means_tot_dist <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(tot_dist, na.rm=TRUE))
+<!-- #Total distance -->
 
-individual_means_tot_dist
+<!-- individual_means_tot_dist <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(tot_dist, na.rm=TRUE)) -->
 
-indiv_tot_dist <-ggplot(individual_means_tot_dist, aes(Sex, Mean, fill=Sex)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-    theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean distance (cm)")+
-  labs(title = "Total distance travelled")+
-     theme(legend.position="none")
+<!-- individual_means_tot_dist -->
 
-indiv_tot_dist
+<!-- indiv_tot_dist <-ggplot(individual_means_tot_dist, aes(Sex, Mean, fill=Sex)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--     theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean distance (cm)")+ -->
+<!--   labs(title = "Total distance travelled")+ -->
+<!--      theme(legend.position="none") -->
 
+<!-- indiv_tot_dist -->
 
 
-#Low Zone
-individual_means_low <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(low_dur, na.rm=TRUE))
 
-indiv_low <-ggplot(individual_means_low, aes(Sex, Mean, fill=Sex)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
-   theme(legend.position="none")+
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-   theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-  labs(title = "Time spent in low zone")+
-     theme(legend.position="none")
+<!-- #Low Zone -->
+<!-- individual_means_low <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(low_dur, na.rm=TRUE)) -->
 
+<!-- indiv_low <-ggplot(individual_means_low, aes(Sex, Mean, fill=Sex)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
+<!--    theme(legend.position="none")+ -->
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--    theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--   labs(title = "Time spent in low zone")+ -->
+<!--      theme(legend.position="none") -->
 
-#Mid Zone
-individual_means_mid <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(mid_dur, na.rm=TRUE))
 
-indiv_mid <-ggplot(individual_means_mid, aes(Sex, Mean, fill=Sex)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
-   theme(legend.position="none")+
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-   theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-  labs(title = "Time spent in mid zone")+
-     theme(legend.position="none")
+<!-- #Mid Zone -->
+<!-- individual_means_mid <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(mid_dur, na.rm=TRUE)) -->
 
+<!-- indiv_mid <-ggplot(individual_means_mid, aes(Sex, Mean, fill=Sex)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
+<!--    theme(legend.position="none")+ -->
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--    theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--   labs(title = "Time spent in mid zone")+ -->
+<!--      theme(legend.position="none") -->
 
-#High Zone
-individual_means_high <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(high_dur, na.rm=TRUE))
 
-indiv_high <-ggplot(individual_means_high, aes(Sex, Mean, fill=Sex)) +
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- #High Zone -->
+<!-- individual_means_high <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(high_dur, na.rm=TRUE)) -->
 
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-  theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-  labs(title = "Time spent in high zone")+
-     theme(legend.position="none")
+<!-- indiv_high <-ggplot(individual_means_high, aes(Sex, Mean, fill=Sex)) + -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--   theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--   labs(title = "Time spent in high zone")+ -->
+<!--      theme(legend.position="none") -->
 
 
-#Freezing
-individual_means_freezing <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(freezing_dur, na.rm=TRUE))
 
-indiv_freezing <-ggplot(individual_means_freezing, aes(Sex, log(Mean)+1, fill=Sex)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- #Freezing -->
+<!-- individual_means_freezing <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(freezing_dur, na.rm=TRUE)) -->
 
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-    theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean seconds")+
-  labs(title = "Time spent freezing")+
-     theme(legend.position="none")
+<!-- indiv_freezing <-ggplot(individual_means_freezing, aes(Sex, log(Mean)+1, fill=Sex)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--     theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean seconds")+ -->
+<!--   labs(title = "Time spent freezing")+ -->
+<!--      theme(legend.position="none") -->
 
 
-#Latency to high
 
-individual_means_latency <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(latency_high, na.rm=TRUE))
+<!-- #Latency to high -->
 
-indiv_latency <-ggplot(individual_means_freezing, aes(Sex, Mean, fill=Sex)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
+<!-- individual_means_latency <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(latency_high, na.rm=TRUE)) -->
 
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-      theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean latency")+
-  labs(title = "Latency to high zone")+
-     theme(legend.position="none")
+<!-- indiv_latency <-ggplot(individual_means_freezing, aes(Sex, Mean, fill=Sex)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
 
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--       theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean latency")+ -->
+<!--   labs(title = "Latency to high zone")+ -->
+<!--      theme(legend.position="none") -->
 
 
-#Entries to high
-individual_means_entries <- Anxiety_Joined %>%
-    group_by(Fish_ID, Sex, Group) %>%
-    dplyr::summarize(Mean = mean(freq_high, na.rm=TRUE))
 
-indiv_freq <-ggplot(individual_means_entries, aes(Sex, Mean, fill=Sex)) + 
-   geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) + 
-  geom_jitter(width = 0.2, height = 0, alpha = 0.2) +
-    scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+
-     theme_classic()+
-   facet_grid(~Group)+
-  theme(axis.ticks.x=element_blank(),
-       axis.title.x=element_blank())+
-  labs(y="Mean entries")+
-  labs(title = "Entries into high zone")+
-     theme(legend.position="none")
+<!-- #Entries to high -->
+<!-- individual_means_entries <- Anxiety_Joined %>% -->
+<!--     group_by(Fish_ID, Sex, Group) %>% -->
+<!--     dplyr::summarize(Mean = mean(freq_high, na.rm=TRUE)) -->
 
-indiv_freq
+<!-- indiv_freq <-ggplot(individual_means_entries, aes(Sex, Mean, fill=Sex)) +  -->
+<!--    geom_violin(alpha = 0.1, draw_quantiles = c(0.25, 0.5, 0.75)) +  -->
+<!--   geom_jitter(width = 0.2, height = 0, alpha = 0.2) + -->
+<!--     scale_x_discrete(labels=c("female" = "Female", "male" = "Male"))+ -->
+<!--      theme_classic()+ -->
+<!--    facet_grid(~Group)+ -->
+<!--   theme(axis.ticks.x=element_blank(), -->
+<!--        axis.title.x=element_blank())+ -->
+<!--   labs(y="Mean entries")+ -->
+<!--   labs(title = "Entries into high zone")+ -->
+<!--      theme(legend.position="none") -->
 
-#Joining plots
+<!-- indiv_freq -->
 
-Joined_violins_indiv_sex_tank <- indiv_tot_dist + indiv_low + indiv_mid + indiv_high + indiv_freezing + indiv_latency+indiv_freq + plot_layout(ncol = 2, nrow=4)
+<!-- #Joining plots -->
 
-Joined_violins_indiv_sex_tank
+<!-- Joined_violins_indiv_sex_tank <- indiv_tot_dist + indiv_low + indiv_mid + indiv_high + indiv_freezing + indiv_latency+indiv_freq + plot_layout(ncol = 2, nrow=4) -->
 
+<!-- Joined_violins_indiv_sex_tank -->
 
-```
 
-#Creating data frame for within individual and between individual variances
+<!-- ``` -->
 
-```{r}
-Overall_Data_Joined_Final_within_between <- subset(Overall_Anxiety_Data_Joined_Full_F0, Overall_Anxiety_Data_Joined_Full_F0$Group %in% c("Within-Individual Variance (Control Group)","Within-Individual Variance (Treatment Group)", "Between-Individual Variance (Control Group)", "Between-Individual Variance (Treatment Group)")) #Will be used for plotting within-and between individual variance
+<!-- #Creating data frame for within individual and between individual variances -->
 
-#Creating a new column
-Overall_Data_Joined_Final_within_between$Tank <- c("Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment")
+<!-- ```{r} -->
+<!-- Overall_Data_Joined_Final_within_between <- subset(Overall_Anxiety_Data_Joined_Full_F0, Overall_Anxiety_Data_Joined_Full_F0$Group %in% c("Within-Individual Variance (Control Group)","Within-Individual Variance (Treatment Group)", "Between-Individual Variance (Control Group)", "Between-Individual Variance (Treatment Group)")) #Will be used for plotting within-and between individual variance -->
 
-#Renaming to plot within and between individual variances
-Overall_Data_Joined_Final_within_between$Condition <- c("Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance")
+<!-- #Creating a new column -->
+<!-- Overall_Data_Joined_Final_within_between$Tank <- c("Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment","Control","Control","Treatment", "Treatment") -->
 
+<!-- #Renaming to plot within and between individual variances -->
+<!-- Overall_Data_Joined_Final_within_between$Condition <- c("Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance","Between-Individual Variance", "Within-Individual Variance", "Between-Individual Variance", "Within-Individual Variance") -->
 
-```
 
-#Plot for within and between individual variance
-```{r}
-Overall_New_plot_within_between <- ggplot(Overall_Data_Joined_Final_within_between, aes(x=Endpoint, y=r, colour=Tank)) +
-geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
-geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
-geom_hline(yintercept = 0, lty = "dotted") +
-coord_flip()+
-ylim(0, 1.3)+
-   theme(axis.title.y=element_blank())+
-  theme_classic()+
-    scale_color_manual(values=c("#DD8D29", "#E2D200"))+
-    theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
-    theme(legend.position = "bottom")+
-  theme(axis.title.y=element_blank())+
-  facet_grid(~Condition)+
-  labs(y = "Variance component")+
-     theme(legend.title=element_blank())
- 
+<!-- ``` -->
 
+<!-- #Plot for within and between individual variance -->
+<!-- ```{r} -->
+<!-- Overall_New_plot_within_between <- ggplot(Overall_Data_Joined_Final_within_between, aes(x=Endpoint, y=r, colour=Tank)) + -->
+<!-- geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) + -->
+<!-- geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+ -->
+<!-- geom_hline(yintercept = 0, lty = "dotted") + -->
+<!-- coord_flip()+ -->
+<!-- ylim(0, 1.3)+ -->
+<!--    theme(axis.title.y=element_blank())+ -->
+<!--   theme_classic()+ -->
+<!--     scale_color_manual(values=c("#DD8D29", "#E2D200"))+ -->
+<!--     theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) + -->
+<!--     theme(legend.position = "bottom")+ -->
+<!--   theme(axis.title.y=element_blank())+ -->
+<!--   facet_grid(~Condition)+ -->
+<!--   labs(y = "Variance component")+ -->
+<!--      theme(legend.title=element_blank()) -->
 
-Overall_New_plot_within_between
-```
+
+
+<!-- Overall_New_plot_within_between -->
+<!-- ``` -->
 
 
 Table to display mixed model results (using stargazer)

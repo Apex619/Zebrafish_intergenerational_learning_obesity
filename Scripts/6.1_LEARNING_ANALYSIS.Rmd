@@ -21,6 +21,12 @@ Learning_Control <- subset(p2cs, p2cs$Tank == "Within_Control")
 Learning_Treatment <- subset(p2cs, p2cs$Tank == "Within_Treatment") 
 Learning_Maternal <- subset(p2cs, p2cs$Tank == "Maternal") 
 Learning_Paternal <- subset(p2cs, p2cs$Tank == "Paternal") 
+
+#Loading rpt models
+load("./Models/rpt_learning_control.rdata")
+load("./Models/rpt_learning_treatment.rdata")
+load("./Models/rpt_learning_Maternal.rdata")
+load("./Models/rpt_learning_Paternal.rdata")
 ```
 
 ### MAIN ANALYSIS 
@@ -50,14 +56,14 @@ Learning_Paternal <- subset(p2cs, p2cs$Tank == "Paternal")
 # tab_model(Model_Learning_p5)
 
 #Calculating repeatabilities using custom made functions
-rpt_learning(Learning_Control) -> rpt_learning_control
+# rpt_learning(Learning_Control) -> rpt_learning_control
 rpt_learning_control
-rpt_learning(Learning_Treatment) -> rpt_learning_treatment
+# rpt_learning(Learning_Treatment) -> rpt_learning_treatment
 rpt_learning_treatment
 
-rpt_learning(Learning_Maternal) -> rpt_learning_Maternal
+# rpt_learning(Learning_Maternal) -> rpt_learning_Maternal
 rpt_learning_Maternal
-rpt_learning(Learning_Paternal) -> rpt_learning_Paternal
+# rpt_learning(Learning_Paternal) -> rpt_learning_Paternal
 rpt_learning_Paternal
 
 #Checking combinations
@@ -74,7 +80,7 @@ treatment_boot <- unlist_rptr(rpt_learning_treatment)#unlisting from treatment t
 maternal_boot <- unlist_rptr(rpt_learning_Maternal)#unlisting from maternal tanks
 paternal_boot <- unlist_rptr(rpt_learning_Paternal)#unlisting from paternal tanks
 
-
+#Always run these again in relation to data due to same names (will fix this later)
 mat_pat_diff <- difference_boot(maternal_boot,paternal_boot) #calculating the difference
 qmp <- quantiles_diff_boot(mat_pat_diff) #obtaining 95% CI
 mmp <- mean(mat_pat_diff) #Obtaining mean

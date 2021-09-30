@@ -35,11 +35,11 @@ Glucose %>% dplyr::count(Origin) #Maternal had more data because other groups ha
 
 
 
+load("./Models/glucose_rpt.rdata")
 
 
-
-Repeatability_Glucose <- rpt(Glucose ~ Meter + Sex + Group + (1 | Fish_ID), grname = "Fish_ID", data = Glucose, datatype = "Gaussian", 
-                           nboot = 1000, npermut = 1000)
+# Repeatability_Glucose <- rpt(Glucose ~ Meter + Sex + Group + (1 | Fish_ID), grname = "Fish_ID", data = Glucose, datatype = "Gaussian", 
+#                            nboot = 10000, npermut = 10000)
 
 Repeatability_Glucose
 
@@ -63,7 +63,7 @@ anova(Model_Glucose_1, Model_Glucose_2)
 #Plot
 violin_plot_glucose <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
   p <- ggplot(data = df,aes(x = Group, y = param, fill = Group))+
-      scale_fill_manual(values=c("#1F968BFF","#74D055FF", "39568CFF","#440154FF"), labels = c("F1M", "F1P", "F1C", "F1T"))+ #color scheme
+      scale_fill_manual(values=c("#E69F00","#56B4E9", "#009E73","#999999"), labels = c("F1M", "F1P", "F1C", "F1T"))+ #color scheme
     geom_violin(alpha=0.4, position = position_dodge(width = .75),size=0.5,color="black")+ #violin plot to display distribution density
     geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=0.9, alpha = 0.5)+#boxplot to display quantiles
     geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points
@@ -90,7 +90,8 @@ violin_plot_glucose <- function(df,param,lab1,lab2) { #only need to add datafram
 gluc_plot <- violin_plot_glucose(Glucose, Glucose$Glucose, "Fasting blood glucose (mmol/L) levels", "mmol/L")+
   facet_grid(~Sex)+
     theme(axis.ticks = element_blank())+
-  theme(axis.text.x = element_blank())
+  theme(axis.text.x = element_blank())+
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
   
 
 ```

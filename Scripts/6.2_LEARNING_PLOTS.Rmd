@@ -55,7 +55,8 @@ Overall_plot_F1_learning <- ggplot(Learning_rptr_F1, aes(x=Endpoint, y=r, colour
 geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
 geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
 geom_hline(yintercept = 0, lty = "dotted") +
-scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+
+  scale_colour_manual(values = c("#E69F00","#56B4E9","#999999", "#009E73"))+
+# scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+
 coord_flip()+
 ylim(0, 0.9)+
    theme(axis.title.y=element_blank())+
@@ -102,12 +103,6 @@ Overall_plot_F1_learning
 
 #Generating custom designed violin plots to display raw distributions of behavioral responses
 ```{r}
-
-groups_f1 <- c("F1M", "F1P", "F1C", "F1T")
-
-p2cs$Tank2 <- reorder(p2cs$Tank, p2cs$difference)
-
-means <- aggregate(difference ~  Tank, p2cs, mean)
 
 learning_violin1 <- violin_plot_custom_hamza(p2cs,p2cs$difference,"Difference between time spent in baseline and probe period for CS+", "Seconds")+
 scale_x_discrete(labels= groups_f1)+

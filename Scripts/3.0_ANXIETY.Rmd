@@ -173,6 +173,8 @@ totdist_f1 <- ggplot(Anxiety_Joined, aes(x=Tank, y=tot_dist, fill = Tank)) +
   facet_grid(~Sex)
 
 #Calculating repeatabilities using custom made functions
+#Overall repeatability
+
 
 # rpt_tot_dist(Anxiety_Control) -> Control_Tot_Dist 
 Control_Tot_Dist
@@ -182,6 +184,50 @@ Treatment_Tot_Dist
 Maternal_Tot_Dist
 # rpt_tot_dist(Anxiety_Paternal) -> Paternal_Tot_Dist 
 Paternal_Tot_Dist
+
+#Contrasts
+control_boot <- unlist_rptr(Control_Tot_Dist) #unlisting from the control tanks
+treatment_boot <- unlist_rptr(Treatment_Tot_Dist)#unlisting from treatment tanks
+maternal_boot <- unlist_rptr(Maternal_Tot_Dist)#unlisting from maternal tanks
+paternal_boot <- unlist_rptr(Paternal_Tot_Dist)#unlisting from paternal tanks
+
+
+mat_pat_diff <- difference_boot(maternal_boot,paternal_boot) #calculating the difference
+qmp <- quantiles_diff_boot(mat_pat_diff) #obtaining 95% CI
+mmp <- mean(mat_pat_diff) #Obtaining mean
+qmp
+mmp 
+
+mat_con_diff <- difference_boot(control_boot,maternal_boot) #calculating the difference
+qmc <- quantiles_diff_boot(mat_con_diff) #obtaining 95% CI
+mmc <- mean(mat_con_diff) #Obtaining mean
+qmc
+mmc 
+
+
+mat_tre_diff <- difference_boot(maternal_boot,treatment_boot) #calculating the difference
+qmt <- quantiles_diff_boot(mat_tre_diff) #obtaining 95% CI
+mmt <- mean(mat_tre_diff) #Obtaining mean
+qmt
+mmt 
+
+pat_con_diff <- difference_boot(control_boot,paternal_boot) #calculating the difference
+qpc <- quantiles_diff_boot(pat_con_diff) #obtaining 95% CI
+mpc <- mean(pat_con_diff) #Obtaining mean
+qpc
+mpc #SIGNIFICANT
+
+pat_tre_diff <- difference_boot(treatment_boot,paternal_boot) #calculating the difference
+qpt <- quantiles_diff_boot(pat_tre_diff) #obtaining 95% CI
+mpt <- mean(pat_tre_diff) #Obtaining mean
+qpt
+mpt 
+
+con_tre_diff <- difference_boot(control_boot,treatment_boot) #calculating the difference
+qct <- quantiles_diff_boot(con_tre_diff) #obtaining 95% CI
+mct <- mean(con_tre_diff) #Obtaining mean
+qct
+mct 
 
 
 # Calculating difference in variance between short tanks and tall tanks 
@@ -198,6 +244,7 @@ lmer_var_tot_dist <- function(){
 lmer_var_tot_dist()
 
 tab_model(mod1)
+summary(mod1)
 
 #TODO: Make function to apply to all variables
 ```
@@ -231,6 +278,50 @@ Maternal_low_dur
 # rpt_low_dur(Anxiety_Paternal) -> Paternal_low_dur
 # save(Paternal_low_dur, file = "./Models/Paternal_low_dur.rdata")
 Paternal_low_dur
+
+#Contrasts
+control_boot <- unlist_rptr(Control_low_dur) #unlisting from the control tanks
+treatment_boot <- unlist_rptr(Treatment_low_dur)#unlisting from treatment tanks
+maternal_boot <- unlist_rptr(Maternal_low_dur)#unlisting from maternal tanks
+paternal_boot <- unlist_rptr(Paternal_low_dur)#unlisting from paternal tanks
+
+
+mat_pat_diff <- difference_boot(maternal_boot,paternal_boot) #calculating the difference
+qmp <- quantiles_diff_boot(mat_pat_diff) #obtaining 95% CI
+mmp <- mean(mat_pat_diff) #Obtaining mean
+qmp
+mmp #SIGNIFICANT
+
+mat_con_diff <- difference_boot(maternal_boot,control_boot) #calculating the difference
+qmc <- quantiles_diff_boot(mat_con_diff) #obtaining 95% CI
+mmc <- mean(mat_con_diff) #Obtaining mean
+qmc
+mmc 
+
+
+mat_tre_diff <- difference_boot(maternal_boot,treatment_boot) #calculating the difference
+qmt <- quantiles_diff_boot(mat_tre_diff) #obtaining 95% CI
+mmt <- mean(mat_tre_diff) #Obtaining mean
+qmt
+mmt 
+
+pat_con_diff <- difference_boot(control_boot,paternal_boot) #calculating the difference
+qpc <- quantiles_diff_boot(pat_con_diff) #obtaining 95% CI
+mpc <- mean(pat_con_diff) #Obtaining mean
+qpc
+mpc 
+
+pat_tre_diff <- difference_boot(treatment_boot,paternal_boot) #calculating the difference
+qpt <- quantiles_diff_boot(pat_tre_diff) #obtaining 95% CI
+mpt <- mean(pat_tre_diff) #Obtaining mean
+qpt
+mpt 
+
+con_tre_diff <- difference_boot(control_boot,treatment_boot) #calculating the difference
+qct <- quantiles_diff_boot(con_tre_diff) #obtaining 95% CI
+mct <- mean(con_tre_diff) #Obtaining mean
+qct
+mct 
 
 
 # Calculating difference in variance between short tanks and tall tanks 
