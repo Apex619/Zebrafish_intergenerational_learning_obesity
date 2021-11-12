@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #checks for installation and loads packages
 pacman::p_load(lmerTest,ggThemeAssist,rptR,lme4,readxl, tidyr, dplyr, magrittr, lubridate, stringr, purrr,
                sjPlot,ggplot2,lubridate,wesanderson,ggbeeswarm,emmeans,patchwork,viridis,nlme,Rmisc,ggpubr,
-               stargazer)
+               stargazer,forcats)
 
 #load('myEnvironment.RData')
 ```
@@ -59,11 +59,25 @@ Model_Glucose_2 <- lme(Glucose ~ Group + Sex, random = ~ 1| Fish_ID, weights = v
 summary(Model_Glucose_2)
 anova(Model_Glucose_1, Model_Glucose_2)
 
+#indiv means
+individual_means_glucose <- Glucose %>%
+    group_by(Fish_ID, Sex, Group) %>%
+    dplyr::summarize(Mean = mean(Glucose, na.rm=TRUE))
 
+Glucose_reorder_indiv <- individual_means_glucose %>%
+  mutate(Group = fct_relevel(Group, 
+            "Within Control", "Maternal", "Paternal", 
+            "Within Treatment"))
 #Plot
+Glucose_reorder <- Glucose %>%
+  mutate(Group = fct_relevel(Group, 
+            "Within Control", "Maternal", "Paternal", 
+            "Within Treatment"))
+
+
 violin_plot_glucose <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
   p <- ggplot(data = df,aes(x = Group, y = param, fill = Group))+
-      scale_fill_manual(values=c("#E69F00","#56B4E9", "#009E73","#999999"), labels = c("F1M", "F1P", "F1C", "F1T"))+ #color scheme
+      scale_fill_manual(values=c("#009E73","#E69F00","#56B4E9","#999999"), labels = c("F1C", "F1M", "F1P", "F1T"))+ #color scheme
     geom_violin(alpha=0.4, position = position_dodge(width = .75),size=0.5,color="black")+ #violin plot to display distribution density
     geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=0.9, alpha = 0.5)+#boxplot to display quantiles
     geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points
@@ -87,11 +101,17 @@ violin_plot_glucose <- function(df,param,lab1,lab2) { #only need to add datafram
 
 
 
-gluc_plot <- violin_plot_glucose(Glucose, Glucose$Glucose, "Fasting blood glucose (mmol/L) levels", "mmol/L")+
+gluc_plot <- violin_plot_glucose(Glucose_reorder, Glucose_reorder$Glucose, "Fasting blood glucose (mmol/L) levels", "mmol/L")+
   facet_grid(~Sex)+
     theme(axis.ticks = element_blank())+
   theme(axis.text.x = element_blank())+
     stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
+
+gluc_plot_indiv <- violin_plot_glucose(Glucose_reorder_indiv, Glucose_reorder_indiv$Mean, "Fasting blood glucose (mmol/L) levels", "mmol/L")+
+    theme(axis.ticks = element_blank())+
+  theme(axis.text.x = element_blank())+
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")+
+  facet_grid(~Sex)
   
 
 ```

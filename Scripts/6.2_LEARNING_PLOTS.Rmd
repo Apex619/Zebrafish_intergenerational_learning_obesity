@@ -6,7 +6,7 @@ output: html_document
 ### Load packages
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
+library(forcats)
 
 # Load custom functions
 source("../Scripts/functions_plots.R") #load custom functions
@@ -49,28 +49,28 @@ Learning_rptr_F1$r <- as.numeric(Learning_rptr_F1$r)
 
 #Overall forest plot showing repeatabilities of control and treatment groups (Learning F1)
 ```{r}
-Learning_rptr_F1$Group2 <- reorder(Learning_rptr_F1$Group, Learning_rptr_F1$r)
+Learning_rptr_F1_reordered <- Learning_rptr_F1 %>%
+  mutate(Group = fct_relevel(Group, 
+            "F1T", "F1P", "F1M", 
+            "F1C"))
 
-Overall_plot_F1_learning <- ggplot(Learning_rptr_F1, aes(x=Endpoint, y=r, colour=Group2)) +
+Overall_plot_F1_learning <- ggplot(Learning_rptr_F1_reordered, aes(x=Endpoint, y=r, colour=Group)) +
 geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
 geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
 geom_hline(yintercept = 0, lty = "dotted") +
-  scale_colour_manual(values = c("#56B4E9","#E69F00","#999999", "#009E73"))+
-# scale_colour_manual(values=c("#74D055FF", "#1F968BFF","#440154FF", "39568CFF"))+
+  scale_colour_manual(values = c("#999999","#56B4E9","#E69F00","#009E73"), guide = guide_legend(reverse=TRUE))+
 coord_flip()+
 ylim(0, 0.9)+
    theme(axis.title.y=element_blank())+
+  scale_linetype_manual(guide = guide_legend(reverse = TRUE))+
     theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+ font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
   theme(axis.title.y=element_blank())+
-  labs(y = "r", title = "Repeatabiltiy of Aversive Learning")+
+  labs(y = "ICC", title = "Repeatabiltiy of Aversive Learning")+
   scale_y_continuous(breaks=c(0,0.1,0.2,0.3,0.4,0.5,0.9))+
   theme(legend.title = element_blank())+
-  annotate("text", x = 0.88, y = 0.22, label = "*", size = 7)+
+  annotate("text", x = 0.94, y = 0.22, label = "*", size = 7)+
   annotate("text", x = 1.10, y = 0.51, label = "*", size = 7)+
   theme(axis.text.y = element_text(angle = 90, hjust = 0.42))
-
-
-
 
 Overall_plot_F1_learning
 
@@ -104,24 +104,46 @@ Overall_plot_F1_learning
 
 #Generating custom designed violin plots to display raw distributions of behavioral responses
 ```{r}
-groups_f1 <- c("F1M", "F1P", "F1C", "F1T")
+groups_f1 <- c("F1C", "F1M", "F1P", "F1T")
 
  
 p2cs$Tank2 <- reorder(p2cs$Tank, p2cs$difference)
 
+p2cs_reordered <- p2cs %>%
+  mutate(Tank = fct_relevel(Tank, 
+            "Within_Control", "Maternal", "Paternal", 
+            "Within_Treatment"))
  
 # means <- aggregate(difference ~  Tank, p2cs, mean)
 
+#indiv means
+individual_means_learning <- p2cs_reordered %>%
+    group_by(fishID, sex, Tank) %>%
+    dplyr::summarize(Mean = mean(difference, na.rm=TRUE))
 
-learning_violin1 <- violin_plot_custom_hamza(p2cs,p2cs$difference,"Difference between time spent in baseline and probe period for CS+", "Seconds")+
+
+
+learning_violin1 <- violin_plot_custom_hamza(p2cs_reordered,p2cs_reordered$difference,"Difference between time spent in baseline and probe period for CS+", "Seconds")+
 scale_x_discrete(labels= groups_f1)+
 geom_signif(comparisons = list(c("Within_Treatment", "Paternal")), #Adding contrasts         
-               map_signif_level=TRUE, y_position = 47, annotations = "*", textsize = 4)+
+               map_signif_level=TRUE, y_position = 49, annotations = "*", textsize = 4)+
 geom_signif(comparisons = list(c("Within_Treatment", "Maternal")), #Adding contrasts
                map_signif_level=TRUE, y_position = 42, annotations = "*", textsize = 4)  +
     stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")+
   scale_y_continuous(breaks = round(seq(min(p2cs$difference), max(p2cs$difference), by = 5),1))
 
 learning_violin1
+
+
+learning_violin2 <- violin_plot_custom_hamza(individual_means_learning,individual_means_learning$Mean,"Difference between time spent in baseline and probe period for CS+", "Seconds")+
+scale_x_discrete(labels= groups_f1)+
+geom_signif(comparisons = list(c("Within_Treatment", "Paternal")), #Adding contrasts         
+               map_signif_level=TRUE, y_position = 30, annotations = "*", textsize = 4)+
+geom_signif(comparisons = list(c("Within_Treatment", "Maternal")), #Adding contrasts
+               map_signif_level=TRUE, y_position = 26, annotations = "*", textsize = 4)  +
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")+
+  scale_y_continuous(breaks = round(seq(min(individual_means_learning$Mean), max(individual_means_learning$Mean), by = 6),1))
+
+learning_violin2
 ```
 

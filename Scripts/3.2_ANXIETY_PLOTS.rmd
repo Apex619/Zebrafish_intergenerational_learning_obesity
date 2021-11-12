@@ -149,23 +149,29 @@ Overall_Data_Joined1 <- full_join(Tot_Dist_rptr_F1, low_dur_rptr_F1)
 
 #Overall forest plot showing repeatabilities 
 ```{r}
+Overall_Data_Joined1_reorder <- Overall_Data_Joined1 %>%
+  mutate(Group = fct_relevel(Group, 
+            "F1T", "F1P", "F1M", 
+            "F1C"))
 
-Overall_plot_F1 <- ggplot(Overall_Data_Joined1, aes(x=Endpoint, y=r, colour=Group)) +
+
+Overall_plot_F1 <- ggplot(Overall_Data_Joined1_reorder, aes(x=Endpoint, y=r, colour=Group)) +
 geom_errorbar(aes(ymin=ci.lb, ymax=ci.ub), width = 0.4, position = position_dodge(0.3), size=0.8) +
 geom_point(aes(x = Endpoint, y = r), position = position_dodge(0.3), size=3)+
 geom_hline(yintercept = 0, lty = "dotted") +
+  labs(y = "ICC")+
 coord_flip()+
 ylim(-0.25, 0.9)+
    theme(axis.title.y=element_blank())+
-  scale_colour_manual(values=c("#009E73","#E69F00", "#56B4E9","#999999"))+
+  scale_colour_manual(values=c("#999999","#56B4E9","#E69F00","#009E73"),guide = guide_legend(reverse=TRUE))+
     theme(panel.border = element_rect(colour = "black", fill=NA, size=2),axis.ticks = element_line(size=2,color="black"),axis.ticks.length=unit(0.2,"cm"))+      font("xylab",size=15)+font("xy",size=15)+font("xy.text", size = 15) +
   theme(axis.title.y=element_blank())+
    theme(legend.position = "bottom")+
     theme(legend.title=element_blank())+
-  annotate("text", x = 0.94, y = 0.70, label = "*", size = 7)+
-  annotate("text", x = 1.02, y = 0.49, label = "*", size = 7)+#low dur
-  annotate("text", x = 1.87, y = 0.73, label = "*", size = 7)+ #tot_dist
-  annotate("text", x = 2.02, y = 0.51, label = "*", size = 7)+
+  annotate("text", x = 1.02, y = 0.70, label = "*", size = 7)+
+  annotate("text", x = 0.94, y = 0.49, label = "*", size = 7)+#low dur
+  annotate("text", x = 2.10, y = 0.73, label = "*", size = 7)+ #tot_dist
+  annotate("text", x = 1.94, y = 0.51, label = "*", size = 7)+
   theme(axis.text.y = element_text(angle = 90, hjust = 0.42))
 
  
@@ -217,11 +223,32 @@ Overall_plot_F1
 #Generating custom designed violin plots to display raw distributions of behavioral responses
 ```{r}
 
+#indiv means
+individual_means_low <- Anxiety_Joined_reordered %>%
+    group_by(Fish_ID, Sex, Tank) %>%
+    dplyr::summarize(Mean = mean(low_dur, na.rm=TRUE))
 
-low_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined,Anxiety_Joined$low_dur,"B) Time spent in low zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
+individual_means_tot <- Anxiety_Joined_reordered %>%
+    group_by(Fish_ID, Sex, Tank) %>%
+    dplyr::summarize(Mean = mean(tot_dist, na.rm=TRUE))
+
+
+Anxiety_Joined_reordered <- Anxiety_Joined %>%
+  mutate(Tank = fct_relevel(Tank, 
+            "Within Control", "Maternal", "Paternal", 
+            "Within Treatment"))
+
+low_dur_violin_indiv <- violin_plot_custom_hamza2(individual_means_low,individual_means_low$Mean,"B) Time spent in low zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
     stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
 
-tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$tot_dist, "A) Total distance travelled", "Distance (cm)")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
+tot_dist_violin_indiv <- violin_plot_custom_hamza2(individual_means_tot, individual_means_tot$Mean, "A) Total distance travelled", "Distance (cm)")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
+
+
+low_dur_violin <- violin_plot_custom_hamza2(Anxiety_Joined_reordered,Anxiety_Joined_reordered$low_dur,"B) Time spent in low zone", "Seconds")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
+    stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
+
+tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined_reordered, Anxiety_Joined_reordered$tot_dist, "A) Total distance travelled", "Distance (cm)")+theme(axis.text.x=element_blank(),axis.ticks = element_blank())+
     stat_summary(fun=mean, geom="point", shape=18, size=3, color="red", fill="red")
 
 
@@ -241,7 +268,7 @@ tot_dist_violin <- violin_plot_custom_hamza2(Anxiety_Joined, Anxiety_Joined$tot_
 
 #Joining plots together using patchwork to create one main plot
 
-Joined_violins_new_design <- tot_dist_violin + low_dur_violin + plot_layout(ncol =1, nrow=2)+ theme(legend.position = c(1.5,0.4))+ theme(
+Joined_violins_new_design <- tot_dist_violin_indiv + low_dur_violin_indiv + plot_layout(ncol =1, nrow=2)+ theme(legend.position = c(1.5,0.4))+ theme(
   legend.text = element_text(color = "black", size = 22)
   )+theme(legend.position="bottom")
 

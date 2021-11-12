@@ -94,11 +94,14 @@ anova(Model_Weight_1, Model_Weight_2) #calculating difference between two models
 
 #Plot
 ```{r}
-
+Weight_Length_Data_reorder <- Weight_Length_Data %>%
+  mutate(Set = fct_relevel(Set, 
+            "Within Control", "Maternal", "Paternal", 
+            "Within Treatment"))
 
 violin_plot_bw <- function(df,param,lab1,lab2) { #only need to add dataframe, parameter, and labels for axes
   p <- ggplot(data = df,aes(x = Sex, y = param, fill = Set))+
-      scale_fill_manual(values=c("#E69F00","#56B4E9", "#009E73","#999999"), labels = c("F1M", "F1P", "F1C", "F1T"))+ #color scheme
+      scale_fill_manual(values=c("#009E73","#E69F00","#56B4E9","#999999"), labels = c("F1C", "F1M", "F1P", "F1T"))+ #color scheme
     geom_violin(alpha=0.4, position = position_dodge(width = .75),size=0.5,color="black")+ #violin plot to display distribution density
     geom_boxplot(notch = TRUE,  outlier.size = -1, color="black",lwd=0.9, alpha = 0.5)+#boxplot to display quantiles
     geom_point( shape = 21,size=2, position = position_jitterdodge(), color="black",alpha=1)+#scatterplot of individual data points
@@ -118,7 +121,7 @@ violin_plot_bw <- function(df,param,lab1,lab2) { #only need to add dataframe, pa
   
 }
 
-violin_plot_bw(Weight_Length_Data, Weight_Length_Data$Weight_g, "Body weight (g) by age (weeks)", "g")+
+violin_plot_bw(Weight_Length_Data_reorder, Weight_Length_Data_reorder$Weight_g, "Body weight (g) by age (weeks)", "g")+
   facet_grid(~Age_Weeks)
 
 
